@@ -1,0 +1,59 @@
+===================================================
+    Edda Steinunn Rúnarsdóttir - eddasr15
+    T-302-HONN Hönnun og Smíði Hugbúnaðar
+    Háskólinn við Reykjavík
+    Verkefni: D-03
+    Skil: 05.08.2018
+    Hluti: Til Umhugsunar (allir liðir)
+===================================================
+
+
+
+
+
+========================
+        ÆFING 1
+========================
+
+
+1.  OBSERVATION:    Takið eftir að klasinn opnar URL sem er svo lesið
+
+2.  OBSERVATION:    Takið eftir að RssFeedReader klasinn skrifar út stökin
+
+3.  OBSERVATION:    ReaderProcess klasinn býr til concrete klasann RssFeedReader í stað þess að nota factory.
+                    Þarna er augljóslega verið að brjóta prinsippið okkar að forrita á móti skilum
+                    (program to interfaces).
+
+
+
+========================
+        ÆFING 2
+========================
+
+
+1.  Q:  Takið eftir að URL sem er lesið er harðkóðað í skránni. Hvað mætti gera til að breyta því?
+    A:  Með því að taka URLið inn sem færibreytu í smiðnum og þannig væri hægt annaðhvort láta main forritið taka streng
+        gengum console eða husta á notandainntak og leyfa notandanum að stimpla það inn.
+
+2.  OBSERVATION:    Í ofangreindum klasa er Properties klasinn í Java notaður til að hlaða inn skrá. Sú skrá hefur að
+                    geyma upplýsingar um hvaða klasi það er sem á að nota. Þannig getum við auðveldlega skipt um klasa
+                    og ReaderProcess væri óbreyttur.
+
+
+
+========================
+        ÆFING 3
+========================
+
+
+1.  Q:  Hvað gerir línan reader.setFeedHandler(this)?
+    A:  Skilgreininr FileHandler-inn sem þetta tilvik af ReaderProcess klasanum, þar sem að hann útfærir FeedHandler
+
+2.  Q:  Afhverju this?
+    A:  Vegna þess að ReaderProcess erfir FeedHandler klasann og er því tilvik af FeedHandler sem er sú týpa af
+        færibreytu sem setFeedHandler fallið tekur við. Því í rauninni sendir hann tilvik sjálfs síns inn með
+        lykilorðinu this.
+
+3.  Q:  Hvaða klasi er það sem kallar á processEntry? Og hvaða klasa er hann þá raunverulega að kalla á?
+    A:  Factory breytan skilar tilviki af RSSFeedReader kallar á processEntry í read fallinu þar og er þá raunverulega
+        að kalla á ReaderProcess klasann afþví ReaderProcess útfærir FeedHandler klasann

@@ -1,0 +1,88 @@
+===================================================
+    Edda Steinunn Rúnarsdóttir - eddasr15
+    T-302-HONN Hönnun og Smíði Hugbúnaðar
+    Háskólinn við Reykjavík
+    Verkefni: D-02
+    Skil: 29.08.2018
+    Hluti: Til Umhugsunar (allir liðir)
+===================================================
+
+
+
+
+
+========================
+        ÆFING 1
+========================
+
+
+1.  OBSERVATION:  Takið eftir að breytan Person er notuð í forlykkunni. Samt erum við að nota Employee og Manager klasa
+
+2.  Q:  Hvaðan koma þessi furðulegu nöfn á þessum starfsmönnum?
+    A:  Nöfnin koma frá nefndum fellibylum sem hafa riðið yfir í Bandaríkjunum
+
+
+
+========================
+        ÆFING 2
+========================
+
+
+1.  Q:  Hvernig má það vera að Collections klasinn geti raðað Person tilvikum?
+    A:  Þar sem Person útfærir skilin Comparable veit Collection klasinn hvernig á að bera saman tvo hluti af taginu
+        Person jafnvel þó svo að Collection klasinn viti ekki af Person klasanum og útfærslunni á honum. Það er vegna
+        þess að allt sem Collection klasinn þarf er að vita að Person útfæri Comparable skilin því Collection klasinn
+        veit af Comparable þó að svo að hann viti ekki af Person, og notar þess vegna Comparable til að raða Person.
+
+
+
+========================
+        ÆFING 3
+========================
+
+
+1.  Q:  Hvers vegna er ekki hægt að búa til tilvik af Person?
+    A:  Þar sem person er abstract klasi er ekki hægt að búa til tilvik af honum vegna þess að abstract klasar eru
+        hugsaðir einungis sem yfirklasar til þess að útfæra ákveðna sameiginlega vikrni undirklasa
+
+
+
+========================
+        ÆFING 4
+========================
+
+
+1.  Q:  Prófið nú að þýða Employee klasann. Hvað gerist? Hvers vegna?
+    A:  Employee þýðist ekki vegna þess að með því að bæta við "implements Worktime" erum við að segja að klasinn
+        Employee þurfi að uppfylla þá "uppskrift sem Worktime skilin eru", þ.e. Employee þarf að útfæra þau föll sem eru
+        skilgreind í Worktime skilunum því þannig virka skil.
+
+2.  OBSERVATION:    Takið eftir að við getum litið á aStaff sem Person og sem Worktime.
+
+3.  OBSERVATION:    Takið eftir því að klasinn Manager útfærir ekki fallið getWorkDays() en fallið er samt aðgengilegt
+                    þar vegna þess að Manager erfir klasann Employee.
+
+4.  OBSERVATION:    Takið eftir að ef þörf væri á annari útfærslu á fallinu getWorkDays() í klasanum Manager þá væri að
+                    sjálfsögðu hægt að yfirskrifa fallið þar.
+
+5.  Q:  Hvaða tala er þessi 86400000?
+    A:  Millisekúndur í einum degi (1 dagur ms = 24 klst per dagur * 60 mín per klst * 60 sek per mín * 100 ms per sek)
+
+
+
+========================
+        ÆFING 5
+========================
+
+
+1.  Q: Hver kallar á paint fallið í Teiknir?
+    A: JFrame skráarsafnið kallar á paint til stuðnings til að vita hvernig það á að teikna Graphics á strigann (page)
+
+
+
+========================
+        ÆFING 6
+========================
+
+
+(ekkert til umhugsunar)

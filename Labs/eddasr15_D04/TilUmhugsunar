@@ -1,0 +1,59 @@
+===================================================
+    Edda Steinunn Rúnarsdóttir - eddasr15
+    T-302-HONN Hönnun og Smíði Hugbúnaðar
+    Háskólinn við Reykjavík
+    Verkefni: D-04
+    Skil: 12.09.2018
+    Hluti: Til Umhugsunar (allir liðir)
+===================================================
+
+
+
+
+
+========================
+        ÆFING 1
+========================
+
+
+1.  Q:  Nefnið þrjú atriði sem verða að teljast gallar á útfærslunni á SMTPMailService.
+    A:  Í fyrsta lagi er strengurinn fyrir netþjóninn í SMTPMailService harðkóðaður,
+	en betra væri að lesa hann úr property skrá. Í öðru lagi er klasinn þess eðlis
+	að það væri betra að hafa hann static svo að það þurfi ekki að búa til tilvik af
+	klasanum fyrir hvern sem hann notar, enda er það óþarfi. Í þriðja lagi eru margar
+	færibreytur sendar inn í constructor, en þær gætu verið sett upp í gagnagrind
+	sem inniheldur færibreyturnar fyrir betri skjölun og lesanleika.
+
+
+
+========================
+        ÆFING 2
+========================
+
+
+1.  Q:  Takið eftir að MailServiceException erfir RuntimeException. Hvað þýðingu hefur það?
+    A:  Það þýðir að MailServiceException sé RuntimeException líka, sem þýðir að hægt sé að
+	kasta henni á meðan Java Virtual Machine keyrir eðlilega til að "trufla" keyrslu.
+	Það þýðir einnig að það þarf ekki explicitly að segja að fall kasti villu af taginu
+	MailServiceException (en venjan með villur er að tilgreina að þær gæti gerst í
+	falli, t.d. public int Calculate (...) throws DivisionByZeroException {...})
+	því RuntimeExceptions eru eins og nafnið bendir til villur sem geta komið
+	"hvenær sem er" í keyrslu.
+
+
+========================
+        ÆFING 6
+========================
+
+
+
+1.  Q:  Hver sér um að ”new”-a Person og kalla á set-föllin?
+    A:  getBean fallið skilar tilviki af tagi þess “bean” sem hann les úr springer-config
+	skránni og kallar því á new virkjann fyrir Person.
+
+2.  Q:  Hvernig samræmist þessi notkun á Spring Dependency Injection mynstrinu?
+    A:  Java components og klasar eiga að vera eins aðskildir og módular og hægt er m.v.
+	aðra componenta og klasa vegna þess að þá er endurnýting og einangrun til prófanna
+	auðveldari. Þar sem getBean gerir klasana Person og BeanTest mjög aðskilna þar sem
+	BeanTest þarf ekki að vita af Person klasanum en er samt að nota hann með getBean,
+	sem er dæmi um dependency injection.

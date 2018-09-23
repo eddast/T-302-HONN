@@ -1,0 +1,350 @@
+swagger: '2.0'
+info:
+  description: >-
+    A sample server Games and Developers server. Done as an assigment in the
+    course T-302-HÖNN for Reykjavik University
+  version: 1.0.0
+  title: Games and Developers
+host: '127.0.0.1:8080'
+basePath: /api/v1
+tags:
+  - name: games
+    description: Access to games from server
+  - name: developers
+    description: Access to developers from server
+schemes:
+  - http
+paths:
+  /games:
+    get:
+      tags:
+        - games
+      summary: Gets list of all games
+      operationId: getGames
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Game'
+    post:
+      tags:
+        - games
+      summary: Add a new game to the store
+      description: ''
+      operationId: addGame
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Game object that needs to be added to the store
+          required: true
+          schema:
+            $ref: '#/definitions/Game'
+      responses:
+        '201':
+          description: Created
+        '405':
+          description: Invalid input
+  '/games/{gameId}':
+    get:
+      tags:
+        - games
+      summary: Find game by ID
+      description: Returns a single game
+      operationId: getGameById
+      produces:
+        - application/json
+      parameters:
+        - name: gameId
+          in: path
+          description: ID of game to return
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Game'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Game not found
+    delete:
+      tags:
+        - games
+      summary: Delete game by ID
+      description: Deletes game from server
+      operationId: deleteGameById
+      produces:
+        - application/json
+      parameters:
+        - name: gameId
+          in: path
+          description: ID of game to delete
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Successful Operation
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Game not found
+    put:
+      tags:
+        - games
+      summary: Update game by ID
+      description: ''
+      operationId: updateGameById
+      consumes:
+        - application/json
+      parameters:
+        - name: gameId
+          in: path
+          description: ID of game to update
+          required: true
+          type: integer
+          format: int64
+        - in: body
+          name: body
+          description: Game object to update
+          required: true
+          schema:
+            $ref: '#/definitions/Game'
+      responses:
+        '200':
+          description: Successful Operation
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Game not found
+  /developers:
+    get:
+      tags:
+        - developers
+      summary: Gets list of all developers
+      operationId: getDevelopers
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Developer'
+    post:
+      tags:
+        - developers
+      summary: Add a new developer to the server
+      description: ''
+      operationId: addDeveloper
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Adds developer to server
+          required: true
+          schema:
+            $ref: '#/definitions/Developer'
+      responses:
+        '201':
+          description: Created
+        '405':
+          description: Invalid input
+  '/developers/{developerId}':
+    get:
+      tags:
+        - developers
+      summary: Find developer by ID
+      description: Returns a single developer
+      operationId: getDeveloperById
+      produces:
+        - application/json
+      parameters:
+        - name: developerId
+          in: path
+          description: ID of developer to return
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Game'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Developer not found
+    delete:
+      tags:
+        - developers
+      summary: Delete developer by ID
+      description: Deletes developer from server
+      operationId: deleteDeveloperById
+      produces:
+        - application/json
+      parameters:
+        - name: developerId
+          in: path
+          description: ID of developer to delete
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Successful Operation
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Developer not found
+    put:
+      tags:
+        - developers
+      summary: Update developer by ID
+      description: ''
+      operationId: updateDeveloperById
+      consumes:
+        - application/json
+      parameters:
+        - name: developerId
+          in: path
+          description: ID of developer to update
+          required: true
+          type: integer
+          format: int64
+        - in: body
+          name: body
+          description: Developer object to update
+          required: true
+          schema:
+            $ref: '#/definitions/Developer'
+      responses:
+        '200':
+          description: Successful Operation
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Developer not found
+  '/developers/{developerId}/games':
+    get:
+      tags:
+        - developers
+      summary: Find all games by developer by developer ID
+      description: Returns a list of games by developer
+      operationId: getGamesByDeveloperById
+      produces:
+        - application/json
+      parameters:
+        - name: developerId
+          in: path
+          description: ID of developer to find all games by
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Game'
+        '400':
+          description: Invalid developer ID supplied
+        '404':
+          description: Developer not found
+  '/developers/{developerId}/games/{gameId}':
+    post:
+      tags:
+        - developers
+      summary: Assign developer to a game
+      description: Registers developer as developer for a game
+      operationId: assignGameByIdToDeveloperById
+      produces:
+        - application/json
+      parameters:
+        - name: developerId
+          in: path
+          description: ID of developer to assign to game
+          required: true
+          type: integer
+          format: int64
+        - name: gameId
+          in: path
+          description: ID of game assign to developer
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Game or developer not found
+    delete:
+      tags:
+        - developers
+      summary: Assign developer from a game
+      description: De-registers developer as developer for a game
+      operationId: assignGameByIdFromDeveloperById
+      produces:
+        - application/json
+      parameters:
+        - name: developerId
+          in: path
+          description: ID of developer to assign from game
+          required: true
+          type: integer
+          format: int64
+        - name: gameId
+          in: path
+          description: ID of game assign from developer
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Game or developer not found
+definitions:
+  Game:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+      genre:
+        type: string
+      releaseDate:
+        type: string
+        format: date-time
+  Developer:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+      founded:
+        type: string
+        format: date-time

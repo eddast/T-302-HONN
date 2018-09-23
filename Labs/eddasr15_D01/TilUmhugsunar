@@ -1,0 +1,122 @@
+===================================================
+    Edda Steinunn Rúnarsdóttir - eddasr15
+    T-302-HONN Hönnun og Smíði Hugbúnaðar
+    Háskólinn við Reykjavík
+    Verkefni: D-01
+    Skil: 22.08.2018
+    Hluti: Til Umhugsunar (allir liðir)
+===================================================
+
+
+
+
+
+========================================
+        ÆFING 1: TIL UMHUGSUNAR
+========================================
+
+
+1.  Q:  Hvað gerir import skipunin efst?
+    A:  Gerir okkur kleift að nota klasann Object úr skráarsafninu java.lang og public föll klasans
+        (import skipunin er samt óþarfi, sjá lið 2)
+
+2.  Q:  Má sleppa import skipuninni? Af hverju? / Af hverju ekki?
+    A:  Já, henni má sleppa. Það er vegna þess að tilgangurinn með import skipuninni er að gera eigindi úr pakkanum
+        java.lang aðgengilegan í kóða, en hann er þegar aðgengilegur þar sem java.lang pakkinn er sjálfvirkt settur
+        upp af Java þýðandanum og það hefur verið gert frá útgáfu JDK1.0.
+        (heimild: https://docs.oracle.com/javase/specs/jls/se7/html/jls-7.html)
+
+3.  Q:  Má sleppa extends Object?
+    A:  Já. Klasinn Object er rót klasapýramída Java og er því beint eða óbeint yfirklasi allra annarra klasa,
+        þ.e. hver einasti klasi erfir frá Object hvort sem við skrifum extends Object eða ekki
+
+4.  OBSERVATION:  Breytan heilraedi fær gildið af tveimur strengjum sem eru tengdir saman með +
+
+5.  Q:  Hvaðan kemur System.out.println?
+    A:  System er klasi úr sögðu java.lang skráarsafninu sem hefur fallið println sem verið er að vitna í í þessarri
+        kóðalínu. Tilgangur þess er að prenta út línu af streng.
+        (heimild: https://docs.oracle.com/javase/7/docs/api/java/lang/System.html)
+
+6.  Q:  Hvað gerir færibreytan args?
+    A:  args er fylki þeirra færibreytna í strengjaformi sem settar eru inn með command line þegar forritið er
+        keyrt upp í gegnum console. Til útskýringar á þessu, þegar ég keyri eftirfarandi skipun í console;
+            > java Hallo.java "foo" "bar"
+        keyrist Hallo.java forritið mitt upp og þegar það er keyrt mun args verða tveggja staka fylki strengjana,
+        þ.a. args[0] = "foo" og args[1] = "bar" og command line breyturnar mínar eru þar með aðgengilegar í keyrslu
+
+
+7.  OBSERVATION: Takið eftir að breytan i er skilgreind sem int í for setningunni.
+8.  OBSERVATION: Fylki (array) hafa innbyggða virkjann length sem skilar fjölda staka
+9.  OBSERVATION: Eins og sjá má byrja fylki á sæti 0.
+
+10. Q:  Hvaða gildi er í strengnum args[0]?
+    A:  Það gildi sem ég setti sem fyrstu færibreytu þegar ég keyri forritið upp í command line
+        T.d. ef ég keyri skipunina java Hallo.java "foo" "bar" í command line þá er args[0] breytan "foo".
+
+
+
+
+
+========================================
+        ÆFING 2: TIL UMHUGSUNAR
+========================================
+
+
+1.  Q:  Hvaða klasa erfir Point?
+    A:  Hann erfir eingöngu frá klasanum Object sem er eins og minnst var á í til umhugsunar í æfingu 1 lið 3 sá klasi
+        sem allir aðrir klasar erfa frá.
+
+2.  Q:  Hvað táknar this?
+    A:  Að setja this lykilorðið þegar vitnað er í breytu þýðir að þú sért að vitna í klasabreytu en ekki færibreytu,
+        það gerir okkur kleift að nota fallafæribreytur og klasabreytur með sama nafni eins og sýnt er í kóðanum
+
+3.  Q:  Hverju skilar fallið Point?
+    A:  Fallið point er smiður (e. constructor) og skilar því ekki gildi. Hins vegar skilar new-virkinn vitnun í
+        minnissvæði nýju breytunar af taginu Point.
+        (heimild: https://docs.oracle.com/javase/tutorial/java/javaOO/constructors.html)
+
+
+4.  Q:  Af hverju þarf new? Hvað gerist ef við sleppum new?
+    A:  new lykilorðið býr til nýtt Object, úthlutar minni fyrir það Object og skilar vitnun í minnisvæði nýja Object-ins.
+        Ef við sleppum að nota new lykilorðið þýðist kóðinn ekki því Java þýðandinn vill ekki svona yfirlýsingar - ef við
+        gæfum okkur að kóðinn myndi þýðast án new lykilorðsins myndi vera lógískt að ætla að minnisúthlutunin færi ekki
+        fram og tilvitnunin í minnissvæðið væri ekki skilað og nýja breytan væri því óskilgreind (þetta gerist í ýmsum
+        öðrum forritunartungumálum sem nota líka new lykilorðið, t.d. JavaScript)
+        (heimild: https://docs.oracle.com/javase/tutorial/java/javaOO/objectcreation.html)
+
+
+
+
+
+========================================
+        ÆFING 3: TIL UMHUGSUNAR
+========================================
+
+
+1.  Q:  Hvað gerist í klasanum Employee þegar síðasta línan er keyrð, þ.e. útprentun á e1.
+        Hvort keyrir fallið í Employee eða í Manager?
+    A:  Fallið keyrir í Manager. Það er vegna þess að þó að bæði Employee og Manager yfirskrifa (e. override) toString
+        fallið sem skilgreinir hvernig breytur af taginu eru prentaðar, þá leitast þýðandinn eftir að nota fallið sem
+        er "næst" þeirri breytu sem notuð er; þ.e. fyrst að toString er skrifað í Manager er það notað. Ef hins vegar
+        Manager væri ekki með toString skilgreint myndi þýðandinn fara í yfirklasann Employee þegar hann fyndi ekki
+        toString skilgreint í Manager og notast við toString fall Employee klasans.
+
+2.  Q:  Hvers vegna er hægt að setja tilvik af Manager inn í fylki sem skilgreint er af taginu Employee[]?
+    A:  Þar sem Manager erfir af Employee eru breytur af taginu Manager einnig af taginu Employee. Þess vegna er hægt
+        að nota gagnagrind af sama tagi fyrir breytur af Employee og Manager því báðar eru strangt til tekið af taginu
+        Employee
+
+3.  Q:  Hvernig veit println fallið hvort það á að kalla á toString fallið í Employee klasanum eða Manager klasanum?
+    A:  Þessu var svarað í lið 1, sjá lið 1
+
+4.  Q:  Hvers vegna er ekki gott að gera e1.getTitle()?
+    A:  Þar sem e1 er lýst yfir af taginu Employee (þó e1 sé upphafstillt sem Manager) fær e1 ekki eigindi Manager
+        klasans, þ.a. ef við myndum lýsa e1 breytunni í staðinn yfir sem
+            Manager e1 = new Manager("Pointy Haired", "Boss");
+        Gætum við notað getTitle() fallið sem tilheyrir Manager klasanum. En þar sem e1 er af taginu Employee
+        takmarkast e1 beytan við þau föll sem eru skilgreind í Employee klasanum og yfirskrifuð (e. overridden) föll í
+        Manager klasanum (af sömu ástæðum og útskýrt var í lið 1), þess vegna virkar toString fallið í Manager fyrir e1.
+        Þess vegna þurfum við að type casta e1 breytunni yfir í Manager í kóðanum áður en við getum notað getTitle()
+
+5.  Q:  Hvað gerir instanceof virkinn?
+    A:  "x instance of y" skilar boolean gildi; segðin er sönn ef x er af sama tagi og y en ósönn annars

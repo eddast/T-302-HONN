@@ -1,0 +1,63 @@
+===================================================
+    Edda Steinunn Rúnarsdóttir - eddasr15
+    T-302-HONN Hönnun og Smíði Hugbúnaðar
+    Háskólinn við Reykjavík
+    Verkefni: D-06
+    Skil: 4.10.2018
+    Hluti: Til Umhugsunar (allir liðir)
+===================================================
+
+
+
+
+========================
+        ÆFING 2
+========================
+
+1.      Q:	Hvaða hlutverk gegnir klasinn RuProcessContext? Hvaða mynstur er þarna útfært?
+
+        A:	RuProcessContext er gagnagrind sem heldur utanum upplýsingar um process
+		og er því dæmi um POJO (Plain Old Java Object) sem þó hylur sínar meðlimabreytur og
+		gerir þær aðeins aðgengilegar eða uppfæralegar gegnum get og set föll
+
+
+2.      Q:	Hvaða klasi sér um að búa til ferlið sjálft, þ.e. new-a klasann?
+
+        A:	Í raun er það RuProcessFactory sem gerir það með að nota process.xml skránna sem við
+		útbjuggum þ.e. með línunni
+		this.processContext = (RuProcessContext)applicationContext.getBean("processContext");
+		Eru gildin í process.xml kastað í RuProcessContext þannig að nýtt tilvik af þessu POJO
+		verdur til
+
+
+3.      Q:	Hvernig er umhverfið, þ.e. context gert aðgengilegt fyrir ferlið?
+
+        A:	Í gegnum RuProcessFactory sem að býr til RuProcessContext inn í fallinu loadProcessContext()
+		sem RuProcessRunner kallar óbeint á í gegnum fallið factory.loadProcess()
+
+
+4.      Q:	Hvaða mynstur er RuAbstractProcess að útfæra?
+
+        A:	Með að vera abstract class sem útfærir skilin RuProcess og úfærir hluta virkni þess
+		en aðra ekki er um að ræða Template mynstrið þar sem klasar þurfa að erfa RuAbstractProcess
+		þurfa að útfæra hluta þeirra falla sem skilin RuProcess kveða á en önnur eru gerð í
+		abstract yfirklasa þeirra RuAbstractProcess
+
+========================
+        ÆFING 3
+========================
+
+1.      Q:	Hvað gerir ContentService?
+
+        A:	Skilin kveða á að klasar sem útfæra ContentService eiga að halda utan um safn af
+		gagnagrindinni Content, þ.e. eiga að geta bætt við breytu af taginu Content inn í
+		safnið og skila safninu til baka
+
+
+2.      Q:	Hvaða mynstur er útfært í ContentServiceStub?
+
+        A:	ContentServiceStub er eins og nafnið gefur til kynna ServiceStub sem þýðir að klasinn
+		útfærir ContentService en hefur þó ekki raunverulega virkni slíkrar ContentService,
+		heldur minimal virkni af m.v. það sem skilin kveða á og kemur í stað raunverulegs
+		concret ContentService klasa sem gerir raunverulega það sem ContentService á að gera
+		(i.e. ContentServiceStub er "mock"-ContentService klasi)

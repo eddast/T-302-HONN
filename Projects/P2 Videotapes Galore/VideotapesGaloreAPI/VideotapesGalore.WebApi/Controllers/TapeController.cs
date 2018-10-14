@@ -49,8 +49,7 @@ namespace VideotapesGalore.WebApi.Controllers
             else {
                 DateTime BorrowDate;
                 if (!DateTime.TryParse(LoanDate, out BorrowDate)) throw new ParameterFormatException("LoanDate");
-                /* TODO */
-                else return Ok(_tapeService.GetAllTapes());
+                return Ok(_tapeService.GetTapeReportAtDate(BorrowDate));
             }
         }
 

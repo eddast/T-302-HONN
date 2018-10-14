@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -15,8 +16,8 @@ using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
 using VideotapesGalore.Models.DTOs;
 using VideotapesGalore.Models.Entities;
-using VideotapesGalore.Models.Entities.Entities;
 using VideotapesGalore.Models.InputModels;
+using VideotapesGalore.Repositories.DBContext;
 using VideotapesGalore.Repositories.Implementation;
 using VideotapesGalore.Repositories.Interfaces;
 using VideotapesGalore.Services.Implementation;
@@ -67,15 +68,19 @@ namespace VideotapesGalore.WebApi
             });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            // Provide MySQL connection prerequisite (connection string) to concrete repositories
-            // services.Add(new ServiceDescriptor(typeof(TapeRepository), new TapeRepository(Configuration.GetConnectionString("DefaultConnection"))));
-            Console.WriteLine(Configuration);
-            // services.AddTransient<TapeRepository>(_ => new TapeRepository(Configuration["ConnectionStrings:DefaultConnection"]));
-
             // Set up API-specific dependency injections for services and repositories
             services.AddSingleton<ILogService, LogService>();
             services.AddTransient<ITapeRepository, TapeRepository>();
             services.AddTransient<ITapeService, TapeService>();
+
+            // Provide MySQL connection prerequisite (connection string) to concrete repositories
+            var MySqlConnectionString = Configuration["ConnectionStrings:DefaultConnection"];
+            Console.WriteLine("CONFIGURATION STRING:");
+            Console.WriteLine(MySqlConnectionString);
+            // services.Add(new ServiceDescriptor(typeof(TapeRepository), new TapeRepository(MySqlConnectionString)));
+            // services.AddSingleton<TapeRepository>(_ => new TapeRepository(MySqlConnectionString));
+            services.AddDbContextPool<VideotapesGaloreDBContext>(
+                options => options.UseMySql(MySqlConnectionString));
         }
         /// <summary>
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -103,7 +108,6 @@ namespace VideotapesGalore.WebApi
             //      500 (Default for any other exception)
             app.ConfigureExceptionHandler();
 
-            app.UseHttpsRedirection();
             app.UseMvc();
 
             // Create support for automatic mapping of models in system
@@ -120,16 +124,16 @@ namespace VideotapesGalore.WebApi
                 cfg.CreateMap<BorrowRecordDTO, BorrowRecord>();
                 // Map input models to entities
                 cfg.CreateMap<TapeInputModel, Tape>()
-                    .ForMember(m => m.CreatedDate, opt => opt.UseValue(DateTime.Now))
+                    .ForMember(m => m.CreatedAt, opt => opt.UseValue(DateTime.Now))
                     .ForMember(m => m.LastModified, opt => opt.UseValue(DateTime.Now));
                 cfg.CreateMap<UserInputModel, User>()
-                    .ForMember(m => m.CreatedDate, opt => opt.UseValue(DateTime.Now))
+                    .ForMember(m => m.CreatedAt, opt => opt.UseValue(DateTime.Now))
                     .ForMember(m => m.LastModified, opt => opt.UseValue(DateTime.Now));
                 cfg.CreateMap<ReviewInputModel, Review>()
-                    .ForMember(m => m.CreatedDate, opt => opt.UseValue(DateTime.Now))
+                    .ForMember(m => m.CreatedAt, opt => opt.UseValue(DateTime.Now))
                     .ForMember(m => m.LastModified, opt => opt.UseValue(DateTime.Now));
                 cfg.CreateMap<BorrowRecordInputModel, BorrowRecord>()
-                    .ForMember(m => m.CreatedDate, opt => opt.UseValue(DateTime.Now))
+                    .ForMember(m => m.CreatedAt, opt => opt.UseValue(DateTime.Now))
                     .ForMember(m => m.LastModified, opt => opt.UseValue(DateTime.Now));
             });
         }

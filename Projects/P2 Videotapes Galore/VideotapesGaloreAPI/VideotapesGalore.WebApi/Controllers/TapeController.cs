@@ -88,7 +88,10 @@ namespace VideotapesGalore.WebApi.Controllers
         [ProducesResponseType(412, Type = typeof(ExceptionModel))]
         public IActionResult CreateTape([FromBody] TapeInputModel Tape)
         {
-            if (!ModelState.IsValid) throw new InputFormatException("Video tape input model improperly formatted.");
+            if (!ModelState.IsValid){
+                IEnumerable<string> errorList = ModelState.Values.SelectMany(v => v.Errors).Select(x => x.ErrorMessage);
+                throw new InputFormatException("Video tape input model improperly formatted.", errorList);
+            }
             int id = _tapeService.CreateTape(Tape);
             return CreatedAtRoute("GetTapeById", new { id }, null);
         }
@@ -111,7 +114,10 @@ namespace VideotapesGalore.WebApi.Controllers
         public IActionResult EditTape(int id, [FromBody] TapeInputModel Tape)
         {
             // TODO validate int param?
-            if (!ModelState.IsValid) { throw new InputFormatException("Video tape input model improperly formatted."); }
+            if (!ModelState.IsValid) { 
+                IEnumerable<string> errorList = ModelState.Values.SelectMany(v => v.Errors).Select(x => x.ErrorMessage);
+                throw new InputFormatException("Video tape input model improperly formatted.", errorList);
+            }
             _tapeService.EditTape(id, Tape);
             return NoContent();
         }

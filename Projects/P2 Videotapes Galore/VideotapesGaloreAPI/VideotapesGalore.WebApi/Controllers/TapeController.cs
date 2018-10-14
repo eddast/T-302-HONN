@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using VideotapesGalore.Models.DTOs;
+using VideotapesGalore.Models.Exceptions;
+using VideotapesGalore.Models.InputModels;
 
 namespace VideotapesGalore.WebApi.Controllers
 {
@@ -27,48 +29,110 @@ namespace VideotapesGalore.WebApi.Controllers
             this._tapeService = tapeService;
         }
 
-        // GET api/values
-        [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
         /// <summary>
         /// Gets list of all tapes in system
         /// </summary>
         /// <returns>a list of all tapes</returns>
+        /// <response code="200">Success</response>
+        /// <response code="400">LoanDate improperly formatted</response>
         [HttpGet]
         [Route ("")]
         [Produces ("application/json")]
-        [ProducesResponseType (200, Type = typeof(IEnumerable<TapeDTO>))]
-        public IActionResult GetAllAuthors()
+        [ProducesResponseType(200, Type = typeof(IEnumerable<TapeDTO>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<TapeBorrowRecordDetailsDTO>))]
+        [ProducesResponseType(400, Type = typeof(ExceptionModel))]
+        public IActionResult GetAllTapes([FromQuery] string LoanDate)
         {
-        return Ok(_tapeService.GetAllTapes());
+            // If no loan date provided as query parameter all tapes are returned
+            if(String.IsNullOrEmpty(LoanDate)) return Ok(_tapeService.GetAllTapes());
+            // Otherwise we return record of all tape borrows that were borrowed on date specified
+            else {
+                DateTime BorrowDate;
+                if (!DateTime.TryParse(LoanDate, out BorrowDate)) throw new ParameterFormatException("LoanDate");
+                /* TODO */
+                else return Ok(_tapeService.GetAllTapes());
+            }
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        /// <summary>
+        /// Gets tapes by id
+        /// </summary>
+        /// <param name="id">Id associated with video tape of the system</param>
+        /// <returns>A single tape if found</returns>
+        /// <response code="200">Success</response>
+        /// <response code="404">Tape not found</response>
+        /// <response code="400">Id improperly formatted</response>
+        [HttpGet]
+        [Route ("{id:int}", Name = "GetTapeById")]
+        [Produces ("application/json")]
+        [ProducesResponseType(200, Type = typeof(TapeDTO))]
+        [ProducesResponseType(404, Type = typeof(ExceptionModel))]
+        [ProducesResponseType(400, Type = typeof(ExceptionModel))]
+        public IActionResult GetTapeById(int id) 
         {
-            return "value";
+            // TODO validate int parameter?
+            return Ok(_tapeService.GetTapeById(id));
         }
 
-        // POST api/values
+        /// <summary>
+        /// Creates a new video tape for system
+        /// </summary>
+        /// <param name="tape">The video tape input model</param>
+        /// <returns>A status code of 201 created and a set Location header if model is correctly formatted, otherwise error.</returns>
+        /// <response code="201">Video tape created</response>
+        /// <response code="412">Video tape input model improperly formatted</response>
         [HttpPost]
-        public void Post([FromBody] string value)
+        [Route ("")]
+        [Consumes ("application/json")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(412, Type = typeof(ExceptionModel))]
+        public IActionResult CreateTape([FromBody] TapeInputModel tape)
         {
+            if (!ModelState.IsValid) throw new InputFormatException("Video tape input model improperly formatted.");
+            int id = _tapeService.CreateTape(tape);
+            return CreatedAtRoute("GetTapeById", new { id }, null);
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        /// <summary>
+        /// Updates tape within the system
+        /// </summary>
+        /// <param name="id">Id associated with tape of the system</param>
+        /// <param name="tape">The video tape input model</param>
+        /// <returns>A status code of 204 no content.</returns>
+        /// <response code="204">Video tape updated</response>
+        /// <response code="400">Id improperly formatted</response>
+        /// <response code="404">Video tape not found</response>
+        /// <response code="412">Video tape input model improperly formatted</response>
+        [HttpPut ("{id:int}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400, Type = typeof(ExceptionModel))]
+        [ProducesResponseType(404, Type = typeof(ExceptionModel))]
+        [ProducesResponseType(412, Type = typeof(ExceptionModel))]
+        public IActionResult EditTape(int id, [FromBody] TapeInputModel tape)
         {
+            // TODO validate int param?
+            if (!ModelState.IsValid) { throw new InputFormatException("Video tape input model improperly formatted."); }
+            _tapeService.EditTape(id, tape);
+            return NoContent();
         }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        /// <summary>
+        /// Deletes tape from the system
+        /// </summary>
+        /// <param name="id">Id associated with tape of the system</param>
+        /// <returns>A status code of 204 no content.</returns>
+        /// <response code="204">Video tape removed</response>
+        /// <response code="400">Id improperly formatted</response>
+        /// <response code="404">Video tape not found</response>
+        [HttpDelete ("{id:int}")]
+        [ProducesResponseType (204)]
+        [ProducesResponseType(400, Type = typeof(ExceptionModel))]
+        [ProducesResponseType(404, Type = typeof(ExceptionModel))]
+        public IActionResult DeleteTape(int id)
         {
+            // TODO validate int param?
+            _tapeService.DeleteTapeById(id);
+            return NoContent();
         }
     }
 }

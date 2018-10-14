@@ -77,7 +77,7 @@ namespace VideotapesGalore.WebApi.Controllers
         /// <summary>
         /// Creates a new video tape for system
         /// </summary>
-        /// <param name="tape">The video tape input model</param>
+        /// <param name="Tape">The video tape input model</param>
         /// <returns>A status code of 201 created and a set Location header if model is correctly formatted, otherwise error.</returns>
         /// <response code="201">Video tape created</response>
         /// <response code="412">Video tape input model improperly formatted</response>
@@ -86,10 +86,10 @@ namespace VideotapesGalore.WebApi.Controllers
         [Consumes ("application/json")]
         [ProducesResponseType(201)]
         [ProducesResponseType(412, Type = typeof(ExceptionModel))]
-        public IActionResult CreateTape([FromBody] TapeInputModel tape)
+        public IActionResult CreateTape([FromBody] TapeInputModel Tape)
         {
             if (!ModelState.IsValid) throw new InputFormatException("Video tape input model improperly formatted.");
-            int id = _tapeService.CreateTape(tape);
+            int id = _tapeService.CreateTape(Tape);
             return CreatedAtRoute("GetTapeById", new { id }, null);
         }
 
@@ -97,7 +97,7 @@ namespace VideotapesGalore.WebApi.Controllers
         /// Updates tape within the system
         /// </summary>
         /// <param name="id">Id associated with tape of the system</param>
-        /// <param name="tape">The video tape input model</param>
+        /// <param name="Tape">The video tape input model</param>
         /// <returns>A status code of 204 no content.</returns>
         /// <response code="204">Video tape updated</response>
         /// <response code="400">Id improperly formatted</response>
@@ -108,18 +108,18 @@ namespace VideotapesGalore.WebApi.Controllers
         [ProducesResponseType(400, Type = typeof(ExceptionModel))]
         [ProducesResponseType(404, Type = typeof(ExceptionModel))]
         [ProducesResponseType(412, Type = typeof(ExceptionModel))]
-        public IActionResult EditTape(int id, [FromBody] TapeInputModel tape)
+        public IActionResult EditTape(int id, [FromBody] TapeInputModel Tape)
         {
             // TODO validate int param?
             if (!ModelState.IsValid) { throw new InputFormatException("Video tape input model improperly formatted."); }
-            _tapeService.EditTape(id, tape);
+            _tapeService.EditTape(id, Tape);
             return NoContent();
         }
 
         /// <summary>
         /// Deletes tape from the system
         /// </summary>
-        /// <param name="id">Id associated with tape of the system</param>
+        /// <param name="Id">Id associated with tape of the system</param>
         /// <returns>A status code of 204 no content.</returns>
         /// <response code="204">Video tape removed</response>
         /// <response code="400">Id improperly formatted</response>
@@ -128,10 +128,10 @@ namespace VideotapesGalore.WebApi.Controllers
         [ProducesResponseType (204)]
         [ProducesResponseType(400, Type = typeof(ExceptionModel))]
         [ProducesResponseType(404, Type = typeof(ExceptionModel))]
-        public IActionResult DeleteTape(int id)
+        public IActionResult DeleteTape(int Id)
         {
             // TODO validate int param?
-            _tapeService.DeleteTape(id);
+            _tapeService.DeleteTape(Id);
             return NoContent();
         }
     }

@@ -6,6 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\VideotapesGalore.Models\VideotapesGalore.Models.csproj" />
-    <ProjectReference Include="..\VideotapesGalore.Models\VideotapesGalore.Repositories.csproj" />
+    <ProjectReference Include="..\VideotapesGalore.Repositories\VideotapesGalore.Repositories.csproj" />
   </ItemGroup>
 </Project>

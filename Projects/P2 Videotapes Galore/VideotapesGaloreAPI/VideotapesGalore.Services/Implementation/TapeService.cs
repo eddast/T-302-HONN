@@ -5,6 +5,7 @@ using VideotapesGalore.Services.Interfaces;
 using VideotapesGalore.Models.DTOs;
 using VideotapesGalore.Models.InputModels;
 using VideotapesGalore.Models.Exceptions;
+using VideotapesGalore.Repositories.Interfaces;
 
 namespace VideotapesGalore.Services.Implementations
 {

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using VideotapesGalore.Models.DTOs;
 using VideotapesGalore.Models.Exceptions;
 using VideotapesGalore.Models.InputModels;
+using VideotapesGalore.Services.Interfaces;
 
 namespace VideotapesGalore.WebApi.Controllers
 {

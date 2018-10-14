@@ -17,6 +17,9 @@ using VideotapesGalore.Models.DTOs;
 using VideotapesGalore.Models.Entities;
 using VideotapesGalore.Models.Entities.Entities;
 using VideotapesGalore.Models.InputModels;
+using VideotapesGalore.Repositories.Implementation;
+using VideotapesGalore.Repositories.Interfaces;
+using VideotapesGalore.Services.Implementation;
 using VideotapesGalore.Services.Implementations;
 using VideotapesGalore.Services.Interfaces;
 using VideotapesGalore.WebApi.Extensions;
@@ -53,21 +56,26 @@ namespace VideotapesGalore.WebApi
             // Uses the in-code XML comments and MVC tags to generate understandable description for routes and models
             // Documentation available when server is running at <host>/api-documentation
             services.AddSwaggerGen(opt => {
-                opt.SwaggerDoc("v1", new Info
-                {
+                opt.SwaggerDoc("v1", new Info {
                     Version = "v1",
                     Title = "Videotapes Galore API",
                     Description = "Management system for renting video tapes to users with review functionality and recommendation service",
                 });
-
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 opt.IncludeXmlComments(xmlPath);
             });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            // LOG SERVICE (USED IN GLOBAL EXCEPTION HANDLING)
-            services.AddSingleton<ITapeService, TapeService>();
+            // Provide MySQL connection prerequisite (connection string) to concrete repositories
+            // services.Add(new ServiceDescriptor(typeof(TapeRepository), new TapeRepository(Configuration.GetConnectionString("DefaultConnection"))));
+            Console.WriteLine(Configuration);
+            // services.AddTransient<TapeRepository>(_ => new TapeRepository(Configuration["ConnectionStrings:DefaultConnection"]));
+
+            // Set up API-specific dependency injections for services and repositories
+            services.AddSingleton<ILogService, LogService>();
+            services.AddTransient<ITapeRepository, TapeRepository>();
+            services.AddTransient<ITapeService, TapeService>();
         }
         /// <summary>
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

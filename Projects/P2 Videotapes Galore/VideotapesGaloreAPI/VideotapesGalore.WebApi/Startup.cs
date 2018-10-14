@@ -67,7 +67,7 @@ namespace VideotapesGalore.WebApi
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // LOG SERVICE (USED IN GLOBAL EXCEPTION HANDLING)
-            services.AddSingleton<ILogService, LogService>();
+            services.AddSingleton<ITapeService, TapeService>();
         }
         /// <summary>
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -7,7 +7,7 @@ namespace VideotapesGalore.Services.Implementations
     /// <summary>
     /// Defines error logging action in system for global error handling
     /// </summary>
-    public class LogService : ILogService
+    public class TapeService : ITapeService
     {
         /// <summary>
         /// File to log exceptions in

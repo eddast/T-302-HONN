@@ -1,6 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using VideotapesGalore.Services.Interfaces;
+using VideotapesGalore.Models.DTOs;
+using VideotapesGalore.Models.InputModels;
 
 namespace VideotapesGalore.Services.Implementations
 {
@@ -9,21 +12,34 @@ namespace VideotapesGalore.Services.Implementations
     /// </summary>
     public class TapeService : ITapeService
     {
-        /// <summary>
-        /// File to log exceptions in
-        /// </summary>
-        private const string logFilePath = "exceptionlog.txt";
-
-        /// <summary>
-        /// Logs error message of exception to logfile
-        /// </summary>
-        /// <param name="message">error message to log to logfile</param>
-        public void LogToFile(string message)
+        public int CreateTape(TapeInputModel Tape)
         {
-            using (var file = new StreamWriter(logFilePath, true))
-            {
-                file.WriteLine($"{DateTime.Now}: {message}\n");
-            }
+            throw new NotImplementedException();
+        }
+
+        public void DeleteTape(int Id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EditTape(int Id, TapeInputModel Tape)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<TapeDTO> GetAllTapes()
+        {
+            throw new NotImplementedException();
+        }
+
+        public TapeDetailDTO GetTapeById(int Id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<TapeBorrowRecordDTO> GetTapeReportAtDate(DateTime LoanDate)
+        {
+            throw new NotImplementedException();
         }
     }
 }

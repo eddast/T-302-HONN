@@ -1,3 +1,8 @@
+using System;
+using System.Collections.Generic;
+using VideotapesGalore.Models.DTOs;
+using VideotapesGalore.Models.InputModels;
+
 namespace VideotapesGalore.Services.Interfaces
 {
     /// <summary>
@@ -6,9 +11,38 @@ namespace VideotapesGalore.Services.Interfaces
     public interface ITapeService
     {
         /// <summary>
-        /// Logs error message of exception to logfile
+        /// 
         /// </summary>
-        /// <param name="message">error message to log to logfile</param>
-         void LogToFile(string message);
+        /// <returns></returns>
+         List<TapeDTO> GetAllTapes();
+         /// <summary>
+         /// 
+         /// </summary>
+         /// <param name="Id"></param>
+         /// <returns></returns>
+         TapeDetailDTO GetTapeById(int Id);
+         /// <summary>
+         /// 
+         /// </summary>
+         /// <param name="Tape"></param>
+         /// <returns></returns>
+         int CreateTape(TapeInputModel Tape);
+         /// <summary>
+         /// 
+         /// </summary>
+         /// <param name="Id"></param>
+         /// <param name="Tape"></param>
+         void EditTape(int Id, TapeInputModel Tape);
+         /// <summary>
+         /// 
+         /// </summary>
+         /// <param name="Id"></param>
+         void DeleteTape(int Id);
+         /// <summary>
+         /// 
+         /// </summary>
+         /// <param name="LoanDate"></param>
+         /// <returns></returns>
+         List<TapeBorrowRecordDTO> GetTapeReportAtDate(DateTime LoanDate);
     }
 }

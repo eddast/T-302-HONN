@@ -90,6 +90,7 @@ namespace VideotapesGalore.WebApi
             // On exceptions, an automatic HTTP response to client with error message
             // Handles the custom exceptions that yield HTTP responses of
             //      404s (ResourceNotFoundException),
+            //      400s (ParameterFormatException) and
             //      412s (InputFormatException) and
             //      500 (Default for any other exception)
             app.ConfigureExceptionHandler();

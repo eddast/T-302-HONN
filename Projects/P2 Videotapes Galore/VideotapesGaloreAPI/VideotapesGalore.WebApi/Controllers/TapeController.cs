@@ -131,7 +131,7 @@ namespace VideotapesGalore.WebApi.Controllers
         public IActionResult DeleteTape(int id)
         {
             // TODO validate int param?
-            _tapeService.DeleteTapeById(id);
+            _tapeService.DeleteTape(id);
             return NoContent();
         }
     }

@@ -176,28 +176,30 @@
     ]
   },
   "packageFolders": {
-    "/Users/eddarunarsdottir/.nuget/packages/": {},
-    "/usr/local/share/dotnet/sdk/NuGetFallbackFolder": {}
+    "C:\\Users\\ArnarFreyr\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/eddarunarsdottir/Desktop/Haust2018/HÖNN/Projects/P2 Videotapes Galore/VideotapesGaloreAPI/VideotapesGalore.Repositories/VideotapesGalore.Repositories.csproj",
+      "projectUniqueName": "c:\\Users\\ArnarFreyr\\Documents\\Skóli\\Edda\\P2Honn\\Projects\\P2 Videotapes Galore\\VideotapesGaloreAPI\\VideotapesGalore.Repositories\\VideotapesGalore.Repositories.csproj",
       "projectName": "VideotapesGalore.Repositories",
-      "projectPath": "/Users/eddarunarsdottir/Desktop/Haust2018/HÖNN/Projects/P2 Videotapes Galore/VideotapesGaloreAPI/VideotapesGalore.Repositories/VideotapesGalore.Repositories.csproj",
-      "packagesPath": "/Users/eddarunarsdottir/.nuget/packages/",
-      "outputPath": "/Users/eddarunarsdottir/Desktop/Haust2018/HÖNN/Projects/P2 Videotapes Galore/VideotapesGaloreAPI/VideotapesGalore.Repositories/obj/",
+      "projectPath": "c:\\Users\\ArnarFreyr\\Documents\\Skóli\\Edda\\P2Honn\\Projects\\P2 Videotapes Galore\\VideotapesGaloreAPI\\VideotapesGalore.Repositories\\VideotapesGalore.Repositories.csproj",
+      "packagesPath": "C:\\Users\\ArnarFreyr\\.nuget\\packages\\",
+      "outputPath": "c:\\Users\\ArnarFreyr\\Documents\\Skóli\\Edda\\P2Honn\\Projects\\P2 Videotapes Galore\\VideotapesGaloreAPI\\VideotapesGalore.Repositories\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "/Users/eddarunarsdottir/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\ArnarFreyr\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netstandard2.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

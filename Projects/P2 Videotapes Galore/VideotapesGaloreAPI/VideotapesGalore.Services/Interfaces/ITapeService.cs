@@ -3,7 +3,7 @@ namespace VideotapesGalore.Services.Interfaces
     /// <summary>
     /// Defines error logging action in system for global error handling
     /// </summary>
-    public interface ILogService
+    public interface ITapeService
     {
         /// <summary>
         /// Logs error message of exception to logfile

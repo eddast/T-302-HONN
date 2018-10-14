@@ -11706,38 +11706,40 @@
     ]
   },
   "packageFolders": {
-    "/Users/eddarunarsdottir/.nuget/packages/": {},
-    "/usr/local/share/dotnet/sdk/NuGetFallbackFolder": {}
+    "C:\\Users\\ArnarFreyr\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/eddarunarsdottir/Desktop/Haust2018/HÖNN/Projects/P2 Videotapes Galore/VideotapesGaloreAPI/VideotapesGalore.WebApi/VideotapesGalore.WebApi.csproj",
+      "projectUniqueName": "c:\\Users\\ArnarFreyr\\Documents\\Skóli\\Edda\\P2Honn\\Projects\\P2 Videotapes Galore\\VideotapesGaloreAPI\\VideotapesGalore.WebApi\\VideotapesGalore.WebApi.csproj",
       "projectName": "VideotapesGalore.WebApi",
-      "projectPath": "/Users/eddarunarsdottir/Desktop/Haust2018/HÖNN/Projects/P2 Videotapes Galore/VideotapesGaloreAPI/VideotapesGalore.WebApi/VideotapesGalore.WebApi.csproj",
-      "packagesPath": "/Users/eddarunarsdottir/.nuget/packages/",
-      "outputPath": "/Users/eddarunarsdottir/Desktop/Haust2018/HÖNN/Projects/P2 Videotapes Galore/VideotapesGaloreAPI/VideotapesGalore.WebApi/obj/",
+      "projectPath": "c:\\Users\\ArnarFreyr\\Documents\\Skóli\\Edda\\P2Honn\\Projects\\P2 Videotapes Galore\\VideotapesGaloreAPI\\VideotapesGalore.WebApi\\VideotapesGalore.WebApi.csproj",
+      "packagesPath": "C:\\Users\\ArnarFreyr\\.nuget\\packages\\",
+      "outputPath": "c:\\Users\\ArnarFreyr\\Documents\\Skóli\\Edda\\P2Honn\\Projects\\P2 Videotapes Galore\\VideotapesGaloreAPI\\VideotapesGalore.WebApi\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "/Users/eddarunarsdottir/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\ArnarFreyr\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.1"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "netcoreapp2.1": {
           "projectReferences": {
-            "/Users/eddarunarsdottir/Desktop/Haust2018/HÖNN/Projects/P2 Videotapes Galore/VideotapesGaloreAPI/VideotapesGalore.Models/VideotapesGalore.Models.csproj": {
-              "projectPath": "/Users/eddarunarsdottir/Desktop/Haust2018/HÖNN/Projects/P2 Videotapes Galore/VideotapesGaloreAPI/VideotapesGalore.Models/VideotapesGalore.Models.csproj"
+            "c:\\Users\\ArnarFreyr\\Documents\\Skóli\\Edda\\P2Honn\\Projects\\P2 Videotapes Galore\\VideotapesGaloreAPI\\VideotapesGalore.Models\\VideotapesGalore.Models.csproj": {
+              "projectPath": "c:\\Users\\ArnarFreyr\\Documents\\Skóli\\Edda\\P2Honn\\Projects\\P2 Videotapes Galore\\VideotapesGaloreAPI\\VideotapesGalore.Models\\VideotapesGalore.Models.csproj"
             },
-            "/Users/eddarunarsdottir/Desktop/Haust2018/HÖNN/Projects/P2 Videotapes Galore/VideotapesGaloreAPI/VideotapesGalore.Services/VideotapesGalore.Services.csproj": {
-              "projectPath": "/Users/eddarunarsdottir/Desktop/Haust2018/HÖNN/Projects/P2 Videotapes Galore/VideotapesGaloreAPI/VideotapesGalore.Services/VideotapesGalore.Services.csproj"
+            "c:\\Users\\ArnarFreyr\\Documents\\Skóli\\Edda\\P2Honn\\Projects\\P2 Videotapes Galore\\VideotapesGaloreAPI\\VideotapesGalore.Services\\VideotapesGalore.Services.csproj": {
+              "projectPath": "c:\\Users\\ArnarFreyr\\Documents\\Skóli\\Edda\\P2Honn\\Projects\\P2 Videotapes Galore\\VideotapesGaloreAPI\\VideotapesGalore.Services\\VideotapesGalore.Services.csproj"
             }
           }
         }

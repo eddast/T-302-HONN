@@ -20,7 +20,7 @@ namespace VideotapesGalore.Repositories.Interfaces
         /// </summary>
         /// <param name="BorrowRecord">Borrow record input model to create entity borrow record from</param>
         /// <returns>The id of the new borrow record</returns>
-        int CreateBorrowRecord(BorrowRecordInputModel BorrowRecord);
+        int CreateBorrowRecord(BorrowRecordMinimalDTO BorrowRecord);
         /// <summary>
         /// Updates borrow record by id
         /// </summary>

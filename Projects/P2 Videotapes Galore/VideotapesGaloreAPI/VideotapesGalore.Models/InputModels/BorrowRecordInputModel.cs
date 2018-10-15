@@ -9,16 +9,15 @@ namespace VideotapesGalore.Models.InputModels {
     /// <summary>
     /// Date when tape was borrowed
     /// </summary>
-    [Display(Name = "Release Date")]
-    [DataType(DataType.DateTime, ErrorMessage = "Release date must be a valid date")]
-    [Required(ErrorMessage = "Release date is required")]
+    [Display(Name = "Borrow Date")]
+    [DataType(DataType.DateTime, ErrorMessage = "Borrow date must be a valid date")]
+    [Required(ErrorMessage = "Borrow date is required")]
     public DateTime? BorrowDate { get; set; }
     /// <summary>
     /// Date of return for borrow
     /// </summary>
-    [Display(Name = "Release Date")]
-    [DataType(DataType.DateTime, ErrorMessage = "Release date must be a valid date")]
-    [Required(ErrorMessage = "Release date is required")]
+    [Display(Name = "Return Date")]
+    [DataType(DataType.DateTime, ErrorMessage = "Return date must be a valid date")]
     public DateTime? ReturnDate { get; set; }
   }
 }

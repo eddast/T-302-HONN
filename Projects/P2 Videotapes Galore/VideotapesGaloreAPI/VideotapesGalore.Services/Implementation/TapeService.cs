@@ -20,15 +20,24 @@ namespace VideotapesGalore.Services.Implementations
         /// Tape repository
         /// </summary>
         private readonly ITapeRepository _tapeRepository;
+        /// <summary>
+        /// Borrow record repository
+        /// </summary>
         private readonly IBorrowRecordRepository _borrowRecordRepository;
+        /// <summary>
+        /// User repository
+        /// </summary>
+        private readonly IUserRepository _userRepository;
 
         /// <summary>
         /// Initialize repository
         /// </summary>
         /// <param name="tapeRepository">Which implementation of tape repository to use</param>
-        public TapeService(ITapeRepository tapeRepository, IBorrowRecordRepository borrowRecordRepository) {
+        public TapeService(ITapeRepository tapeRepository, IBorrowRecordRepository borrowRecordRepository, IUserRepository userRepository)
+        {
             this._tapeRepository = tapeRepository;
             this._borrowRecordRepository = borrowRecordRepository;
+            this._userRepository = userRepository;
         }
         /// <summary>
         /// Gets a list of all tapes in system
@@ -99,7 +108,15 @@ namespace VideotapesGalore.Services.Implementations
         /// <returns></returns>
         public List<TapeDTO> GetTapesForUserOnLoan(int UserId)
         {
-            throw new NotImplementedException();
+            var UserRecords = _borrowRecordRepository.GetAllBorrowRecords().Where(t => t.UserId == UserId && t.ReturnDate == null).ToList();
+            List<TapeDTO> Tapes = new List<TapeDTO>();
+            var AllTapes = _tapeRepository.GetAllTapes();
+            foreach (var Record in UserRecords) {
+                var Tape = AllTapes.FirstOrDefault(t => t.Id == Record.TapeId);
+                if (Tape == null) throw new ResourceNotFoundException($"Video tape with id {Record.TapeId} does not exist.");
+                Tapes.Add(Tape);
+            }
+            return Tapes;
         }
         /// <summary>
         /// 
@@ -109,7 +126,15 @@ namespace VideotapesGalore.Services.Implementations
         /// <param name="BorrowRecord"></param>
         public void CreateBorrowRecord(int TapeId, int UserId, BorrowRecordInputModel BorrowRecord)
         {
-            throw new NotImplementedException();
+            var Tape = _tapeRepository.GetAllTapes().FirstOrDefault(t => t.Id == TapeId);
+            if (Tape == null) throw new ResourceNotFoundException($"Video tape with id {TapeId} does not exist.");
+            var User = _userRepository.GetAllUsers().FirstOrDefault(t => t.Id == UserId);
+            if (User == null) throw new ResourceNotFoundException($"User with id {UserId} does not exist.");
+
+            var Record = Mapper.Map<BorrowRecordMinimalDTO>(BorrowRecord);
+            Record.TapeId = TapeId;
+            Record.UserId = UserId;
+            _borrowRecordRepository.CreateBorrowRecord(Record);
         }
         /// <summary>
         /// 

@@ -53,8 +53,8 @@ namespace VideotapesGalore.Services.Implementations
             var allTapes = Mapper.Map<List<TapeBorrowRecordDTO>>(_tapeRepository.GetAllTapes());
             var allTapeBorrows = _borrowRecordRepository.GetAllBorrowRecords();
             foreach (var tape in allTapes) {
-                allTapeBorrows.Where(t => t.TapeId == tape.Id);
-                foreach(var tapeBorrow in allTapeBorrows) {
+                var tapeBorrows = allTapeBorrows.Where(t => t.TapeId == tape.Id);
+                foreach(var tapeBorrow in tapeBorrows) {
                     if (MatchesLoanDate(LoanDate, tapeBorrow.BorrowDate, tapeBorrow.ReturnDate)) {
                         tape.BorrowDate = tapeBorrow.BorrowDate;
                         tape.ReturnDate = tapeBorrow.ReturnDate;

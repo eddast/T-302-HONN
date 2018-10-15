@@ -61,6 +61,7 @@ namespace VideotapesGalore.Services.Implementation
         {
             DateTime loanDate = LoanDate.HasValue ? LoanDate.Value : DateTime.Now;
             var allUsersAndBorrows = Mapper.Map<List<UserAndBorrowedTapesDTO>>(_userRepository.GetAllUsers());
+            List<UserAndBorrowedTapesDTO> usersAndBorrows = new List<UserAndBorrowedTapesDTO>();
             foreach (var user in allUsersAndBorrows) {
                 // Get borrow records for each user
                 List<TapeBorrowRecordDTO> tapeBorrowRecords = new List<TapeBorrowRecordDTO>();
@@ -78,9 +79,11 @@ namespace VideotapesGalore.Services.Implementation
                     }
                 }
                 // Assign borrow record with all details to user
+                // Add user to list of borrowers if he's had tapes on loan for given restrictions
                 user.Tapes = tapeBorrowRecords;
+                if (user.Tapes.Count() > 0) usersAndBorrows.Add(user);
             }
-            return allUsersAndBorrows;
+            return usersAndBorrows;
         }
 
         /// <summary>

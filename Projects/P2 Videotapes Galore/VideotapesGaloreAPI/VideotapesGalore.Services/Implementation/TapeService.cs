@@ -123,6 +123,8 @@ namespace VideotapesGalore.Services.Implementations
         /// <returns></returns>
         public List<TapeBorrowRecordDTO> GetTapesForUserOnLoan(int UserId)
         {
+            var User = _userRepository.GetAllUsers().FirstOrDefault(t => t.Id == UserId);
+            if (User == null) throw new ResourceNotFoundException($"User with id {UserId} does not exist.");
             var UserRecords = _borrowRecordRepository.GetAllBorrowRecords().Where(t => t.UserId == UserId && t.ReturnDate == new DateTime(0)).ToList();
             List<TapeBorrowRecordDTO> Tapes = new List<TapeBorrowRecordDTO>();
             var AllTapes = _tapeRepository.GetAllTapes();

@@ -25,7 +25,7 @@ namespace VideotapesGalore.Models.InputModels {
     /// </summary>
     [Display(Name = "Video tape type")]
     [Required(ErrorMessage = "Video tape type is required")]
-    [RegularExpression("VHS|Betamax", ErrorMessage = "Invalid type: should be either VHS or Betamax")]
+    [RegularExpression("VHS|Betamax", ErrorMessage = "Invalid type: should be either 'VHS' or 'Betamax'")]
     public string Type { get; set; }
     /// <summary>
     /// Video tape release date

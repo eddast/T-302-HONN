@@ -5729,11 +5729,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/eddarunarsdottir/Desktop/Haust2018/HÖNN/Projects/P2 Videotapes Galore/VideotapesGaloreAPI/VideotapesGalore.Tests/VideotapesGalore.Tests.csproj",
+      "projectUniqueName": "/Users/eddarunarsdottir/Desktop/Haust2018/HÖNN/Projects/P2 Videotapes Galore/VideotapesGaloreAPI/VideotapesGalore.Tests/VideotapesGalore.Tests.csproj",
       "projectName": "VideotapesGalore.Tests",
-      "projectPath": "/Users/eddarunarsdottir/Desktop/Haust2018/HÖNN/Projects/P2 Videotapes Galore/VideotapesGaloreAPI/VideotapesGalore.Tests/VideotapesGalore.Tests.csproj",
+      "projectPath": "/Users/eddarunarsdottir/Desktop/Haust2018/HÖNN/Projects/P2 Videotapes Galore/VideotapesGaloreAPI/VideotapesGalore.Tests/VideotapesGalore.Tests.csproj",
       "packagesPath": "/Users/eddarunarsdottir/.nuget/packages/",
-      "outputPath": "/Users/eddarunarsdottir/Desktop/Haust2018/HÖNN/Projects/P2 Videotapes Galore/VideotapesGaloreAPI/VideotapesGalore.Tests/obj/",
+      "outputPath": "/Users/eddarunarsdottir/Desktop/Haust2018/HÖNN/Projects/P2 Videotapes Galore/VideotapesGaloreAPI/VideotapesGalore.Tests/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"

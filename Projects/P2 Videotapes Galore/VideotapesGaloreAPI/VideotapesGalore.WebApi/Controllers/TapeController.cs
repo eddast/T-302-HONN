@@ -10,10 +10,10 @@ using VideotapesGalore.Services.Interfaces;
 
 namespace VideotapesGalore.WebApi.Controllers
 {
-    /// <summary>
-    /// Used to manipulate and get information about tapes in system
-    /// </summary>
     [Route ("api/v1/tapes")]
+    /// <summary>
+    /// Everything related to manipulating and reading information about tapes in system
+    /// </summary>
     public class TapeController : Controller {
 
         /// <summary>
@@ -25,10 +25,8 @@ namespace VideotapesGalore.WebApi.Controllers
         /// Set the tape service to use
         /// </summary>
         /// <param name="tapeService">tape service</param>
-        public TapeController(ITapeService tapeService)
-        {
+        public TapeController(ITapeService tapeService) =>
             this._tapeService = tapeService;
-        }
 
         /// <summary>
         /// Gets list of all tapes in system or, if query parameter loan date is provided,

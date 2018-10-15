@@ -17,6 +17,12 @@ namespace VideotapesGalore.Services.Interfaces
         /// <returns>List of tape dtos</returns>
         List<TapeDTO> GetAllTapes();
         /// <summary>
+        /// Returns report on tape borrow record at a given date
+        /// </summary>
+        /// <param name="LoanDate">Date to use to output borrow records for</param>
+        /// <returns>List of tape borrow record as report</returns>
+        List<TapeBorrowRecordDTO> GetTapeReportAtDate(DateTime LoanDate);
+        /// <summary>
         /// Gets tape by id, throws exception if tape is not found by id
         /// </summary>
         /// <param name="Id">Id associated with tape in system</param>
@@ -39,11 +45,5 @@ namespace VideotapesGalore.Services.Interfaces
         /// </summary>
         /// <param name="Id">Id associated with tape in system to delete</param>
         void DeleteTape(int Id);
-        /// <summary>
-        /// Returns report on tape borrow record at a given date
-        /// </summary>
-        /// <param name="LoanDate">Date to use to output borrow records for</param>
-        /// <returns>List of tape borrow record as report</returns>
-        List<TapeBorrowRecordDTO> GetTapeReportAtDate(DateTime LoanDate);
     }
 }

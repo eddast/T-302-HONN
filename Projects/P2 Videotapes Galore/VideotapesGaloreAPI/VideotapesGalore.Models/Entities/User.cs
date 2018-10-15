@@ -28,7 +28,7 @@ namespace VideotapesGalore.Models.Entities {
     /// <summary>
     /// Date of creation of model
     /// </summary>
-    public DateTime CreatedDate { get; set; }
+    public DateTime CreatedAt { get; set; }
     /// <summary>
     /// Date when model was last modified
     /// </summary>

@@ -16,12 +16,6 @@ namespace VideotapesGalore.Repositories.Interfaces
         /// <returns>List of all tapes</returns>
         List<TapeDTO> GetAllTapes();
         /// <summary>
-        /// Gets a tape by their Id from database
-        /// </summary>
-        /// <param name="Id">Id associated with tape in system</param>
-        /// <returns>The tape by id (null if not found)</returns>
-        TapeDetailDTO GetTapeById(int Id);
-        /// <summary>
         /// Creates new entity model of tape and adds to database
         /// </summary>
         /// <param name="Tape">Tape input model to create entity tape from</param>

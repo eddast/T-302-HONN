@@ -1,6 +1,6 @@
 using System;
 
-namespace VideotapesGalore.Models.Entities.Entities {
+namespace VideotapesGalore.Models.Entities {
   /// <summary>
   /// Borrow record entity model
   /// </summary>
@@ -24,11 +24,11 @@ namespace VideotapesGalore.Models.Entities.Entities {
     /// <summary>
     /// Date of return for borrow
     /// </summary>
-    public DateTime ReturnDate { get; set; }
+    public DateTime? ReturnDate { get; set; }
     /// <summary>
     /// Date of creation of model
     /// </summary>
-    public DateTime CreatedDate { get; set; }
+    public DateTime CreatedAt { get; set; }
     /// <summary>
     /// Date when model was last modified
     /// </summary>

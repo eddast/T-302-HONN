@@ -128,11 +128,13 @@ namespace VideotapesGalore.WebApi
                 cfg.CreateMap<TapeDetailDTO, TapeDTO>();
                 cfg.CreateMap<UserBorrowRecordDTO, UserDTO>();
                 cfg.CreateMap<UserAndBorrowedTapesDTO, UserDTO>();
+                cfg.CreateMap<TapeDTO, TapeBorrowRecordDTO>();
                 cfg.CreateMap<TapeBorrowRecordDetailsDTO, TapeBorrowRecordDTO>();
                 // Map detail DTOs to DTOs
                 cfg.CreateMap<TapeDTO, TapeDetailDTO>();
                 cfg.CreateMap<UserDTO, UserBorrowRecordDTO>();
                 cfg.CreateMap<UserDTO, UserAndBorrowedTapesDTO>();
+                cfg.CreateMap<TapeBorrowRecordDTO, TapeDTO>();
                 cfg.CreateMap<TapeBorrowRecordDTO, TapeBorrowRecordDetailsDTO>();
                 // Map DTOs to entities
                 cfg.CreateMap<TapeDTO, Tape>();

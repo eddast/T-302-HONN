@@ -123,6 +123,7 @@ namespace VideotapesGalore.WebApi
                 cfg.CreateMap<User, UserDTO>();
                 cfg.CreateMap<Review, ReviewDTO>();
                 cfg.CreateMap<BorrowRecord, BorrowRecordDTO>();
+                cfg.CreateMap<BorrowRecordInputModel, BorrowRecordMinimalDTO>();
                 // Map DTOs to detail DTOs
                 cfg.CreateMap<TapeDetailDTO, TapeDTO>();
                 cfg.CreateMap<UserBorrowRecordDTO, UserDTO>();
@@ -149,6 +150,9 @@ namespace VideotapesGalore.WebApi
                     .ForMember(m => m.CreatedAt, opt => opt.UseValue(DateTime.Now))
                     .ForMember(m => m.LastModified, opt => opt.UseValue(DateTime.Now));
                 cfg.CreateMap<BorrowRecordInputModel, BorrowRecord>()
+                    .ForMember(m => m.CreatedAt, opt => opt.UseValue(DateTime.Now))
+                    .ForMember(m => m.LastModified, opt => opt.UseValue(DateTime.Now));
+                cfg.CreateMap<BorrowRecordMinimalDTO, BorrowRecord>()
                     .ForMember(m => m.CreatedAt, opt => opt.UseValue(DateTime.Now))
                     .ForMember(m => m.LastModified, opt => opt.UseValue(DateTime.Now));
             });

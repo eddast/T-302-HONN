@@ -20,13 +20,20 @@ namespace VideotapesGalore.WebApi.Controllers
         /// service used to fetch data
         /// </summary>
         private readonly IUserService _userService;
+        /// <summary>
+        /// service used to fetch tape data
+        /// </summary>
+        private readonly ITapeService _tapeService;
 
         /// <summary>
         /// Set the user service to use
         /// </summary>
         /// <param name="userService">user service</param>
-        public UsersController(IUserService userService) => 
+        /// <param name="tapeService">tape service</param>
+        public UsersController(IUserService userService, ITapeService tapeService) { 
             this._userService = userService;
+            this._tapeService = tapeService;
+        }
 
         /// <summary>
         /// Gets list of all users in system or, if query parameter loan date and/or loan duration is provided,
@@ -143,11 +150,35 @@ namespace VideotapesGalore.WebApi.Controllers
         /// <response code="404">User not found</response>
         [HttpDelete ("{id:int}")]
         [ProducesResponseType (204)]
-        [ProducesResponseType(404, Type = typeof(ExceptionModel))]
+        [ProducesResponseType (404, Type = typeof(ExceptionModel))]
         public IActionResult DeleteUser(int Id)
         {
             _userService.DeleteUser(Id);
             return NoContent();
+        }
+
+        [HttpGet ("id:int/tapes")]
+        [ProducesResponseType (200, Type = typeof(IEnumerable<BorrowRecordDTO>))]
+        [ProducesResponseType (404, Type = typeof(ExceptionModel))]
+        public IActionResult GetUserBorrowRecords(int Id)
+        {
+            var BorrowRecords = _tapeService.GetTapesForUserOnLoan(Id);
+            return Ok(BorrowRecords);
+        }
+
+        [HttpPost ("{userId:int}/tapes/{tapeId:int}")]
+        [Consumes ("application/json")]
+        [ProducesResponseType (201)]
+        [ProducesResponseType (404, Type = typeof(ExceptionModel))]
+        public IActionResult CreateBorrowRecord(int UserId, int TapeId, [FromBody] BorrowRecordInputModel BorrowRecord)
+        {
+             // Check if input model is valid, output all errors if not
+            if (!ModelState.IsValid) { 
+                IEnumerable<string> errorList = ModelState.Values.SelectMany(v => v.Errors).Select(x => x.ErrorMessage);
+                throw new InputFormatException("User input model improperly formatted.", errorList);
+            }
+            _tapeService.CreateBorrowRecord(TapeId, UserId, BorrowRecord);
+            return Created($"{UserId}/tapes/{TapeId}", null);
         }
     }
 }

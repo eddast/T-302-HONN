@@ -14,7 +14,7 @@ namespace VideotapesGalore.WebApi.Controllers
     /// Everything related to manipulating and reading information about tapes in system
     /// </summary>
     [Route ("api/v1/tapes")]
-    public class TapeController : Controller {
+    public class TapesController : Controller {
 
         /// <summary>
         /// service used to fetch data
@@ -25,7 +25,7 @@ namespace VideotapesGalore.WebApi.Controllers
         /// Set the tape service to use
         /// </summary>
         /// <param name="tapeService">tape service</param>
-        public TapeController(ITapeService tapeService) =>
+        public TapesController(ITapeService tapeService) =>
             this._tapeService = tapeService;
 
         /// <summary>

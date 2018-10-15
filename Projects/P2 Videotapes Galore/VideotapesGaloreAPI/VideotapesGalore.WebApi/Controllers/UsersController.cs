@@ -14,7 +14,7 @@ namespace VideotapesGalore.WebApi.Controllers
     /// Used to manipulate and get information about users in system
     /// </summary>
     [Route ("api/v1/users")]
-    public class UserController : Controller {
+    public class UsersController : Controller {
 
         /// <summary>
         /// service used to fetch data
@@ -25,7 +25,7 @@ namespace VideotapesGalore.WebApi.Controllers
         /// Set the user service to use
         /// </summary>
         /// <param name="userService">user service</param>
-        public UserController(IUserService userService) => 
+        public UsersController(IUserService userService) => 
             this._userService = userService;
 
         /// <summary>

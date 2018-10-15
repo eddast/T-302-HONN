@@ -31,9 +31,10 @@ namespace VideotapesGalore.WebApi.Controllers
         }
 
         /// <summary>
-        /// Gets list of all tapes in system
+        /// Gets list of all tapes in system or, if query parameter loan date is provided,
+        /// gets a report of tape borrows
         /// </summary>
-        /// <returns>a list of all tapes</returns>
+        /// <returns>a list of all tapes or a report on tape borrows relative to loan date if provided</returns>
         /// <response code="200">Success</response>
         /// <response code="400">LoanDate improperly formatted</response>
         [HttpGet]
@@ -45,8 +46,11 @@ namespace VideotapesGalore.WebApi.Controllers
         public IActionResult GetAllTapes([FromQuery] string LoanDate)
         {
             // If no loan date provided as query parameter all tapes are returned
-            if(String.IsNullOrEmpty(LoanDate)) return Ok(_tapeService.GetAllTapes());
-            // Otherwise we return record of all tape borrows that were borrowed on date specified
+            if(String.IsNullOrEmpty(LoanDate)) {
+                return Ok(_tapeService.GetAllTapes());
+            }
+            // Otherwise return record of all tape borrows on date specified
+            // If loan date is an invalid date, throw 400 parameter format exception
             else {
                 DateTime BorrowDate;
                 if (!DateTime.TryParse(LoanDate, out BorrowDate)) throw new ParameterFormatException("LoanDate");
@@ -61,18 +65,13 @@ namespace VideotapesGalore.WebApi.Controllers
         /// <returns>A single tape if found</returns>
         /// <response code="200">Success</response>
         /// <response code="404">Tape not found</response>
-        /// <response code="400">Id improperly formatted</response>
         [HttpGet]
         [Route ("{id:int}", Name = "GetTapeById")]
         [Produces ("application/json")]
         [ProducesResponseType(200, Type = typeof(TapeDTO))]
         [ProducesResponseType(404, Type = typeof(ExceptionModel))]
-        [ProducesResponseType(400, Type = typeof(ExceptionModel))]
-        public IActionResult GetTapeById(int id) 
-        {
-            // TODO validate int parameter?
-            return Ok(_tapeService.GetTapeById(id));
-        }
+        public IActionResult GetTapeById(int id) =>
+            Ok(_tapeService.GetTapeById(id));
 
         /// <summary>
         /// Creates a new video tape for system
@@ -88,10 +87,12 @@ namespace VideotapesGalore.WebApi.Controllers
         [ProducesResponseType(412, Type = typeof(ExceptionModel))]
         public IActionResult CreateTape([FromBody] TapeInputModel Tape)
         {
-            if (!ModelState.IsValid){
+            // Check if input model is valid, output all errors if not
+            if (!ModelState.IsValid) {
                 IEnumerable<string> errorList = ModelState.Values.SelectMany(v => v.Errors).Select(x => x.ErrorMessage);
                 throw new InputFormatException("Video tape input model improperly formatted.", errorList);
             }
+            // Create new tape if input model was valid
             int id = _tapeService.CreateTape(Tape);
             return CreatedAtRoute("GetTapeById", new { id }, null);
         }
@@ -103,21 +104,20 @@ namespace VideotapesGalore.WebApi.Controllers
         /// <param name="Tape">The video tape input model</param>
         /// <returns>A status code of 204 no content.</returns>
         /// <response code="204">Video tape updated</response>
-        /// <response code="400">Id improperly formatted</response>
         /// <response code="404">Video tape not found</response>
         /// <response code="412">Video tape input model improperly formatted</response>
         [HttpPut ("{id:int}")]
         [ProducesResponseType(204)]
-        [ProducesResponseType(400, Type = typeof(ExceptionModel))]
         [ProducesResponseType(404, Type = typeof(ExceptionModel))]
         [ProducesResponseType(412, Type = typeof(ExceptionModel))]
         public IActionResult EditTape(int id, [FromBody] TapeInputModel Tape)
         {
-            // TODO validate int param?
+            // Check if input model is valid, output all errors if not
             if (!ModelState.IsValid) { 
                 IEnumerable<string> errorList = ModelState.Values.SelectMany(v => v.Errors).Select(x => x.ErrorMessage);
                 throw new InputFormatException("Video tape input model improperly formatted.", errorList);
             }
+            // Edit tape if input model was valid
             _tapeService.EditTape(id, Tape);
             return NoContent();
         }
@@ -128,15 +128,12 @@ namespace VideotapesGalore.WebApi.Controllers
         /// <param name="Id">Id associated with tape of the system</param>
         /// <returns>A status code of 204 no content.</returns>
         /// <response code="204">Video tape removed</response>
-        /// <response code="400">Id improperly formatted</response>
         /// <response code="404">Video tape not found</response>
         [HttpDelete ("{id:int}")]
         [ProducesResponseType (204)]
-        [ProducesResponseType(400, Type = typeof(ExceptionModel))]
         [ProducesResponseType(404, Type = typeof(ExceptionModel))]
         public IActionResult DeleteTape(int Id)
         {
-            // TODO validate int param?
             _tapeService.DeleteTape(Id);
             return NoContent();
         }

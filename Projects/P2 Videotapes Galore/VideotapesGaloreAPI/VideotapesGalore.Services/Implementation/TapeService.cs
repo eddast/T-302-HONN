@@ -20,12 +20,17 @@ namespace VideotapesGalore.Services.Implementations
         /// Tape repository
         /// </summary>
         private readonly ITapeRepository _tapeRepository;
+
+        /// <summary>
+        /// Borrow record repository
+        /// </summary>
         private readonly IBorrowRecordRepository _borrowRecordRepository;
 
         /// <summary>
         /// Initialize repository
         /// </summary>
         /// <param name="tapeRepository">Which implementation of tape repository to use</param>
+        /// <param name="borrowRecordRepository">Which implementation of borrow record repository to use</param>
         public TapeService(ITapeRepository tapeRepository, IBorrowRecordRepository borrowRecordRepository) {
             this._tapeRepository = tapeRepository;
             this._borrowRecordRepository = borrowRecordRepository;
@@ -44,7 +49,20 @@ namespace VideotapesGalore.Services.Implementations
         /// <returns>List of tape borrow record as report</returns>
         public List<TapeBorrowRecordDTO> GetTapeReportAtDate(DateTime LoanDate)
         {
-            throw new NotImplementedException();
+            List<TapeBorrowRecordDTO> tapeBorrowRecord = new List<TapeBorrowRecordDTO>();
+            var allTapes = Mapper.Map<List<TapeBorrowRecordDTO>>(_tapeRepository.GetAllTapes());
+            var allTapeBorrows = _borrowRecordRepository.GetAllBorrowRecords();
+            foreach (var tape in allTapes) {
+                allTapeBorrows.Where(t => t.TapeId == tape.Id);
+                foreach(var tapeBorrow in allTapeBorrows) {
+                    if (MatchesLoanDate(LoanDate, tapeBorrow.BorrowDate, tapeBorrow.ReturnDate)) {
+                        tape.BorrowDate = tapeBorrow.BorrowDate;
+                        tape.ReturnDate = tapeBorrow.ReturnDate;
+                        tapeBorrowRecord.Add(tape);
+                    }
+                }
+            }
+            return tapeBorrowRecord;
         }
         
         /// <summary>
@@ -58,7 +76,7 @@ namespace VideotapesGalore.Services.Implementations
             if (tape == null) throw new ResourceNotFoundException($"Video tape with id {Id} was not found.");
             var borrowRecords = _borrowRecordRepository.GetAllBorrowRecords().Where(t => t.TapeId == Id);
             var tapeDetails = Mapper.Map<TapeDetailDTO>(tape);
-            tapeDetails.History = borrowRecords;
+            // tapeDetails.History = borrowRecords;
             return tapeDetails;
         }
 
@@ -130,5 +148,15 @@ namespace VideotapesGalore.Services.Implementations
         {
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// Compares loan date to borrow and return date of tape, returns true if it's in between
+        /// </summary>
+        /// <param name="LoanDate">loan date for tape</param>
+        /// <param name="BorrowDate">date of borrow for tape</param>
+        /// <param name="ReturnDate">return date for tape</param>
+        /// <returns></returns>
+        private bool MatchesLoanDate(DateTime LoanDate, DateTime BorrowDate, DateTime ReturnDate) => 
+            DateTime.Compare(LoanDate, ReturnDate) < 0 && DateTime.Compare(LoanDate, BorrowDate) > 0;
     }
 }

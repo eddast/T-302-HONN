@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using VideotapesGalore.Models.DTOs;
 using VideotapesGalore.Models.Exceptions;
 using VideotapesGalore.Models.InputModels;
@@ -16,16 +17,31 @@ namespace VideotapesGalore.Services.Implementation
     public class UserService : IUserService
     {
         /// <summary>
-        /// Tape repository
+        /// User repository
         /// </summary>
         private readonly IUserRepository _userRepository;
+
+        /// <summary>
+        /// Borrow record repository
+        /// </summary>
+        private readonly IBorrowRecordRepository _borrowRecordRepository;
+
+        /// <summary>
+        /// Borrow record repository
+        /// </summary>
+        private readonly ITapeRepository _tapeRepository;
 
         /// <summary>
         /// Initialize repository
         /// </summary>
         /// <param name="userRepository">Which implementation of user repository to use</param>
-        public UserService(IUserRepository userRepository) =>
+        /// <param name="borrowRecordRepository">Which implementation of borrow record repository to use</param>
+        public UserService(IUserRepository userRepository, IBorrowRecordRepository borrowRecordRepository, ITapeRepository tapeRepository)
+        {
             this._userRepository = userRepository;
+            this._borrowRecordRepository = borrowRecordRepository;
+            this._tapeRepository = tapeRepository;
+        }
 
         /// <summary>
         /// Gets a list of all users in system
@@ -43,7 +59,28 @@ namespace VideotapesGalore.Services.Implementation
         /// <returns>List of user borrow record as report</returns>
         public List<UserAndBorrowedTapesDTO> GetAllUsersAndBorrows(DateTime? LoanDate, int? LoanDuration)
         {
-            throw new NotImplementedException();
+            DateTime loanDate = LoanDate.HasValue ? LoanDate.Value : DateTime.Now;
+            var allUsersAndBorrows = Mapper.Map<List<UserAndBorrowedTapesDTO>>(_userRepository.GetAllUsers());
+            foreach (var user in allUsersAndBorrows) {
+                // Get borrow records for each user
+                List<TapeBorrowRecordDTO> tapeBorrowRecords = new List<TapeBorrowRecordDTO>();
+                var borrowRecords = _borrowRecordRepository.GetAllBorrowRecords().Where(u => u.UserId == user.Id);
+                foreach (var record in borrowRecords) {
+                    // Get detailed borrow record for each user borrow IF tape was on loan at provided loan date
+                    // AND for a given duration (if provided)
+                    if ( MatchesLoanDate(loanDate, record.BorrowDate, record.ReturnDate) &&
+                         MatchesDuration(LoanDuration, loanDate, record.BorrowDate) ) {
+                            var tape = _tapeRepository.GetAllTapes().FirstOrDefault(t => t.Id == record.TapeId);
+                            var tapeBorrowRecord = Mapper.Map<TapeBorrowRecordDTO>(tape);
+                            tapeBorrowRecord.BorrowDate = record.BorrowDate;
+                            tapeBorrowRecord.ReturnDate = record.ReturnDate;
+                            tapeBorrowRecords.Add(tapeBorrowRecord);
+                    }
+                }
+                // Assign borrow record with all details to user
+                user.Tapes = tapeBorrowRecords;
+            }
+            return allUsersAndBorrows;
         }
 
         /// <summary>
@@ -88,5 +125,25 @@ namespace VideotapesGalore.Services.Implementation
             if (user == null) throw new ResourceNotFoundException($"User with id {Id} was not found.");
             else _userRepository.DeleteUser(Id);
         }
+
+        /// <summary>
+        /// Compares loan date to borrow and return date of tape, returns true if it's in between
+        /// </summary>
+        /// <param name="LoanDate">loan date for tape</param>
+        /// <param name="BorrowDate">date of borrow for tape</param>
+        /// <param name="ReturnDate">return date for tape</param>
+        /// <returns></returns>
+        private bool MatchesLoanDate(DateTime LoanDate, DateTime BorrowDate, DateTime ReturnDate) => 
+            DateTime.Compare(LoanDate, ReturnDate) < 0 && DateTime.Compare(LoanDate, BorrowDate) > 0;
+        
+        /// <summary>
+        /// Compares if loan has lasted for a certain duration of days
+        /// </summary>
+        /// <param name="duration">duration in days of loan</param>
+        /// <param name="LoanDate">loan date for tape</param>
+        /// <param name="BorrowDate">borrow date for tape</param>
+        /// <returns></returns>
+        private bool MatchesDuration(int? duration, DateTime LoanDate, DateTime BorrowDate) => 
+            !duration.HasValue || (duration.HasValue && (LoanDate - BorrowDate).TotalDays == duration.Value);
     }
 }

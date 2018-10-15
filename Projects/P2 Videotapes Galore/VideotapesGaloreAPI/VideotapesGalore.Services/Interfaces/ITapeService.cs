@@ -45,5 +45,31 @@ namespace VideotapesGalore.Services.Interfaces
         /// </summary>
         /// <param name="Id">Id associated with tape in system to delete</param>
         void DeleteTape(int Id);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
+        List<TapeDTO> GetTapesForUserOnLoan(int UserId);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="TapeId"></param>
+        /// <param name="UserId"></param>
+        /// <param name="BorrowRecord"></param>
+        void CreateBorrowRecord(int TapeId, int UserId, BorrowRecordInputModel BorrowRecord);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="TapeId"></param>
+        /// <param name="UserId"></param>
+        /// <param name="BorrowRecord"></param>
+        void UpdateBorrowRecord(int TapeId, int UserId, BorrowRecordInputModel BorrowRecord);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="TapeId"></param>
+        /// <param name="UserId"></param>
+        void RemoveBorrowRecord(int TapeId, int UserId);
     }
 }

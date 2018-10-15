@@ -4,6 +4,7 @@ using System.IO;
 using VideotapesGalore.Services.Interfaces;
 using VideotapesGalore.Models.DTOs;
 using VideotapesGalore.Models.InputModels;
+using AutoMapper;
 using VideotapesGalore.Models.Exceptions;
 using VideotapesGalore.Repositories.Interfaces;
 using System.Linq;
@@ -56,8 +57,9 @@ namespace VideotapesGalore.Services.Implementations
             var tape = _tapeRepository.GetAllTapes().FirstOrDefault(t => t.Id == Id);
             if (tape == null) throw new ResourceNotFoundException($"Video tape with id {Id} was not found.");
             var borrowRecords = _borrowRecordRepository.GetAllBorrowRecords().Where(t => t.TapeId == Id);
-            
-            throw new NotImplementedException();
+            var tapeDetails = Mapper.Map<TapeDetailDTO>(tape);
+            tapeDetails.History = borrowRecords;
+            return tapeDetails;
         }
 
         /// <summary>
@@ -89,6 +91,44 @@ namespace VideotapesGalore.Services.Implementations
             var tape = _tapeRepository.GetAllTapes().FirstOrDefault(t => t.Id == Id);
             if (tape == null) throw new ResourceNotFoundException($"Video tape with id {Id} was not found.");
             else _tapeRepository.DeleteTape(Id);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
+        public List<TapeDTO> GetTapesForUserOnLoan(int UserId)
+        {
+            throw new NotImplementedException();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="TapeId"></param>
+        /// <param name="UserId"></param>
+        /// <param name="BorrowRecord"></param>
+        public void CreateBorrowRecord(int TapeId, int UserId, BorrowRecordInputModel BorrowRecord)
+        {
+            throw new NotImplementedException();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="TapeId"></param>
+        /// <param name="UserId"></param>
+        /// <param name="BorrowRecord"></param>
+        public void UpdateBorrowRecord(int TapeId, int UserId, BorrowRecordInputModel BorrowRecord)
+        {
+            throw new NotImplementedException();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="TapeId"></param>
+        /// <param name="UserId"></param>
+        public void RemoveBorrowRecord(int TapeId, int UserId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

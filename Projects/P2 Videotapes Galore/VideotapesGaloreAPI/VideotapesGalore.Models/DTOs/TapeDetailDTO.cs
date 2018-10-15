@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace VideotapesGalore.Models.DTOs {
   /// <summary>
@@ -29,6 +30,10 @@ namespace VideotapesGalore.Models.DTOs {
     /// Video tape's EIDR number
     /// </summary>
     public string EIDR { get; set; }
-    public BorrowRecordDTO[] History { get; set; }
+    /// <summary>
+    /// Borrow record history for tape
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerable<BorrowRecordDTO> History { get; set; }
   }
 }

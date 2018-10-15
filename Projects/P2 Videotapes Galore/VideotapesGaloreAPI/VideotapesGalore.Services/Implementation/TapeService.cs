@@ -19,14 +19,16 @@ namespace VideotapesGalore.Services.Implementations
         /// Tape repository
         /// </summary>
         private readonly ITapeRepository _tapeRepository;
+        private readonly IBorrowRecordRepository _borrowRecordRepository;
 
         /// <summary>
         /// Initialize repository
         /// </summary>
         /// <param name="tapeRepository">Which implementation of tape repository to use</param>
-        public TapeService(ITapeRepository tapeRepository) =>
+        public TapeService(ITapeRepository tapeRepository, IBorrowRecordRepository borrowRecordRepository) {
             this._tapeRepository = tapeRepository;
-
+            this._borrowRecordRepository = borrowRecordRepository;
+        }
         /// <summary>
         /// Gets a list of all tapes in system
         /// </summary>
@@ -53,6 +55,8 @@ namespace VideotapesGalore.Services.Implementations
         {
             var tape = _tapeRepository.GetAllTapes().FirstOrDefault(t => t.Id == Id);
             if (tape == null) throw new ResourceNotFoundException($"Video tape with id {Id} was not found.");
+            var borrowRecords = _borrowRecordRepository.GetAllBorrowRecords().Where(t => t.TapeId == Id);
+            
             throw new NotImplementedException();
         }
 

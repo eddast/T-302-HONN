@@ -121,15 +121,18 @@ namespace VideotapesGalore.Services.Implementations
         /// </summary>
         /// <param name="UserId"></param>
         /// <returns></returns>
-        public List<TapeDTO> GetTapesForUserOnLoan(int UserId)
+        public List<TapeBorrowRecordDTO> GetTapesForUserOnLoan(int UserId)
         {
-            var UserRecords = _borrowRecordRepository.GetAllBorrowRecords().Where(t => t.UserId == UserId && t.ReturnDate == null).ToList();
-            List<TapeDTO> Tapes = new List<TapeDTO>();
+            var UserRecords = _borrowRecordRepository.GetAllBorrowRecords().Where(t => t.UserId == UserId && t.ReturnDate == new DateTime(0)).ToList();
+            List<TapeBorrowRecordDTO> Tapes = new List<TapeBorrowRecordDTO>();
             var AllTapes = _tapeRepository.GetAllTapes();
             foreach (var Record in UserRecords) {
                 var Tape = AllTapes.FirstOrDefault(t => t.Id == Record.TapeId);
                 if (Tape == null) throw new ResourceNotFoundException($"Video tape with id {Record.TapeId} does not exist.");
-                Tapes.Add(Tape);
+                var TapeBorrowRecord = Mapper.Map<TapeBorrowRecordDTO>(Tape);
+                TapeBorrowRecord.BorrowDate = Record.BorrowDate;
+                TapeBorrowRecord.ReturnDate = null;
+                Tapes.Add(TapeBorrowRecord);
             }
             return Tapes;
         }

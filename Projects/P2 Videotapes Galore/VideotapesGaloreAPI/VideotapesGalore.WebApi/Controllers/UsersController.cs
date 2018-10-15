@@ -157,8 +157,8 @@ namespace VideotapesGalore.WebApi.Controllers
             return NoContent();
         }
 
-        [HttpGet ("id:int/tapes")]
-        [ProducesResponseType (200, Type = typeof(IEnumerable<BorrowRecordDTO>))]
+        [HttpGet ("{id:int}/tapes")]
+        [ProducesResponseType (200, Type = typeof(IEnumerable<TapeBorrowRecordDTO>))]
         [ProducesResponseType (404, Type = typeof(ExceptionModel))]
         public IActionResult GetUserBorrowRecords(int Id)
         {

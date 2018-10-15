@@ -50,7 +50,7 @@ namespace VideotapesGalore.Services.Interfaces
         /// </summary>
         /// <param name="UserId"></param>
         /// <returns></returns>
-        List<TapeDTO> GetTapesForUserOnLoan(int UserId);
+        List<TapeBorrowRecordDTO> GetTapesForUserOnLoan(int UserId);
         /// <summary>
         /// 
         /// </summary>

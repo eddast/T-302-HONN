@@ -69,9 +69,15 @@ namespace VideotapesGalore.WebApi
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // Set up API-specific dependency injections for services and repositories
-            services.AddSingleton<ILogService, LogService>();
             services.AddTransient<ITapeRepository, TapeRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IReviewRepository, ReviewRepository>();
+            services.AddTransient<IBorrowRecordRepository, BorrowRecordRepository>();
+            services.AddSingleton<ILogService, LogService>();
             services.AddTransient<ITapeService, TapeService>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IReviewService, ReviewService>();
+            services.AddTransient<IRecommendationService, RecommendationService>();
 
             // Provide MySQL connection prerequisite (connection string) to concrete repositories
             var MySqlConnectionString = Configuration["ConnectionStrings:DefaultConnection"];
@@ -95,7 +101,7 @@ namespace VideotapesGalore.WebApi
             // Documentation available when server is running at <host>/api-documentation
             app.UseSwagger();
             app.UseSwaggerUI(opt =>{
-                opt.RoutePrefix = "api-documentation";
+                opt.RoutePrefix = "api/v1/documentation";
                 opt.SwaggerEndpoint("/swagger/v1/swagger.json", "Videotapes Galore API");
             });
 

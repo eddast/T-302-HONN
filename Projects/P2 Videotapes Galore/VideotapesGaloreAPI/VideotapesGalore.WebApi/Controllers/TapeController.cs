@@ -10,10 +10,10 @@ using VideotapesGalore.Services.Interfaces;
 
 namespace VideotapesGalore.WebApi.Controllers
 {
-    [Route ("api/v1/tapes")]
     /// <summary>
     /// Everything related to manipulating and reading information about tapes in system
     /// </summary>
+    [Route ("api/v1/tapes")]
     public class TapeController : Controller {
 
         /// <summary>

@@ -180,5 +180,30 @@ namespace VideotapesGalore.WebApi.Controllers
             _tapeService.CreateBorrowRecord(TapeId, UserId, BorrowRecord);
             return Created($"{UserId}/tapes/{TapeId}", null);
         }
+
+        [HttpPut ("{userId:int}/tapes/{tapeId:int}")]
+        [Consumes ("application/json")]
+        [ProducesResponseType (204)]
+        [ProducesResponseType (404, Type = typeof(ExceptionModel))]
+        public IActionResult UpdateBorrowRecord(int UserId, int TapeId, [FromBody] BorrowRecordInputModel BorrowRecord)
+        {
+             // Check if input model is valid, output all errors if not
+            if (!ModelState.IsValid) { 
+                IEnumerable<string> errorList = ModelState.Values.SelectMany(v => v.Errors).Select(x => x.ErrorMessage);
+                throw new InputFormatException("User input model improperly formatted.", errorList);
+            }
+            _tapeService.UpdateBorrowRecord(TapeId, UserId, BorrowRecord);
+            return NoContent();
+        }
+
+        [HttpDelete ("{userId:int}/tapes/{tapeId:int}")]
+        [ProducesResponseType (204)]
+        [ProducesResponseType (404, Type = typeof(ExceptionModel))]
+         public IActionResult ReturnTape(int UserId, int TapeId)
+        {
+
+            _tapeService.ReturnTape(TapeId, UserId);
+            return NoContent();
+        }
     }
 }

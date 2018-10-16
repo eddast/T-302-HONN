@@ -146,10 +146,7 @@ namespace VideotapesGalore.Services.Implementations
         /// <param name="BorrowRecord"></param>
         public void CreateBorrowRecord(int TapeId, int UserId, BorrowRecordInputModel BorrowRecord)
         {
-            var Tape = _tapeRepository.GetAllTapes().FirstOrDefault(t => t.Id == TapeId);
-            if (Tape == null) throw new ResourceNotFoundException($"Video tape with id {TapeId} does not exist.");
-            var User = _userRepository.GetAllUsers().FirstOrDefault(t => t.Id == UserId);
-            if (User == null) throw new ResourceNotFoundException($"User with id {UserId} does not exist.");
+            ValidateBorrowRecord(TapeId, UserId);
 
             var Record = Mapper.Map<BorrowRecordMinimalDTO>(BorrowRecord);
             Record.TapeId = TapeId;
@@ -164,18 +161,33 @@ namespace VideotapesGalore.Services.Implementations
         /// <param name="BorrowRecord"></param>
         public void UpdateBorrowRecord(int TapeId, int UserId, BorrowRecordInputModel BorrowRecord)
         {
-            throw new NotImplementedException();
+            ValidateBorrowRecord(TapeId, UserId);
+
+            _borrowRecordRepository.EditBorrowRecord(TapeId, UserId, BorrowRecord);
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="TapeId"></param>
         /// <param name="UserId"></param>
-        public void RemoveBorrowRecord(int TapeId, int UserId)
+        public void ReturnTape(int TapeId, int UserId)
         {
-            throw new NotImplementedException();
-        }
+            ValidateBorrowRecord(TapeId, UserId);
 
+            _borrowRecordRepository.ReturnTape(TapeId, UserId);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="TapeId"></param>
+        /// <param name="UserId"></param>
+        private void ValidateBorrowRecord(int TapeId, int UserId)
+        {
+            var Tape = _tapeRepository.GetAllTapes().FirstOrDefault(t => t.Id == TapeId);
+            if (Tape == null) throw new ResourceNotFoundException($"Video tape with id {TapeId} does not exist.");
+            var User = _userRepository.GetAllUsers().FirstOrDefault(t => t.Id == UserId);
+            if (User == null) throw new ResourceNotFoundException($"User with id {UserId} does not exist.");
+        }
         /// <summary>
         /// Compares loan date to borrow and return date of tape, returns true if it's in between
         /// </summary>

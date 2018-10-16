@@ -26,11 +26,11 @@ namespace VideotapesGalore.Repositories.Interfaces
         /// </summary>
         /// <param name="Id">id of borrow record to update</param>
         /// <param name="BorrowRecord">new borrow record values to set to old borrow record</param>
-        void EditBorrowRecord(int Id, BorrowRecordInputModel BorrowRecord);
+        void EditBorrowRecord(int TapeId, int UserId, BorrowRecordInputModel BorrowRecord);
         /// <summary>
         /// Deletes borrow record from system
         /// </summary>
         /// <param name="Id">the id of the borrow record to delete from system</param>
-        void DeleteBorrowRecord(int Id);
+        void ReturnTape(int TapeId, int UserId);
     }
 }

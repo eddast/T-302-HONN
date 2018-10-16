@@ -169,6 +169,13 @@ namespace VideotapesGalore.WebApi.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Deletes borrow records for user from the system
+        /// </summary>
+        /// <param name="Id">Id associated with user of the system</param>
+        /// <returns>A status code of 204 no content.</returns>
+        /// <response code="200">Returns borrow records for user</response>
+        /// <response code="404">User not found</response>
         [HttpGet ("{id:int}/tapes")]
         [ProducesResponseType (200, Type = typeof(IEnumerable<TapeBorrowRecordDTO>))]
         [ProducesResponseType (404, Type = typeof(ExceptionModel))]

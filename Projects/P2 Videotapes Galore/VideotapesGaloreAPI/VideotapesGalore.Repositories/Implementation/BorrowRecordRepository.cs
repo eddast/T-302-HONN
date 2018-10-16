@@ -71,6 +71,7 @@ namespace VideotapesGalore.Repositories.Implementation
         {
             var BorrowRecord = _dbContext.BorrowRecords.FirstOrDefault(t => t.TapeId == TapeId && t.UserId == UserId);
             if (BorrowRecord == null) throw new ResourceNotFoundException($"No borrow record found for user with id {UserId} and tape with id {TapeId}");
+            if (BorrowRecord.ReturnDate != null && BorrowRecord.ReturnDate != new DateTime(0)) throw new InputFormatException("Tape has already been returned");
             _dbContext.Attach(BorrowRecord);
             BorrowRecord.ReturnDate = DateTime.Now;
             _dbContext.SaveChanges();

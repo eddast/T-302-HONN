@@ -63,7 +63,12 @@ namespace VideotapesGalore.WebApi
                 opt.SwaggerDoc("v1", new Info {
                     Version = "v1",
                     Title = "Videotapes Galore API",
-                    Description = "Management system for renting video tapes to users with review functionality and recommendation service",
+                    Description =
+                    "Management system for renting video tapes to users. " +
+                    "Includes review functionality as well as recommendation service. " +
+                    "Developed as an assignment for the course T-302-HÖNN for Reykjavík University " +
+                    "by Edda Steinunn Rúnarsdóttir and Alexander Björnsson.",
+                    
                 });
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);

@@ -39,6 +39,14 @@ namespace VideotapesGalore.WebApi.Controllers
         /// Gets list of all users in system or, if query parameter loan date and/or loan duration is provided,
         /// gets a report of users as well as their history of tape borrows in accordance to dates and duration provided
         /// </summary>
+        /// <param name="LoanDate">
+        /// query parameter which if provided will get report of users and borrows that
+        /// had tapes on loan at provided loan date
+        /// </param>
+        /// <param name="LoanDuration">
+        /// query parameter which if provided will get report of users and borrows that
+        /// have had tapes on loan for at least as many days as loan duration parameter provided
+        /// </param>
         /// <returns>
         /// Returns list of informaton on all users in the system if no query parameters are provided
         /// If LoanDate query parameter is provided, all users that had a tape on loan at LoanDate is returned in a report

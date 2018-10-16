@@ -36,6 +36,10 @@ namespace VideotapesGalore.WebApi.Controllers
         /// Gets list of all tapes in system or, if query parameter loan date is provided,
         /// gets a report of tape borrows
         /// </summary>
+        /// <param name="LoanDate">
+        /// query parameter which if provided will get report of tapes and borrows that
+        /// were on loan at provided loan date
+        /// </param>
         /// <returns>a list of all tapes or a report on tape borrows relative to loan date if provided</returns>
         /// <response code="200">Success</response>
         /// <response code="400">LoanDate improperly formatted</response>
@@ -61,7 +65,7 @@ namespace VideotapesGalore.WebApi.Controllers
         }
 
         /// <summary>
-        /// Gets tapes by id
+        /// Gets tapes by id along with tape's borrow history
         /// </summary>
         /// <param name="id">Id associated with video tape of the system</param>
         /// <returns>A single tape if found</returns>
@@ -70,7 +74,7 @@ namespace VideotapesGalore.WebApi.Controllers
         [HttpGet]
         [Route ("{id:int}", Name = "GetTapeById")]
         [Produces ("application/json")]
-        [ProducesResponseType(200, Type = typeof(TapeDTO))]
+        [ProducesResponseType(200, Type = typeof(TapeDetailDTO))]
         [ProducesResponseType(404, Type = typeof(ExceptionModel))]
         public IActionResult GetTapeById(int id) =>
             Ok(_tapeService.GetTapeById(id));
@@ -141,12 +145,13 @@ namespace VideotapesGalore.WebApi.Controllers
         }
 
         /// <summary>
-        /// RESTRICTED ROUTE, ONLY ACCESSIBLE WITH SECRET KEY
-        /// Initializes tapes from initialization file
+        /// RESTRICTED ROUTE, ONLY ACCESSIBLE WITH SECRET KEY.  
+        /// Initializes tapes from local initialization file if no tapes are in system. 
+        /// (Routine takes around 5-15 minutes on average)
         /// </summary>
-        /// <response code="204">Video tape removed</response>
-        /// <response code="401">Client not authorized for conducting initialization</response>
-        /// <response code="403">Tapes already initialized in some form</response>
+        /// <response code="204">Tapes initialized</response>
+        /// <response code="401">Client not authorized for initialization</response>
+        /// <response code="400">Tapes already initialized in some form</response>
         [HttpPost ("initialize")]
         [Authorize(Policy="InitializationAuth")]
         [ProducesResponseType (204)]

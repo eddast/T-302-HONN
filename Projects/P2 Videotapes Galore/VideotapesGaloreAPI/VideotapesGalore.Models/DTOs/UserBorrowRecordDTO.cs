@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace VideotapesGalore.Models.DTOs {
   /// <summary>
@@ -28,6 +29,6 @@ namespace VideotapesGalore.Models.DTOs {
     /// <summary>
     /// History of user's borrows
     /// </summary>
-    public BorrowRecordDTO[] History { get; set; }
+    public IEnumerable<BorrowRecordDTO> History { get; set; }
   }
 }

@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using VideotapesGalore.Models.DTOs;
 using VideotapesGalore.Models.Exceptions;
 using VideotapesGalore.Models.InputModels;
@@ -39,6 +43,14 @@ namespace VideotapesGalore.WebApi.Controllers
         /// Gets list of all users in system or, if query parameter loan date and/or loan duration is provided,
         /// gets a report of users as well as their history of tape borrows in accordance to dates and duration provided
         /// </summary>
+        /// <param name="LoanDate">
+        /// query parameter which if provided will get report of users and borrows that
+        /// had tapes on loan at provided loan date
+        /// </param>
+        /// <param name="LoanDuration">
+        /// query parameter which if provided will get report of users and borrows that
+        /// have had tapes on loan for at least as many days as loan duration parameter provided
+        /// </param>
         /// <returns>
         /// Returns list of informaton on all users in the system if no query parameters are provided
         /// If LoanDate query parameter is provided, all users that had a tape on loan at LoanDate is returned in a report
@@ -57,7 +69,7 @@ namespace VideotapesGalore.WebApi.Controllers
         public IActionResult GetAllUsers([FromQuery] string LoanDate, [FromQuery] string LoanDuration)
         {
             // If no query parameters are provided all tapes are returned
-            if(String.IsNullOrEmpty(LoanDate) && String.IsNullOrEmpty(LoanDate)) {
+            if(String.IsNullOrEmpty(LoanDate) && String.IsNullOrEmpty(LoanDuration)) {
                 return Ok(_userService.GetAllUsers());
             }
             DateTime? loanDate = null;
@@ -201,8 +213,71 @@ namespace VideotapesGalore.WebApi.Controllers
         [ProducesResponseType (404, Type = typeof(ExceptionModel))]
          public IActionResult ReturnTape(int UserId, int TapeId)
         {
-
             _tapeService.ReturnTape(TapeId, UserId);
+            return NoContent();
+        }
+        /// <summary>
+        /// RESTRICTED ROUTE, ONLY ACCESSIBLE WITH SECRET KEY.  
+        /// Initializes users and borrow records from local initialization file if no users are in system. 
+        /// (Routine takes around 5-15 minutes on average)
+        /// </summary>
+        /// <response code="204">Users and borrows initialized</response>
+        /// <response code="401">Client not authorized for initialization</response>
+        /// <response code="400">Users already initialized in some form</response>
+        [HttpPost ("initialize")]
+        [Authorize(Policy="InitializationAuth")]
+        [ProducesResponseType (204)]
+        [ProducesResponseType(401, Type = typeof(ExceptionModel))]
+        [ProducesResponseType(400, Type = typeof(ExceptionModel))]
+        public IActionResult InitializeUsersAndBorrows()
+        {
+            // We do not initialize unless database is empty for safety reasons
+            if(_userService.GetAllUsers().Count > 0) {
+                return BadRequest(new ExceptionModel {
+                    StatusCode = (int) HttpStatusCode.BadRequest,
+                    Message = "Users have already been initialized in some form"
+                });
+            }
+            // Otherwise add users from initialization file
+            using (StreamReader r = new StreamReader("./Resources/usersAndBorrows.json")) {
+                string json = r.ReadToEnd();
+                dynamic usersJSON = JsonConvert.DeserializeObject(json);
+                foreach(var userJSON in usersJSON) {
+                    // Generate input model from json for user
+                    UserInputModel user = new UserInputModel {
+                        Name = $"{userJSON.first_name} {userJSON.last_name}",
+                        Email = userJSON.email,
+                        Phone = userJSON.phone,
+                        Address = userJSON.address,
+                    };
+                    // Check if tape input model is valid
+                    if (!ModelState.IsValid) {
+                        IEnumerable<string> errorList = ModelState.Values.SelectMany(v => v.Errors).Select(x => x.ErrorMessage);
+                        throw new InputFormatException("User in initialization file improperly formatted.", errorList);
+                    }
+                    // Create new user if input model was valid
+                    Console.WriteLine($"adding user and user records for user {userJSON.id} of {usersJSON.Count}");
+                    int userId = _userService.CreateUser(user);
+
+                    // Create all borrows associated with user after user was added
+                    if(userJSON.tapes != null) {
+                        foreach(var borrowRecord in userJSON.tapes) {
+                            // Generate input model from json for borrow record
+                            BorrowRecordInputModel record = new BorrowRecordInputModel {
+                                BorrowDate = Convert.ChangeType(borrowRecord.borrow_date, typeof(DateTime)),
+                                ReturnDate = borrowRecord.return_date != null ? Convert.ChangeType(borrowRecord.return_date, typeof(DateTime)) : null
+                            };
+                            // Check if borrow record input model is valid
+                            if (!ModelState.IsValid) {
+                                IEnumerable<string> errorList = ModelState.Values.SelectMany(v => v.Errors).Select(x => x.ErrorMessage);
+                                throw new InputFormatException("Tapes borrow for user in initialization file improperly formatted.", errorList);
+                            }
+                            // Otherwise add to database
+                            _tapeService.CreateBorrowRecord((int) borrowRecord.id, (int) userJSON.id, record);
+                        }
+                    }
+                }
+            }
             return NoContent();
         }
     }

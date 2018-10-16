@@ -19,6 +19,6 @@ namespace VideotapesGalore.Models.DTOs
         /// <summary>
         /// Date of return for borrow
         /// </summary>
-        public DateTime ReturnDate { get; set; }
+        public DateTime? ReturnDate { get; set; }
     }
 }

@@ -69,7 +69,7 @@ namespace VideotapesGalore.WebApi.Controllers
         public IActionResult GetAllUsers([FromQuery] string LoanDate, [FromQuery] string LoanDuration)
         {
             // If no query parameters are provided all tapes are returned
-            if(String.IsNullOrEmpty(LoanDate) && String.IsNullOrEmpty(LoanDate)) {
+            if(String.IsNullOrEmpty(LoanDate) && String.IsNullOrEmpty(LoanDuration)) {
                 return Ok(_userService.GetAllUsers());
             }
             DateTime? loanDate = null;

@@ -82,7 +82,7 @@ namespace VideotapesGalore.Services.Implementations
             if (tape == null) throw new ResourceNotFoundException($"Video tape with id {Id} was not found.");
             var borrowRecords = _borrowRecordRepository.GetAllBorrowRecords().Where(t => t.TapeId == Id);
             var tapeDetails = Mapper.Map<TapeDetailDTO>(tape);
-            // tapeDetails.History = borrowRecords;
+            tapeDetails.History = borrowRecords;
             return tapeDetails;
         }
 
@@ -183,7 +183,10 @@ namespace VideotapesGalore.Services.Implementations
         /// <param name="BorrowDate">date of borrow for tape</param>
         /// <param name="ReturnDate">return date for tape</param>
         /// <returns></returns>
-        private bool MatchesLoanDate(DateTime LoanDate, DateTime BorrowDate, DateTime ReturnDate) => 
-            DateTime.Compare(LoanDate, ReturnDate) < 0 && DateTime.Compare(LoanDate, BorrowDate) > 0;
+        private bool MatchesLoanDate(DateTime LoanDate, DateTime BorrowDate, DateTime? ReturnDate)
+        { 
+            if(ReturnDate.HasValue) return DateTime.Compare(LoanDate, ReturnDate.Value) < 0 && DateTime.Compare(LoanDate, BorrowDate) > 0;
+            else return DateTime.Compare(LoanDate, BorrowDate) > 0;
+        }
     }
 }

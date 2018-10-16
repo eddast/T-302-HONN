@@ -95,7 +95,10 @@ namespace VideotapesGalore.Services.Implementation
         {
             var user = _userRepository.GetAllUsers().FirstOrDefault(u => u.Id == Id);
             if (user == null) throw new ResourceNotFoundException($"User with id {Id} was not found.");
-            throw new NotImplementedException();
+            var borrowRecords = _borrowRecordRepository.GetAllBorrowRecords().Where(t => t.UserId == Id);
+            var userDetails = Mapper.Map<UserBorrowRecordDTO>(user);
+            userDetails.History = borrowRecords;
+            return userDetails;
         }
 
         /// <summary>
@@ -136,8 +139,11 @@ namespace VideotapesGalore.Services.Implementation
         /// <param name="BorrowDate">date of borrow for tape</param>
         /// <param name="ReturnDate">return date for tape</param>
         /// <returns></returns>
-        private bool MatchesLoanDate(DateTime LoanDate, DateTime BorrowDate, DateTime ReturnDate) => 
-            DateTime.Compare(LoanDate, ReturnDate) < 0 && DateTime.Compare(LoanDate, BorrowDate) > 0;
+        private bool MatchesLoanDate(DateTime LoanDate, DateTime BorrowDate, DateTime? ReturnDate)
+        { 
+            if(ReturnDate.HasValue) return DateTime.Compare(LoanDate, ReturnDate.Value) < 0 && DateTime.Compare(LoanDate, BorrowDate) > 0;
+            else return DateTime.Compare(LoanDate, BorrowDate) > 0;
+        }
         
         /// <summary>
         /// Compares if loan has lasted for a certain duration of days

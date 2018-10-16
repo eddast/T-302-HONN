@@ -7,6 +7,7 @@ using VideotapesGalore.Models.InputModels;
 using VideotapesGalore.Models.Entities;
 using VideotapesGalore.Repositories.DBContext;
 using VideotapesGalore.Repositories.Interfaces;
+using VideotapesGalore.Models.Exceptions;
 
 namespace VideotapesGalore.Repositories.Implementation
 {
@@ -56,6 +57,7 @@ namespace VideotapesGalore.Repositories.Implementation
         {
             var updateModel = Mapper.Map<BorrowRecord>(BorrowRecord);
             var toUpdate = _dbContext.BorrowRecords.FirstOrDefault(record => record.UserId == UserId && record.TapeId == TapeId);
+            if (toUpdate == null) throw new ResourceNotFoundException($"No borrow record found for user with id {UserId} and tape with id {TapeId}");
             _dbContext.Attach(toUpdate);
             this.UpdateBorrowRecord(ref toUpdate, updateModel);
             _dbContext.SaveChanges();
@@ -68,6 +70,7 @@ namespace VideotapesGalore.Repositories.Implementation
         public void ReturnTape(int TapeId, int UserId)
         {
             var BorrowRecord = _dbContext.BorrowRecords.FirstOrDefault(t => t.TapeId == TapeId && t.UserId == UserId);
+            if (BorrowRecord == null) throw new ResourceNotFoundException($"No borrow record found for user with id {UserId} and tape with id {TapeId}");
             _dbContext.Attach(BorrowRecord);
             BorrowRecord.ReturnDate = DateTime.Now;
             _dbContext.SaveChanges();

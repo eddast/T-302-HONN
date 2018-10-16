@@ -125,7 +125,7 @@ namespace VideotapesGalore.Services.Implementations
         {
             var User = _userRepository.GetAllUsers().FirstOrDefault(t => t.Id == UserId);
             if (User == null) throw new ResourceNotFoundException($"User with id {UserId} does not exist.");
-            var UserRecords = _borrowRecordRepository.GetAllBorrowRecords().Where(t => t.UserId == UserId && t.ReturnDate == new DateTime(0)).ToList();
+            var UserRecords = _borrowRecordRepository.GetAllBorrowRecords().Where(t => t.UserId == UserId && (t.ReturnDate == null || t.ReturnDate == new DateTime(0))).ToList();
             List<TapeBorrowRecordDTO> Tapes = new List<TapeBorrowRecordDTO>();
             var AllTapes = _tapeRepository.GetAllTapes();
             foreach (var Record in UserRecords) {

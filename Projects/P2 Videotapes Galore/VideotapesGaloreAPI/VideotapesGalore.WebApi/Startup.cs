@@ -64,10 +64,11 @@ namespace VideotapesGalore.WebApi
                     Version = "v1",
                     Title = "Videotapes Galore API",
                     Description =
-                    "Management system for renting video tapes to users. " +
-                    "Includes review functionality as well as recommendation service. " +
-                    "Developed as an assignment for the course T-302-HÖNN for Reykjavík University " +
-                    "by Edda Steinunn Rúnarsdóttir and Alexander Björnsson.",
+                    "API for management system for renting video tapes to users. " +
+                    "Includes review functionality as well as user personalized recommendation service. " +
+                    "Serves data from a remote MySQL server. " +
+                    "This API was developed and designeed as assignment for the course T-302-HÖNN " +
+                    "for Reykjavík University by Edda Steinunn Rúnarsdóttir and Alexander Björnsson.",
                     
                 });
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";

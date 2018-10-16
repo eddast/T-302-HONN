@@ -43,6 +43,17 @@ namespace VideotapesGalore.Repositories.Implementation
         /// <returns>The id of the new borrow record</returns>
         public int CreateBorrowRecord(BorrowRecordMinimalDTO BorrowRecord)
         {
+            var BorrowRecords = _dbContext.BorrowRecords.Where(record => record.TapeId == BorrowRecord.TapeId);
+            BorrowRecord toUpdate = null;
+            if (BorrowRecords != null) {
+                foreach (var Record in BorrowRecords) {
+                    if (Record.ReturnDate == null || Record.ReturnDate == new DateTime(0)) {
+                        toUpdate = Record;
+                        break;
+                    }
+                }
+            }
+            if (toUpdate != null) throw new InputFormatException($"Tape with id {BorrowRecord.TapeId} is already on loan");
             _dbContext.BorrowRecords.Add(Mapper.Map<BorrowRecord>(BorrowRecord));
             _dbContext.SaveChanges();
             return _dbContext.BorrowRecords.ToList().OrderByDescending(r => r.CreatedAt).FirstOrDefault().Id;
@@ -56,7 +67,15 @@ namespace VideotapesGalore.Repositories.Implementation
         public void EditBorrowRecord(int TapeId, int UserId, BorrowRecordInputModel BorrowRecord)
         {
             var updateModel = Mapper.Map<BorrowRecord>(BorrowRecord);
-            var toUpdate = _dbContext.BorrowRecords.FirstOrDefault(record => record.UserId == UserId && record.TapeId == TapeId);
+            var BorrowRecords = _dbContext.BorrowRecords.Where(record => record.UserId == UserId && record.TapeId == TapeId);
+            if (BorrowRecords == null) throw new ResourceNotFoundException($"No borrow record found for user with id {UserId} and tape with id {TapeId}");
+            BorrowRecord toUpdate = null;
+            foreach (var Record in BorrowRecords) {
+                if (Record.ReturnDate == null || Record.ReturnDate == new DateTime(0)) {
+                    toUpdate = Record;
+                    break;
+                }
+            }
             if (toUpdate == null) throw new ResourceNotFoundException($"No borrow record found for user with id {UserId} and tape with id {TapeId}");
             _dbContext.Attach(toUpdate);
             this.UpdateBorrowRecord(ref toUpdate, updateModel);
@@ -69,11 +88,19 @@ namespace VideotapesGalore.Repositories.Implementation
         /// <param name="Id">the id of the borrow record to delete from system</param>
         public void ReturnTape(int TapeId, int UserId)
         {
-            var BorrowRecord = _dbContext.BorrowRecords.FirstOrDefault(t => t.TapeId == TapeId && t.UserId == UserId);
-            if (BorrowRecord == null) throw new ResourceNotFoundException($"No borrow record found for user with id {UserId} and tape with id {TapeId}");
-            if (BorrowRecord.ReturnDate != null && BorrowRecord.ReturnDate != new DateTime(0)) throw new InputFormatException("Tape has already been returned");
-            _dbContext.Attach(BorrowRecord);
-            BorrowRecord.ReturnDate = DateTime.Now;
+            var BorrowRecords = _dbContext.BorrowRecords.Where(record => record.UserId == UserId && record.TapeId == TapeId);
+            if (BorrowRecords == null) throw new ResourceNotFoundException($"No borrow record found for user with id {UserId} and tape with id {TapeId}");
+            BorrowRecord toUpdate = null;
+            foreach (var Record in BorrowRecords) {
+                if (Record.ReturnDate == null || Record.ReturnDate == new DateTime(0)) {
+                    toUpdate = Record;
+                    break;
+                }
+            }
+            if (toUpdate == null) throw new ResourceNotFoundException($"No borrow record found for user with id {UserId} and tape with id {TapeId}");
+            if (toUpdate.ReturnDate != null && toUpdate.ReturnDate != new DateTime(0)) throw new InputFormatException("Tape has already been returned");
+            _dbContext.Attach(toUpdate);
+            toUpdate.ReturnDate = DateTime.Now;
             _dbContext.SaveChanges();
         }
 

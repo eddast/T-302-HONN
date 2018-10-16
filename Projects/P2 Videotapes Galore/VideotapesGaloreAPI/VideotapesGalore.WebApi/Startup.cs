@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -23,6 +25,7 @@ using VideotapesGalore.Repositories.Interfaces;
 using VideotapesGalore.Services.Implementation;
 using VideotapesGalore.Services.Implementations;
 using VideotapesGalore.Services.Interfaces;
+using VideotapesGalore.WebApi.Authorization;
 using VideotapesGalore.WebApi.Extensions;
 
 namespace VideotapesGalore.WebApi
@@ -67,8 +70,10 @@ namespace VideotapesGalore.WebApi
                 opt.IncludeXmlComments(xmlPath);
             });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddHttpContextAccessor();
 
             // Set up API-specific dependency injections for services and repositories
+            services.AddSingleton<IAuthorizationHandler, InitializationRequirementHandler>();
             services.AddTransient<ITapeRepository, TapeRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IReviewRepository, ReviewRepository>();
@@ -79,12 +84,14 @@ namespace VideotapesGalore.WebApi
             services.AddTransient<IReviewService, ReviewService>();
             services.AddTransient<IRecommendationService, RecommendationService>();
 
+            // Add authorization to initialization process - VERY RESTRICTED
+            // I.e. tells system to force a requirement client must fulfill to access restricted routes in system
+            // (In this case, client authorization header value must match a secret string/shared key) 
+            services.AddAuthorization(options =>
+                options.AddPolicy("InitializationAuth", policy => policy.Requirements.Add(new InitializationRequirement())));
+
             // Provide MySQL connection prerequisite (connection string) to concrete repositories
             var MySqlConnectionString = Configuration["ConnectionStrings:DefaultConnection"];
-            Console.WriteLine("CONFIGURATION STRING:");
-            Console.WriteLine(MySqlConnectionString);
-            // services.Add(new ServiceDescriptor(typeof(TapeRepository), new TapeRepository(MySqlConnectionString)));
-            // services.AddSingleton<TapeRepository>(_ => new TapeRepository(MySqlConnectionString));
             services.AddDbContextPool<VideotapesGaloreDBContext>(
                 options => options.UseMySql(MySqlConnectionString));
         }
@@ -111,8 +118,14 @@ namespace VideotapesGalore.WebApi
             //      404s (ResourceNotFoundException),
             //      400s (ParameterFormatException) and
             //      412s (InputFormatException) and
+            //      401s (AuthorizationException) and
             //      500 (Default for any other exception)
             app.ConfigureExceptionHandler();
+
+            // Require authentication mechanism in system - ONLY FOR SYSTEM INITIALIZATION
+            // Forces requirement client must fulfill to access specified restricted routes in system
+            // (In this case, client authorization header value must match a secret string/shared key)
+            app.UseAuthentication();
 
             app.UseMvc();
 

@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using VideotapesGalore.Models.DTOs;
 using VideotapesGalore.Models.Exceptions;
 using VideotapesGalore.Models.InputModels;
@@ -133,6 +137,54 @@ namespace VideotapesGalore.WebApi.Controllers
         public IActionResult DeleteTape(int Id)
         {
             _tapeService.DeleteTape(Id);
+            return NoContent();
+        }
+
+        /// <summary>
+        /// RESTRICTED ROUTE, ONLY ACCESSIBLE WITH SECRET KEY
+        /// Initializes tapes from initialization file
+        /// </summary>
+        /// <response code="204">Video tape removed</response>
+        /// <response code="401">Client not authorized for conducting initialization</response>
+        /// <response code="403">Tapes already initialized in some form</response>
+        [HttpPost ("initialize")]
+        [Authorize(Policy="InitializationAuth")]
+        [ProducesResponseType (204)]
+        [ProducesResponseType(401, Type = typeof(ExceptionModel))]
+        [ProducesResponseType(400, Type = typeof(ExceptionModel))]
+        public IActionResult InitializeTapes()
+        {
+            // We do not initialize unless database is empty for safety reasons
+            if(_tapeService.GetAllTapes().Count > 0 ) {
+                return BadRequest(new ExceptionModel {
+                    StatusCode = (int) HttpStatusCode.BadRequest,
+                    Message = "Tapes have already initialized in some form"
+                });
+            }
+            // Otherwise add tapes from initialization file
+            using (StreamReader r = new StreamReader("./Resources/tapes.json")) {
+                string json = r.ReadToEnd();
+                dynamic tapesJSON = JsonConvert.DeserializeObject(json);
+                foreach(var tapeJSON in tapesJSON)
+                {
+                    // Generate input model from json tape
+                    TapeInputModel tape = new TapeInputModel {
+                        Title = tapeJSON.title,
+                        Director = $"{tapeJSON.director_first_name} {tapeJSON.director_last_name}",
+                        Type = tapeJSON.type,
+                        ReleaseDate = tapeJSON.release_date,
+                        EIDR = tapeJSON.eidr
+                    };
+                    // Check if tape input model is valid
+                    if (!ModelState.IsValid) {
+                        IEnumerable<string> errorList = ModelState.Values.SelectMany(v => v.Errors).Select(x => x.ErrorMessage);
+                        throw new InputFormatException("Video tape in initialization file improperly formatted.", errorList);
+                    }
+                    // Create new tape if input model was valid
+                    Console.WriteLine($"adding tape {tapeJSON.id} of {tapesJSON.Count}");
+                    _tapeService.CreateTape(tape);
+                }
+            }
             return NoContent();
         }
     }

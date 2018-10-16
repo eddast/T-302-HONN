@@ -34,6 +34,7 @@ namespace VideotapesGalore.WebApi.Extensions
                     // Badly formatted input exception (412) when model input is invalid
                     if      (exception is ResourceNotFoundException)    statusCode = (int) HttpStatusCode.NotFound;
                     else if (exception is ParameterFormatException)     statusCode = (int) HttpStatusCode.BadRequest;
+                    else if (exception is AuthorizationException)       statusCode = (int) HttpStatusCode.Unauthorized;
                     else if (exception is InputFormatException)         statusCode = (int) HttpStatusCode.PreconditionFailed;
 
                     // Log explicit exception message when exception occurs to log file

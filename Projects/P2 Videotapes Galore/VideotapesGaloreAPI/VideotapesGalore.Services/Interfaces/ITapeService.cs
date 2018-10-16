@@ -70,6 +70,6 @@ namespace VideotapesGalore.Services.Interfaces
         /// </summary>
         /// <param name="TapeId"></param>
         /// <param name="UserId"></param>
-        void RemoveBorrowRecord(int TapeId, int UserId);
+        void ReturnTape(int TapeId, int UserId);
     }
 }

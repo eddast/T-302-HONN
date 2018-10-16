@@ -52,10 +52,10 @@ namespace VideotapesGalore.Repositories.Implementation
         /// </summary>
         /// <param name="Id">id of borrow record to update</param>
         /// <param name="BorrowRecord">new borrow record values to set to old borrow record</param>
-        public void EditBorrowRecord(int Id, BorrowRecordInputModel BorrowRecord)
+        public void EditBorrowRecord(int TapeId, int UserId, BorrowRecordInputModel BorrowRecord)
         {
             var updateModel = Mapper.Map<BorrowRecord>(BorrowRecord);
-            var toUpdate = _dbContext.BorrowRecords.FirstOrDefault(record => record.Id == Id);
+            var toUpdate = _dbContext.BorrowRecords.FirstOrDefault(record => record.UserId == UserId && record.TapeId == TapeId);
             _dbContext.Attach(toUpdate);
             this.UpdateBorrowRecord(ref toUpdate, updateModel);
             _dbContext.SaveChanges();
@@ -65,9 +65,11 @@ namespace VideotapesGalore.Repositories.Implementation
         /// Deletes borrow record from system
         /// </summary>
         /// <param name="Id">the id of the borrow record to delete from system</param>
-        public void DeleteBorrowRecord(int Id)
+        public void ReturnTape(int TapeId, int UserId)
         {
-            _dbContext.BorrowRecords.Remove(_dbContext.BorrowRecords.FirstOrDefault(record => record.Id == Id));
+            var BorrowRecord = _dbContext.BorrowRecords.FirstOrDefault(t => t.TapeId == TapeId && t.UserId == UserId);
+            _dbContext.Attach(BorrowRecord);
+            BorrowRecord.ReturnDate = DateTime.Now;
             _dbContext.SaveChanges();
         }
 

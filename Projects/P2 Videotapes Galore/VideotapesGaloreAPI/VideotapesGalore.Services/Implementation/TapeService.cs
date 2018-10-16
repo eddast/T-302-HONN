@@ -117,10 +117,10 @@ namespace VideotapesGalore.Services.Implementations
             else _tapeRepository.DeleteTape(Id);
         }
         /// <summary>
-        /// 
+        /// Gets all tapes that user has on loan by user id
         /// </summary>
-        /// <param name="UserId"></param>
-        /// <returns></returns>
+        /// <param name="UserId">Id of user to get all tapes on loan for</param>
+        /// <returns>List of tape borrow records for given user</returns>
         public List<TapeBorrowRecordDTO> GetTapesForUserOnLoan(int UserId)
         {
             var User = _userRepository.GetAllUsers().FirstOrDefault(t => t.Id == UserId);
@@ -139,11 +139,11 @@ namespace VideotapesGalore.Services.Implementations
             return Tapes;
         }
         /// <summary>
-        /// 
+        /// Creates a new borrow record into database
         /// </summary>
-        /// <param name="TapeId"></param>
-        /// <param name="UserId"></param>
-        /// <param name="BorrowRecord"></param>
+        /// <param name="TapeId">Id of tape to loan</param>
+        /// <param name="UserId">Id of user borrowing tape</param>
+        /// <param name="BorrowRecord">Borrow record input model with dates</param>
         public void CreateBorrowRecord(int TapeId, int UserId, BorrowRecordInputModel BorrowRecord)
         {
             ValidateBorrowRecord(TapeId, UserId);
@@ -154,33 +154,31 @@ namespace VideotapesGalore.Services.Implementations
             _borrowRecordRepository.CreateBorrowRecord(Record);
         }
         /// <summary>
-        /// 
+        /// Updates borrow record
         /// </summary>
-        /// <param name="TapeId"></param>
-        /// <param name="UserId"></param>
-        /// <param name="BorrowRecord"></param>
+        /// <param name="TapeId">Id of tape to update record for</param>
+        /// <param name="UserId">Id of user to update record for</param>
+        /// <param name="BorrowRecord">The input model for borrow record to update to</param>
         public void UpdateBorrowRecord(int TapeId, int UserId, BorrowRecordInputModel BorrowRecord)
         {
             ValidateBorrowRecord(TapeId, UserId);
-
             _borrowRecordRepository.EditBorrowRecord(TapeId, UserId, BorrowRecord);
         }
         /// <summary>
-        /// 
+        /// Returns borrow record
         /// </summary>
-        /// <param name="TapeId"></param>
-        /// <param name="UserId"></param>
+        /// <param name="TapeId">Id of tape to return</param>
+        /// <param name="UserId">Id of user returning tape</param>
         public void ReturnTape(int TapeId, int UserId)
         {
             ValidateBorrowRecord(TapeId, UserId);
-
             _borrowRecordRepository.ReturnTape(TapeId, UserId);
         }
         /// <summary>
-        /// 
+        /// Validates borrow record, i.e. if both user and tape exists
         /// </summary>
-        /// <param name="TapeId"></param>
-        /// <param name="UserId"></param>
+        /// <param name="TapeId">Id of tape in borrow record</param>
+        /// <param name="UserId">Id of user in borrow record</param>
         private void ValidateBorrowRecord(int TapeId, int UserId)
         {
             var Tape = _tapeRepository.GetAllTapes().FirstOrDefault(t => t.Id == TapeId);

@@ -1,9 +1,21 @@
 # Videotapes Galore: Convenient Management Tool for your Video Tapes!
 Videotapes Galore is a management system suitable to small-to-medium sized video tape libraries that manages and holds records of video tape borrows, users, video tape reviews and provides a personalized recommendation service to users. The system remains in development phase and no user interface is yet developed for the system, but all functionality is provided by a RESTful API implemented in C# with the .NET Core Framework. The system was developed for the course T-302-HÖNN Software Development and Design by Alexander Björnsson and Edda Steinunn Rúnarsdóttir (Reykjavík University).
 
+- [Using the API Remotely](#remote)
+- [Installing and Running the API Locally](#local)
+- [API Documentation and testing the API via Swagger](#documentation)
+- [Major Deviations from Provided System Design](#design)
+  * [Using .NET Core with C#](#dotnet)
+  * [Usage of Three Layered Design over Using Only Service Classes](#layers)
+  * [_WithBorrows_ Query Parameter in GET routes for Users and Video Tapes](#withborrows)
+  * [The Initialization Routes](#initialization)
+
+
+<a name="remote"></a>
 ## Using the API Remotely
 TODO
 
+<a name="local"></a>
 ## Installing and Running the API Locally
 All source code and dependencies for the web service API resides in the folder './VideotapesGaloreAPI'. More specifically, the web service project itself resides in the folder './VideotapesGaloreAPI/VideotapesGalore.WebApi'.
 
@@ -35,20 +47,26 @@ username$ pwd
 username$ dotnet build && dotnet run
 ```
 
+<a name="documentation"></a>
 ## API Documentation and testing the API via Swagger
 TODO
 
+<a name="design"></a>
 ## Major Deviations from Provided System Design
 TODO
 
+<a name="dotnet"></a>
 ### Using .NET Core with C#
 TODO
 
+<a name="layers"></a>
 ### Usage of Three Layered Design over Using Only Service Classes
 TODO
 
+<a name="withborrows"></a>
 ### _WithBorrows_ Query Parameter in GET routes for Users and Video Tapes
 TODO
 
+<a name="initialization"></a>
 ### The Initialization Routes
 TODO

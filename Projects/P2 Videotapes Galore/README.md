@@ -3,7 +3,7 @@ Videotapes Galore is a management system suitable to small-to-medium sized video
 
 - [Using the API Remotely](#remote)
 - [Installing and Running the API Locally](#local)
-- [API Documentation and testing the API via Swagger](#documentation)
+- [Documentation](#documentation)
 - [Major Deviations from Provided System Design](#design)
   * [Using .NET Core with C#](#dotnet)
   * [Usage of Three Layered Design over Using Only Service Classes](#layers)
@@ -48,7 +48,7 @@ username$ dotnet build && dotnet run
 ```
 
 <a name="documentation"></a>
-## API Documentation and testing the API via Swagger
+## Documentation
 TODO
 
 <a name="design"></a>

@@ -62,10 +62,11 @@ namespace VideotapesGalore.Services.Implementation
             DateTime loanDate = LoanDate.HasValue ? LoanDate.Value : DateTime.Now;
             var allUsersAndBorrows = Mapper.Map<List<UserDTO>>(_userRepository.GetAllUsers());
             List<UserDTO> usersFiltered = new List<UserDTO>();
+            var borrowRecords = _borrowRecordRepository.GetAllBorrowRecords();
             foreach (var user in allUsersAndBorrows) {
                 // Get borrow records for each user
-                var borrowRecords = _borrowRecordRepository.GetAllBorrowRecords().Where(u => u.UserId == user.Id);
-                foreach (var record in borrowRecords) {
+                var userBorrowRecords = borrowRecords.Where(u => u.UserId == user.Id);
+                foreach (var record in userBorrowRecords) {
                     // Get detailed borrow record for each user borrow IF tape was on loan at provided loan date
                     // AND for a given duration (if provided)
                     if ( MatchesLoanDate(loanDate, record.BorrowDate, record.ReturnDate) &&

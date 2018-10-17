@@ -79,12 +79,17 @@ namespace VideotapesGalore.WebApi
             services.AddHttpContextAccessor();
 
             // Set up API-specific dependency injections for services and repositories
+            
+            // Singleton is set for authorization handler and log service
+            // (i.e. serves same purpose as using factory design pattern)
             services.AddSingleton<IAuthorizationHandler, InitializationRequirementHandler>();
+            services.AddSingleton<ILogService, LogService>();
+            // Transient is set for Repositories and services as they can belong to
+            // many classes and/or controllers
             services.AddTransient<ITapeRepository, TapeRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IReviewRepository, ReviewRepository>();
             services.AddTransient<IBorrowRecordRepository, BorrowRecordRepository>();
-            services.AddSingleton<ILogService, LogService>();
             services.AddTransient<ITapeService, TapeService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IReviewService, ReviewService>();

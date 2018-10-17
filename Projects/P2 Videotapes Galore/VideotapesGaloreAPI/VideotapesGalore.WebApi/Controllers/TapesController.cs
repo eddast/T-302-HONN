@@ -47,7 +47,6 @@ namespace VideotapesGalore.WebApi.Controllers
         [Route ("")]
         [Produces ("application/json")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<TapeDTO>))]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<TapeBorrowRecordDetailsDTO>))]
         [ProducesResponseType(400, Type = typeof(ExceptionModel))]
         public IActionResult GetAllTapes([FromQuery] string LoanDate)
         {

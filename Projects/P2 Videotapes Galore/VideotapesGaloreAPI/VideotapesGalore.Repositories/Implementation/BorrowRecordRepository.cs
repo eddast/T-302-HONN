@@ -97,8 +97,9 @@ namespace VideotapesGalore.Repositories.Implementation
                     break;
                 }
             }
-            if (toUpdate == null) throw new ResourceNotFoundException($"No borrow record found for user with id {UserId} and tape with id {TapeId}");
-            if (toUpdate.ReturnDate != null && toUpdate.ReturnDate != new DateTime(0)) throw new InputFormatException("Tape has already been returned");
+            if (toUpdate == null || (toUpdate.ReturnDate != null && toUpdate.ReturnDate != new DateTime(0))) {
+                throw new InputFormatException("For all matching records of borrows for this tape to this user, tape has already been returned");
+            }
             _dbContext.Attach(toUpdate);
             toUpdate.ReturnDate = DateTime.Now;
             _dbContext.SaveChanges();

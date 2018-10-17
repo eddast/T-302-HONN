@@ -49,25 +49,25 @@ namespace VideotapesGalore.Services.Implementations
             _tapeRepository.GetAllTapes();
 
         /// <summary>
-        /// Returns report on tape borrow record at a given date
+        /// Returns tapes filtered by that they were being loaned to a user at a given date
         /// </summary>
         /// <param name="LoanDate">Date to use to output borrow records for</param>
         /// <returns>List of tape borrow record as report</returns>
         public List<TapeDTO> GetTapeReportAtDate(DateTime LoanDate)
         {
-            List<TapeDTO> Tapes = new List<TapeDTO>();
+            List<TapeDTO> tapesOnLoan = new List<TapeDTO>();
             var allTapes = Mapper.Map<List<TapeDTO>>(_tapeRepository.GetAllTapes());
             var allTapeBorrows = _borrowRecordRepository.GetAllBorrowRecords();
             foreach (var tape in allTapes) {
                 var tapeBorrows = allTapeBorrows.Where(t => t.TapeId == tape.Id);
                 foreach(var tapeBorrow in tapeBorrows) {
                     if (MatchesLoanDate(LoanDate, tapeBorrow.BorrowDate, tapeBorrow.ReturnDate)) {
-                        Tapes.Add(tape);
+                        tapesOnLoan.Add(tape);
                         break;
                     }
                 }
             }
-            return Tapes;
+            return tapesOnLoan;
         }
         
         /// <summary>

@@ -41,21 +41,14 @@ namespace VideotapesGalore.WebApi.Controllers
 
         /// <summary>
         /// Gets list of all users in system or, if query parameter loan date and/or loan duration is provided,
-        /// gets a report of users as well as their history of tape borrows in accordance to dates and duration provided
+        /// gets list of users filtered by whether they had tapes on loan at given date and for at least the given duration of days
         /// </summary>
-        /// <param name="LoanDate">
-        /// query parameter which if provided will get report of users and borrows that
-        /// had tapes on loan at provided loan date
-        /// </param>
-        /// <param name="LoanDuration">
-        /// query parameter which if provided will get report of users and borrows that
-        /// have had tapes on loan for at least as many days as loan duration parameter provided
-        /// </param>
+        /// <param name="LoanDate">Loan date to filter user list by whether they had tapes on loan on that date</param>
+        /// <param name="LoanDuration">Loan duration to filter user list by whether they had had tapes for as least as many days as loan duration</param>
         /// <returns>
-        /// Returns list of informaton on all users in the system if no query parameters are provided
-        /// If LoanDate query parameter is provided, all users that had a tape on loan at LoanDate is returned in a report
-        /// If LoanDuration query parameter is provided, users that have had a tape on loan for that many days is returned in a report
-        /// If both LoanDate and LoanDuration query parameters are provided, a report on users that had tapes on loan at LoanDate AND had had tapes on loan for LoanDuration days are returned
+        /// Returns list of informaton on all users in the system if no query parameters are provided. 
+        /// If query parameters are provided, returns a list of users filtered by whether they had tapes 
+        /// on loan at provided query parameter loan date and for at least the given query parameter loan duration of days
         /// </returns>
         /// <response code="200">Success</response>
         /// <response code="400">LoanDate improperly formatted</response>
@@ -86,7 +79,7 @@ namespace VideotapesGalore.WebApi.Controllers
                 if (!int.TryParse(LoanDuration, out duration)) throw new ParameterFormatException("LoanDuration");
                 else loanDuration = duration;
             }
-            return Ok(_userService.GetAllUsersAndBorrows(loanDate, loanDuration));
+            return Ok(_userService.GetUsersReportAtDateForDuration(loanDate, loanDuration));
         }
 
         /// <summary>
@@ -105,10 +98,10 @@ namespace VideotapesGalore.WebApi.Controllers
             Ok(_userService.GetUserById(id));
 
         /// <summary>
-        /// Creates a new user for system
+        /// Creates a new user and adds to system
         /// </summary>
         /// <param name="User">The user input model</param>
-        /// <returns>A status code of 201 created and a set Location header if model is correctly formatted, otherwise error.</returns>
+        /// <returns>A status code of 201 created and a set Location header for new user</returns>
         /// <response code="201">User created</response>
         /// <response code="412">User input model improperly formatted</response>
         [HttpPost]
@@ -129,7 +122,7 @@ namespace VideotapesGalore.WebApi.Controllers
         }
 
         /// <summary>
-        /// Updates user within the system
+        /// Updates existing user within the system
         /// </summary>
         /// <param name="id">Id associated with user of the system</param>
         /// <param name="User">The user input model</param>
@@ -170,7 +163,7 @@ namespace VideotapesGalore.WebApi.Controllers
         }
 
         /// <summary>
-        /// Gets all borrow records of the tapes user currently has on loan
+        /// Gets all borrow records of tapes that given user currently has on loan
         /// </summary>
         /// <param name="Id">Id associated with user of the system</param>
         /// <returns>A status code of 200 along with all borrows of tapes that user currently has on loan</returns>
@@ -209,8 +202,10 @@ namespace VideotapesGalore.WebApi.Controllers
         }
 
         /// <summary>
-        /// Updates borrow record for user and tape. This route is available to admins only so 
-        /// full flexibility is provided for input model values despite possible inconsistencies
+        /// Updates borrow record for user and tape. BEWARE: since this route is available to admins only  
+        /// full flexibility is provided for input model dates despite possible inconsistencies as result 
+        /// in terms of system's restrictions and functionality, so use carefully.
+        /// (Executing bad PUT command here can f.x. can violate that a given tape can't be on loan at the same time)
         /// </summary>
         /// <param name="UserId">Id associated with user of the system</param>
         /// <param name="TapeId">Id associated with tape of the system</param>
@@ -234,6 +229,18 @@ namespace VideotapesGalore.WebApi.Controllers
             return NoContent();
         }
 
+
+        /// <summary>
+        /// Returns a tape in system (return date is set to today)
+        /// </summary>
+        /// <param name="UserId">Id associated with user of the system</param>
+        /// <param name="TapeId">Id associated with tape of the system</param>
+        /// <returns></returns>
+        /// <response code="204">Tape returned</response>
+        /// <response code="404">Tape not found</response>
+        /// <response code="404">User not found</response>
+        /// <response code="404">No borrow record for user and tape found</response>
+        /// <response code="412">For all matching borrow records, tape has already returned by user</response>
         [HttpDelete ("{userId:int}/tapes/{tapeId:int}")]
         [ProducesResponseType (204)]
         [ProducesResponseType (404, Type = typeof(ExceptionModel))]

@@ -57,7 +57,7 @@ namespace VideotapesGalore.Services.Implementation
         /// <param name="LoanDate">Date to base record of users borrowing tapes on</param>
         /// <param name="LoanDuration">Duration in days to base record of users borrowing tapes for</param>
         /// <returns>List of user borrow record as report</returns>
-        public List<UserAndBorrowedTapesDTO> GetAllUsersAndBorrows(DateTime? LoanDate, int? LoanDuration)
+        public List<UserAndBorrowedTapesDTO> GetUsersReportAtDateForDuration(DateTime? LoanDate, int? LoanDuration)
         {
             DateTime loanDate = LoanDate.HasValue ? LoanDate.Value : DateTime.Now;
             var allUsersAndBorrows = Mapper.Map<List<UserAndBorrowedTapesDTO>>(_userRepository.GetAllUsers());

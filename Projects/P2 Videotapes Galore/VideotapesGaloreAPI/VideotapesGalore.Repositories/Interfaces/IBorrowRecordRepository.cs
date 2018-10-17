@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using VideotapesGalore.Models.DTOs;
+using VideotapesGalore.Models.Entities;
 using VideotapesGalore.Models.InputModels;
 
 namespace VideotapesGalore.Repositories.Interfaces
@@ -26,11 +27,22 @@ namespace VideotapesGalore.Repositories.Interfaces
         /// </summary>
         /// <param name="Id">id of borrow record to update</param>
         /// <param name="BorrowRecord">new borrow record values to set to old borrow record</param>
-        void EditBorrowRecord(int TapeId, int UserId, BorrowRecordInputModel BorrowRecord);
+        void EditBorrowRecord(int Id, BorrowRecordInputModel BorrowRecord);
         /// <summary>
         /// Deletes borrow record from system
         /// </summary>
         /// <param name="Id">the id of the borrow record to delete from system</param>
-        void ReturnTape(int TapeId, int UserId);
+        void ReturnTape(int Id);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="TapeId"></param>
+        BorrowRecord GetCurrentBorrowRecord(int TapeId);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <param name="TapeId"></param>
+        BorrowRecord GetCurrentBorrowRecordForUser(int UserId, int TapeId);
     }
 }

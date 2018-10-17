@@ -1,0 +1,46 @@
+===================================================
+    Edda Steinunn Rúnarsdóttir - eddasr15
+    T-302-HONN Hönnun og Smíði Hugbúnaðar
+    Háskólinn við Reykjavík
+    Verkefni: D-07
+    Skil: 10.10.2018
+    Hluti: Til Umhugsunar (allir liðir)
+===================================================
+
+
+
+
+
+========================
+        ÆFING 1
+========================
+
+
+1.  OBS:	Takið eftir að Movie klasinn er ekki einfaldur Data transfer object heldur
+		hefur hann ýmsar aðgerðir
+
+2.	Q:	Hvað gerir fallið initialize?
+	A:	Upphafsstillir allar breytur hlutsins í default/unspecified gildi
+		(þ.e. 0 eða null eða "")
+
+3.	Q:	Fallið setMovieDataGateway er notað til að setja útfærsluna í service.
+		Hvaða mynstur er þetta?
+	A:	Þetta er dependency injection men setter injection
+
+
+
+========================
+        ÆFING 3
+========================
+
+
+1.	Q:	Movie klasinn getur nú yfirfarið hvort hann sjálfur er löglegur eða ekki.
+		Takið eftir að einfalt er að bæta við nýjum validator klösum.
+		Þetta uppfyllir hvaða prinsipp?
+	A:	Það að það er betra að útvíkka kerfið heldur en að bæta á það (extend,
+		not add).
+
+1.	Q:	Takið eftir að new virkinn tekur this sem færibreytu, hvað þýðir það?
+	A:	Það þýðir að DefaultMovieValidator á að validate-a það tilvik af Movie
+		sem verið er að vinna með í Movie objectinu þegar það object kallar á
+		initialize 

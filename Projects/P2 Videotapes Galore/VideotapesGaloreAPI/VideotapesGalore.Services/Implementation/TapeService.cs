@@ -41,6 +41,7 @@ namespace VideotapesGalore.Services.Implementations
             this._borrowRecordRepository = borrowRecordRepository;
             this._userRepository = userRepository;
         }
+
         /// <summary>
         /// Gets a list of all tapes in system
         /// </summary>
@@ -123,13 +124,13 @@ namespace VideotapesGalore.Services.Implementations
         public List<TapeBorrowRecordDTO> GetTapesForUserOnLoan(int UserId)
         {
             var User = _userRepository.GetAllUsers().FirstOrDefault(t => t.Id == UserId);
-            if (User == null) throw new ResourceNotFoundException($"User with id {UserId} does not exist.");
+            if (User == null) throw new ResourceNotFoundException($"User with id {UserId} not found.");
             var UserRecords = _borrowRecordRepository.GetAllBorrowRecords().Where(t => t.UserId == UserId && (t.ReturnDate == null || t.ReturnDate == new DateTime(0))).ToList();
             List<TapeBorrowRecordDTO> Tapes = new List<TapeBorrowRecordDTO>();
             var AllTapes = _tapeRepository.GetAllTapes();
             foreach (var Record in UserRecords) {
                 var Tape = AllTapes.FirstOrDefault(t => t.Id == Record.TapeId);
-                if (Tape == null) throw new ResourceNotFoundException($"Video tape with id {Record.TapeId} does not exist.");
+                if (Tape == null) throw new ResourceNotFoundException($"Video tape with id {Record.TapeId} not found.");
                 var TapeBorrowRecord = Mapper.Map<TapeBorrowRecordDTO>(Tape);
                 TapeBorrowRecord.BorrowDate = Record.BorrowDate;
                 TapeBorrowRecord.ReturnDate = null;

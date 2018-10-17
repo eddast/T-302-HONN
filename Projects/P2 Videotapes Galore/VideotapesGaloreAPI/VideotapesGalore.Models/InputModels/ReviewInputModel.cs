@@ -11,7 +11,7 @@ namespace VideotapesGalore.Models.InputModels {
     /// </summary>
     [Display(Name = "User rating")]
     [Required(ErrorMessage = "Rating is required")]
-    [Range(0, 5, ErrorMessage = "Rating must be a numeric value between 1-5")]
-    public int Rating { get; set; }
+    [Range(1, 5, ErrorMessage = "Rating must be a numeric value between 1-5")]
+    public int? Rating { get; set; }
   }
 }

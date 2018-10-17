@@ -71,10 +71,6 @@ TODO
 ### Usage of Three Layered Design over Using Only Service Classes
 TODO
 
-<a name="withborrows"></a>
-### _WithBorrows_ Query Parameter in GET routes for Users and Video Tapes
-TODO
-
 <a name="initialization"></a>
 ### The Initialization Routes
 TODO

@@ -147,7 +147,7 @@ namespace VideotapesGalore.Services.Implementations
         {
             ValidateBorrowRecord(TapeId, UserId);
             var currentRecord = _borrowRecordRepository.GetCurrentBorrowRecord(TapeId);
-            if (currentRecord == null) throw new InputFormatException("Tape is already on loan");
+            if (currentRecord != null) throw new InputFormatException("Tape is already on loan");
             if (BorrowRecord == null) {
                 BorrowRecord = new BorrowRecordInputModel{BorrowDate = DateTime.Now};
             }
@@ -166,7 +166,7 @@ namespace VideotapesGalore.Services.Implementations
         {
             ValidateBorrowRecord(TapeId, UserId);
             var prevRecord = _borrowRecordRepository.GetCurrentBorrowRecordForUser(UserId, TapeId);
-            if (prevRecord == null) throw new ResourceNotFoundException($"Borrow record not found for user with id {UserId} and tape with id {TapeId}");
+            if (prevRecord == null) throw new ResourceNotFoundException($"User does not have the specified tape on loan");
             _borrowRecordRepository.EditBorrowRecord(prevRecord.Id, BorrowRecord);
         }
         /// <summary>
@@ -178,7 +178,7 @@ namespace VideotapesGalore.Services.Implementations
         {
             ValidateBorrowRecord(TapeId, UserId);
             var prevRecord = _borrowRecordRepository.GetCurrentBorrowRecordForUser(UserId, TapeId);
-            if (prevRecord == null) throw new ResourceNotFoundException($"Borrow record not found for user with id {UserId} and tape with id {TapeId}");
+            if (prevRecord == null) throw new ResourceNotFoundException($"User does not have the specified tape on loan");
             _borrowRecordRepository.ReturnTape(prevRecord.Id);
         }
         /// <summary>

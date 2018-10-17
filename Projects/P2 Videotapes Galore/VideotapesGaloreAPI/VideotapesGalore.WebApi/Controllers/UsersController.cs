@@ -20,24 +20,32 @@ namespace VideotapesGalore.WebApi.Controllers
     [Route ("api/v1/users")]
     public class UsersController : Controller {
 
-        /// <summary>
-        /// service used to fetch data
-        /// </summary>
+        /// <summary>service used to fetch and manipulate data on users</summary>
         private readonly IUserService _userService;
-        /// <summary>
-        /// service used to fetch tape data
-        /// </summary>
+        /// <summary>service used to fetch and manipulate tape data</summary>
         private readonly ITapeService _tapeService;
+        /// <summary>service used to fetch and manipulate review data</summary>
+        private readonly IReviewService _reviewService;
 
         /// <summary>
-        /// Set the user service to use
+        /// Set the services as dependency injection for user routes
         /// </summary>
         /// <param name="userService">user service</param>
         /// <param name="tapeService">tape service</param>
-        public UsersController(IUserService userService, ITapeService tapeService) { 
+        /// <param name="reviewService">review service</param>
+        public UsersController(IUserService userService, ITapeService tapeService, IReviewService reviewService)
+        { 
             this._userService = userService;
             this._tapeService = tapeService;
+            this._reviewService = reviewService;
         }
+
+
+        /********************************
+         *                              *
+         *      USER CRUD FUNCTIONS     *
+         *                              *
+         ********************************/
 
         /// <summary>
         /// Gets list of all users in system or, if query parameter loan date and/or loan duration is provided,
@@ -161,6 +169,12 @@ namespace VideotapesGalore.WebApi.Controllers
             return NoContent();
         }
 
+        /****************************
+         *                          *
+         *      USER BORROWS        *
+         *                          *
+         ****************************/
+
         /// <summary>
         /// Gets all borrow records of tapes that given user currently has on loan
         /// </summary>
@@ -248,6 +262,40 @@ namespace VideotapesGalore.WebApi.Controllers
             _tapeService.ReturnTape(TapeId, UserId);
             return NoContent();
         }
+
+        /****************************
+         *                          *
+         *      USER REVIEWS        *
+         *                          *
+         ****************************/
+
+        /// <summary>
+        /// Returns a tape in system (return date is set to today)
+        /// </summary>
+        /// <param name="UserId">Id associated with user of the system</param>
+        /// <param name="TapeId">Id associated with tape of the system</param>
+        /// <returns></returns>
+        /// <response code="204">Tape returned</response>
+        /// <response code="404">Tape not found</response>
+        /// <response code="404">User not found</response>
+        /// <response code="404">No borrow record for user and tape found</response>
+        /// <response code="412">For all matching borrow records, tape has already returned by user</response>
+        // [HttpDelete ("{userId:int}/reviews/{tapeId:int}")]
+        // [ProducesResponseType (204)]
+        // [ProducesResponseType (404, Type = typeof(ExceptionModel))]
+        //  public IActionResult ReviewTape(int UserId, int TapeId, [FromBody] ReviewInputModel Review)
+        // {
+        //     _reviewService.ReviewTape(TapeId, UserId, Review);
+        //     return NoContent();
+        // }
+
+
+        /********************************
+         *                              *
+         *      USER INITIALIZATION     *
+         *                              *
+         ********************************/
+
         /// <summary>
         /// RESTRICTED ROUTE, ONLY ACCESSIBLE WITH SECRET KEY.  
         /// Initializes users and borrow records from local initialization file if no users are in system. 

@@ -43,7 +43,7 @@ username$ pwd
 username$ dotnet run
 ```
 
-Once web service is running, all routes in the system are available from the host http://localhost:5000. Once the web service is running, a thorough Swagger documentation explaining all API routes, their functionalities and how to query the API is available from http://localhost:5000/api/documentation.
+Once web service is running, all routes in the system are available from the host http://localhost:5000. Once the web service is running, a thorough Swagger documentation explaining all API routes, their functionalities and how to query the API is available from http://localhost:5000/api/v1/documentation.
 
 **Note** that on Linux-based operating systems both the build and run command can be run at the same time for convenience with dotnet build && dotnet run which builds the web service project and runs it at the same time. See example terminal command below:
 
@@ -55,7 +55,9 @@ username$ dotnet build && dotnet run
 
 <a name="documentation"></a>
 ## Documentation
-TODO
+Developers decided on using Swagger as documentation tool for the API due to Swagger being a thorough documentation tool with good support for .NET core. In addition, minimal effort is required to generate a Swagger documentation thus documentation effort is minimized and productivity is enhanced. The Swagger documentation is generated from XML comments within the code which is why the project uses XML-like comments throughout for consistency. The Swagger document well describes the capabilities, (potential) access restrictions, return values, parameters and lists possible API responses for all routes in the system, so the user should not encounter difficulties using the API when navigating it with the help of the documentation. The documentation also clarifies all input models, data transfer objects returned from routes and parameters/body passed in to routes in terms of their types and attributes and gives example values for each such value potentially encountered using the API. Lastly, one can try querying the API via the Swagger documentation in an easy manner by clicking the "try it" options under each route which facilitates demonstration.
+
+The API's Swagger documentation is available from the subroute /api/v1/documentation, e.g. at the URL http://localhost:5000/api/v1/documentation when the API is run locally and at the URL http://<hostname>/api/v1/documentation when accessed remotely.
 
 <a name="design"></a>
 ## Major Deviations from Provided System Design

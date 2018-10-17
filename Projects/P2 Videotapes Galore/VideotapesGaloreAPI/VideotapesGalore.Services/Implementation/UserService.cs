@@ -152,7 +152,10 @@ namespace VideotapesGalore.Services.Implementation
         /// <param name="LoanDate">loan date for tape</param>
         /// <param name="BorrowDate">borrow date for tape</param>
         /// <returns></returns>
-        private bool MatchesDuration(int? duration, DateTime LoanDate, DateTime BorrowDate) => 
-            !duration.HasValue || (duration.HasValue && (LoanDate - BorrowDate).TotalDays == duration.Value);
+        private bool MatchesDuration(int? duration, DateTime LoanDate, DateTime BorrowDate)
+        {
+            Console.WriteLine($"{LoanDate}-{BorrowDate} total days between: ${(LoanDate - BorrowDate).TotalDays}");
+            return !duration.HasValue || (LoanDate - BorrowDate).TotalDays >= duration.Value;
+        }
     }
 }

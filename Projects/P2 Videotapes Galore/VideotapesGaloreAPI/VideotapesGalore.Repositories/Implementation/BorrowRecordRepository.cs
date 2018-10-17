@@ -41,7 +41,7 @@ namespace VideotapesGalore.Repositories.Implementation
         /// </summary>
         /// <param name="BorrowRecord">Borrow record input model to create entity borrow record from</param>
         /// <returns>The id of the new borrow record</returns>
-        public int CreateBorrowRecord(BorrowRecordMinimalDTO BorrowRecord)
+        public int CreateBorrowRecord(BorrowRecordDTO BorrowRecord)
         {
             _dbContext.BorrowRecords.Add(Mapper.Map<BorrowRecord>(BorrowRecord));
             _dbContext.SaveChanges();

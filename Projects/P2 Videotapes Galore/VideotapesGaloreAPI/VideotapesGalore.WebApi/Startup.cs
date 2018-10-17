@@ -150,13 +150,11 @@ namespace VideotapesGalore.WebApi
                 // Map DTOs to detail DTOs
                 cfg.CreateMap<TapeDetailDTO, TapeDTO>();
                 cfg.CreateMap<UserBorrowRecordDTO, UserDTO>();
-                cfg.CreateMap<UserAndBorrowedTapesDTO, UserDTO>();
                 cfg.CreateMap<TapeDTO, TapeBorrowRecordDTO>();
-                cfg.CreateMap<BorrowRecordInputModel, BorrowRecordMinimalDTO>();
+                cfg.CreateMap<BorrowRecordInputModel, BorrowRecordDTO>();
                 // Map detail DTOs to DTOs
                 cfg.CreateMap<TapeDTO, TapeDetailDTO>();
                 cfg.CreateMap<UserDTO, UserBorrowRecordDTO>();
-                cfg.CreateMap<UserDTO, UserAndBorrowedTapesDTO>();
                 cfg.CreateMap<TapeBorrowRecordDTO, TapeDTO>();
                 // Map DTOs to entities
                 cfg.CreateMap<TapeDTO, Tape>();
@@ -176,7 +174,7 @@ namespace VideotapesGalore.WebApi
                 cfg.CreateMap<BorrowRecordInputModel, BorrowRecord>()
                     .ForMember(m => m.CreatedAt, opt => opt.UseValue(DateTime.Now))
                     .ForMember(m => m.LastModified, opt => opt.UseValue(DateTime.Now));
-                cfg.CreateMap<BorrowRecordMinimalDTO, BorrowRecord>()
+                cfg.CreateMap<BorrowRecordDTO, BorrowRecord>()
                     .ForMember(m => m.CreatedAt, opt => opt.UseValue(DateTime.Now))
                     .ForMember(m => m.LastModified, opt => opt.UseValue(DateTime.Now));
             });

@@ -53,12 +53,13 @@ namespace VideotapesGalore.Repositories.Implementation
         /// <summary>
         /// Updates review by review id
         /// </summary>
-        /// <param name="Id">id of review to update</param>
+        /// <param name="UserId">the id of the user to delete review by from system</param>
+        /// <param name="TapeId">the id of the tape to delete review for from system</param>
         /// <param name="Review">new review values to set to old review</param>
-        public void EditReview(int Id, ReviewInputModel Review)
+        public void EditReview(int UserId, int TapeId, ReviewInputModel Review)
         {
             var updateModel = Mapper.Map<Review>(Review);
-            var toUpdate = _dbContext.Reviews.FirstOrDefault(review => review.Id == Id);
+            var toUpdate = _dbContext.Reviews.FirstOrDefault(review => review.UserId == UserId && review.TapeId == TapeId);
             _dbContext.Attach(toUpdate);
             toUpdate.Rating = updateModel.Rating;
             toUpdate.LastModified = updateModel.LastModified;
@@ -68,10 +69,11 @@ namespace VideotapesGalore.Repositories.Implementation
         /// <summary>
         /// Deletes review from system
         /// </summary>
-        /// <param name="Id">the id of the review to delete from system</param>
-        public void DeleteReview(int Id)
+        /// <param name="UserId">the id of the user to delete review by from system</param>
+        /// <param name="TapeId">the id of the tape to delete review for from system</param>
+        public void DeleteReview(int UserId, int TapeId)
         {
-            _dbContext.Reviews.Remove(_dbContext.Reviews.FirstOrDefault(review => review.Id == Id));
+            _dbContext.Reviews.Remove(_dbContext.Reviews.FirstOrDefault(review => review.UserId == UserId && review.TapeId == TapeId));
             _dbContext.SaveChanges();
         }
     }

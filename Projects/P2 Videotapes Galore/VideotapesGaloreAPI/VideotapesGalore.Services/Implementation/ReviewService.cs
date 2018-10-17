@@ -99,7 +99,7 @@ namespace VideotapesGalore.Services.Implementation
             ValidateUser(UserId); ValidateTape(TapeId);
             var toUpdate = _reviewRepository.GetAllReviews().FirstOrDefault(r => r.UserId == UserId && r.TapeId == TapeId);
             if(toUpdate == null) throw new ResourceNotFoundException($"Cannot edit non-existing review: no review was found by user with id {UserId} for tape with id {TapeId}.");
-            _reviewRepository.EditReview(toUpdate.Id, Review);
+            _reviewRepository.EditReview(UserId, TapeId, Review);
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace VideotapesGalore.Services.Implementation
             ValidateUser(UserId); ValidateTape(TapeId);
             var toDelete = _reviewRepository.GetAllReviews().FirstOrDefault(r => r.UserId == UserId && r.TapeId == TapeId);
             if(toDelete == null) throw new ResourceNotFoundException($"Cannot delete non-existing review: no review was found by user with id {UserId} for tape with id {TapeId}.");
-            _reviewRepository.DeleteReview(toDelete.Id);
+            _reviewRepository.DeleteReview(UserId, TapeId);
         }
 
         /// <summary>Validates user by id, throws error if no user exists with id</summary>

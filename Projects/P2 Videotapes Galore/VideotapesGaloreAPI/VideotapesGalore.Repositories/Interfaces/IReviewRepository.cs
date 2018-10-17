@@ -25,13 +25,15 @@ namespace VideotapesGalore.Repositories.Interfaces
         /// <summary>
         /// Updates review by review id
         /// </summary>
-        /// <param name="Id">id of review to update</param>
+        /// <param name="UserId">the id of the user to delete review by from system</param>
+        /// <param name="TapeId">the id of the tape to delete review for from system</param>
         /// <param name="Review">new review values to set to old review</param>
-        void EditReview(int Id, ReviewInputModel Review);
+        void EditReview(int UserId, int TapeId, ReviewInputModel Review);
         /// <summary>
         /// Deletes review from system
         /// </summary>
-        /// <param name="Id">the id of the review to delete from system</param>
-        void DeleteReview(int Id);
+        /// <param name="UserId">the id of the user to delete review by from system</param>
+        /// <param name="TapeId">the id of the tape to delete review for from system</param>
+        void DeleteReview(int UserId, int TapeId);
     }
 }

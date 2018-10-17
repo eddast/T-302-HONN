@@ -6,10 +6,6 @@ namespace VideotapesGalore.Models.DTOs {
   /// </summary>
   public class ReviewDTO {
     /// <summary>
-    /// Review unique ID
-    /// </summary>
-    public int Id { get; set; }
-    /// <summary>
     /// User ID of user that conducted review
     /// </summary>
     public int UserId { get; set; }

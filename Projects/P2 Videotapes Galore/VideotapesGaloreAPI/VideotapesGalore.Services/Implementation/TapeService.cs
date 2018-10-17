@@ -152,7 +152,7 @@ namespace VideotapesGalore.Services.Implementations
             if (BorrowRecord == null) {
                 BorrowRecord = new BorrowRecordInputModel{BorrowDate = DateTime.Now};
             }
-            var Record = Mapper.Map<BorrowRecordMinimalDTO>(BorrowRecord);
+            var Record = Mapper.Map<BorrowRecordDTO>(BorrowRecord);
             Record.TapeId = TapeId;
             Record.UserId = UserId;
             _borrowRecordRepository.CreateBorrowRecord(Record);

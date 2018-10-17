@@ -20,17 +20,28 @@ namespace VideotapesGalore.WebApi.Controllers
     [Route ("api/v1/tapes")]
     public class TapesController : Controller {
 
-        /// <summary>
-        /// service used to fetch data
-        /// </summary>
+        /// <summary>service used to fetch and manipulate tape data</summary>
         private readonly ITapeService _tapeService;
 
+        /// <summary>service used to fetch and manipulate review data</summary>
+        private readonly IReviewService _reviewService;
+
         /// <summary>
-        /// Set the tape service to use
+        /// Set the services as dependency injection for tape routes
         /// </summary>
         /// <param name="tapeService">tape service</param>
-        public TapesController(ITapeService tapeService) =>
+        /// <param name="reviewService">review service</param>
+        public TapesController(ITapeService tapeService, IReviewService reviewService)
+        {
             this._tapeService = tapeService;
+            this._reviewService = reviewService;
+        }
+
+        /********************************
+         *                              *
+         *      TAPES CRUD FUNCTIONS    *
+         *                              *
+         ********************************/
 
         /// <summary>
         /// Gets list of all tapes in system or, if query parameter loan date is provided,
@@ -142,6 +153,32 @@ namespace VideotapesGalore.WebApi.Controllers
             _tapeService.DeleteTape(Id);
             return NoContent();
         }
+
+        /****************************
+         *                          *
+         *      TAPE REVIEWS        *
+         *                          *
+         ****************************/
+
+        /// <summary>
+        /// Gets all reviews for all tapes
+        /// </summary>
+        /// <returns>A status code of 200 with list of all reviews for tape</returns>
+        /// <response code="200">Success</response>
+        [HttpGet ("reviews")]
+        [ProducesResponseType (200, Type= typeof(IEnumerable<ReviewDTO>))]
+        [ProducesResponseType (404, Type = typeof(ExceptionModel))]
+         public IActionResult GetAllReviews(int UserId)
+        {
+            return Ok(_reviewService.GetUserReviewsById(UserId));
+        }
+
+
+        /********************************
+         *                              *
+         *      TAPE INITIALIZATION     *
+         *                              *
+         ********************************/
 
         /// <summary>
         /// RESTRICTED ROUTE, ONLY ACCESSIBLE WITH SECRET KEY.  

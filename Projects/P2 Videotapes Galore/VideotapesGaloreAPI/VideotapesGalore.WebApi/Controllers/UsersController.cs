@@ -270,24 +270,108 @@ namespace VideotapesGalore.WebApi.Controllers
          ****************************/
 
         /// <summary>
-        /// Returns a tape in system (return date is set to today)
+        /// Gets all reviews by a given user
+        /// </summary>
+        /// <param name="UserId">Id associated with user of the system</param>
+        /// <returns>A status code of 200 with list of reviews by user</returns>
+        /// <response code="200">Success</response>
+        /// <response code="404">User not found</response>
+        [HttpGet ("{userId:int}/reviews")]
+        [ProducesResponseType (200, Type= typeof(IEnumerable<ReviewDTO>))]
+        [ProducesResponseType (404, Type = typeof(ExceptionModel))]
+         public IActionResult GetUserReviews(int UserId)
+        {
+            return Ok(_reviewService.GetUserReviewsById(UserId));
+        }
+
+        /// <summary>
+        /// Gets a review for a given tape in system for given user
         /// </summary>
         /// <param name="UserId">Id associated with user of the system</param>
         /// <param name="TapeId">Id associated with tape of the system</param>
-        /// <returns></returns>
-        /// <response code="204">Tape returned</response>
+        /// <returns>A status code of 200 to indicate success</returns>
+        /// <response code="200">Success</response>
         /// <response code="404">Tape not found</response>
         /// <response code="404">User not found</response>
-        /// <response code="404">No borrow record for user and tape found</response>
-        /// <response code="412">For all matching borrow records, tape has already returned by user</response>
-        // [HttpDelete ("{userId:int}/reviews/{tapeId:int}")]
-        // [ProducesResponseType (204)]
-        // [ProducesResponseType (404, Type = typeof(ExceptionModel))]
-        //  public IActionResult ReviewTape(int UserId, int TapeId, [FromBody] ReviewInputModel Review)
-        // {
-        //     _reviewService.ReviewTape(TapeId, UserId, Review);
-        //     return NoContent();
-        // }
+        /// <response code="404">No review for user for tape found</response>
+        [HttpGet ("{userId:int}/reviews/{tapeId:int}")]
+        [ProducesResponseType (200, Type = typeof(ReviewDTO))]
+        [ProducesResponseType (404, Type = typeof(ExceptionModel))]
+         public IActionResult GetUserReviewForTape(int UserId, int TapeId)
+        {
+            return Ok(_reviewService.GetUserReviewForTape(UserId, TapeId));
+        }
+
+        /// <summary>
+        /// Submits review for a given tape in system for given user
+        /// </summary>
+        /// <param name="UserId">Id associated with user of the system</param>
+        /// <param name="TapeId">Id associated with tape of the system</param>
+        /// <param name="Review">Input model for review including rating for tape</param>
+        /// <returns>A status code of 204 to indicate success</returns>
+        /// <response code="204">Tape reviewed</response>
+        /// <response code="404">Tape not found</response>
+        /// <response code="404">User not found</response>
+        /// <response code="412">Input model improperly formatted</response>
+        [HttpPost ("{userId:int}/reviews/{tapeId:int}")]
+        [ProducesResponseType (204)]
+        [ProducesResponseType (404, Type = typeof(ExceptionModel))]
+         public IActionResult ReviewTape(int UserId, int TapeId, [FromBody] ReviewInputModel Review)
+        {
+            // Check if input model is valid, output all errors if not
+            if (!ModelState.IsValid) { 
+                IEnumerable<string> errorList = ModelState.Values.SelectMany(v => v.Errors).Select(x => x.ErrorMessage);
+                throw new InputFormatException("Review input model improperly formatted.", errorList);
+            }
+            _reviewService.CreateUserReview(UserId, TapeId, Review);
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Deletes a review for a given tape in system for given user
+        /// </summary>
+        /// <param name="UserId">Id associated with user of the system</param>
+        /// <param name="TapeId">Id associated with tape of the system</param>
+        /// <returns>A status code of 204 to indicate success</returns>
+        /// <response code="204">Review deleted</response>
+        /// <response code="404">Tape not found</response>
+        /// <response code="404">User not found</response>
+        /// <response code="404">No review for user for tape found</response>
+        [HttpDelete ("{userId:int}/reviews/{tapeId:int}")]
+        [ProducesResponseType (204)]
+        [ProducesResponseType (404, Type = typeof(ExceptionModel))]
+         public IActionResult DeleteUserReviewForTape(int UserId, int TapeId)
+        {
+            _reviewService.DeleteUserReview(UserId, TapeId);
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Updates a review for a given tape in system for given user
+        /// </summary>
+        /// <param name="UserId">Id associated with user of the system</param>
+        /// <param name="TapeId">Id associated with tape of the system</param>
+        /// <param name="Review">Input model for review including rating for tape</param>
+        /// <returns>A status code of 204 to indicate success</returns>
+        /// <response code="204">Review deleted</response>
+        /// <response code="404">Tape not found</response>
+        /// <response code="404">User not found</response>
+        /// <response code="404">No review for user for tape found</response>
+        /// <response code="412">Review input model improperly formatted</response>
+        [HttpPut ("{userId:int}/reviews/{tapeId:int}")]
+        [ProducesResponseType (204)]
+        [ProducesResponseType (404, Type = typeof(ExceptionModel))]
+        [ProducesResponseType (412, Type = typeof(ExceptionModel))]
+         public IActionResult UpdateUserReviewForTape(int UserId, int TapeId, [FromBody] ReviewInputModel Review)
+        {
+            // Check if input model is valid, output all errors if not
+            if (!ModelState.IsValid) { 
+                IEnumerable<string> errorList = ModelState.Values.SelectMany(v => v.Errors).Select(x => x.ErrorMessage);
+                throw new InputFormatException("Review input model improperly formatted.", errorList);
+            }
+            _reviewService.EditUserReview(UserId, TapeId, Review);
+            return NoContent();
+        }
 
 
         /********************************

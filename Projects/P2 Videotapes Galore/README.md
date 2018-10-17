@@ -10,7 +10,7 @@ Videotapes Galore is a management system suitable to small-to-medium sized video
   * [Usage of Three Layered Design over Using Only Service Classes](#layers)
   * [_WithBorrows_ Query Parameter in GET routes for Users and Video Tapes](#withborrows)
   * [The Initialization Routes](#initialization)
-- [Known Limitations](#limitations)
+- [Known Limitations and Simplifications](#limitations)
 
 
 <a name="usage"></a>
@@ -80,5 +80,5 @@ TODO
 TODO
 
 <a name="limitations"></a>
-## Known Limitations
+## Known Limitations and Simplifications
 TODO

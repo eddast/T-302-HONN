@@ -21,7 +21,7 @@ namespace VideotapesGalore.Services.Interfaces
         /// </summary>
         /// <param name="LoanDate">Date to use to output borrow records for</param>
         /// <returns>List of tape borrow record as report</returns>
-        List<TapeBorrowRecordDTO> GetTapeReportAtDate(DateTime LoanDate);
+        List<TapeDTO> GetTapeReportAtDate(DateTime LoanDate);
         /// <summary>
         /// Gets tape by id, throws exception if tape is not found by id
         /// </summary>
@@ -52,12 +52,12 @@ namespace VideotapesGalore.Services.Interfaces
         /// <returns>List of tape borrow records for given user</returns>
         List<TapeBorrowRecordDTO> GetTapesForUserOnLoan(int UserId);
         /// <summary>
-        /// Creates a new borrow record into database
+        /// Creates a new borrow record into database for today
         /// </summary>
         /// <param name="TapeId">Id of tape to loan</param>
         /// <param name="UserId">Id of user borrowing tape</param>
         /// <param name="BorrowRecord">Borrow record input model with dates</param>
-        void CreateBorrowRecord(int TapeId, int UserId, BorrowRecordInputModel BorrowRecord);
+        void CreateBorrowRecord(int TapeId, int UserId, BorrowRecordInputModel BorrowRecord = null);
         /// <summary>
         /// Updates borrow record
         /// </summary>

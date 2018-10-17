@@ -53,7 +53,7 @@ namespace VideotapesGalore.Repositories.Implementation
                     }
                 }
             }
-            if (toUpdate != null) throw new InputFormatException($"Tape with id {BorrowRecord.TapeId} is already on loan");
+            if (toUpdate != null) throw new InputFormatException($"Tape with id {BorrowRecord.TapeId} already on loan");
             _dbContext.BorrowRecords.Add(Mapper.Map<BorrowRecord>(BorrowRecord));
             _dbContext.SaveChanges();
             return _dbContext.BorrowRecords.ToList().OrderByDescending(r => r.CreatedAt).FirstOrDefault().Id;

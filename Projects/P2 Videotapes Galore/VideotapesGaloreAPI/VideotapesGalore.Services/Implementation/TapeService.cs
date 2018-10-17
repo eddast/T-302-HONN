@@ -53,22 +53,21 @@ namespace VideotapesGalore.Services.Implementations
         /// </summary>
         /// <param name="LoanDate">Date to use to output borrow records for</param>
         /// <returns>List of tape borrow record as report</returns>
-        public List<TapeBorrowRecordDTO> GetTapeReportAtDate(DateTime LoanDate)
+        public List<TapeDTO> GetTapeReportAtDate(DateTime LoanDate)
         {
-            List<TapeBorrowRecordDTO> tapeBorrowRecord = new List<TapeBorrowRecordDTO>();
-            var allTapes = Mapper.Map<List<TapeBorrowRecordDTO>>(_tapeRepository.GetAllTapes());
+            List<TapeDTO> Tapes = new List<TapeDTO>();
+            var allTapes = Mapper.Map<List<TapeDTO>>(_tapeRepository.GetAllTapes());
             var allTapeBorrows = _borrowRecordRepository.GetAllBorrowRecords();
             foreach (var tape in allTapes) {
                 var tapeBorrows = allTapeBorrows.Where(t => t.TapeId == tape.Id);
                 foreach(var tapeBorrow in tapeBorrows) {
                     if (MatchesLoanDate(LoanDate, tapeBorrow.BorrowDate, tapeBorrow.ReturnDate)) {
-                        tape.BorrowDate = tapeBorrow.BorrowDate;
-                        tape.ReturnDate = tapeBorrow.ReturnDate;
-                        tapeBorrowRecord.Add(tape);
+                        Tapes.Add(tape);
+                        break;
                     }
                 }
             }
-            return tapeBorrowRecord;
+            return Tapes;
         }
         
         /// <summary>
@@ -139,7 +138,7 @@ namespace VideotapesGalore.Services.Implementations
             return Tapes;
         }
         /// <summary>
-        /// Creates a new borrow record into database
+        /// Creates a new borrow record into database for today
         /// </summary>
         /// <param name="TapeId">Id of tape to loan</param>
         /// <param name="UserId">Id of user borrowing tape</param>
@@ -147,7 +146,9 @@ namespace VideotapesGalore.Services.Implementations
         public void CreateBorrowRecord(int TapeId, int UserId, BorrowRecordInputModel BorrowRecord)
         {
             ValidateBorrowRecord(TapeId, UserId);
-
+            if(BorrowRecord == null) {
+                BorrowRecord = new BorrowRecordInputModel{BorrowDate = DateTime.Now};
+            }
             var Record = Mapper.Map<BorrowRecordMinimalDTO>(BorrowRecord);
             Record.TapeId = TapeId;
             Record.UserId = UserId;
@@ -195,8 +196,8 @@ namespace VideotapesGalore.Services.Implementations
         /// <returns></returns>
         private bool MatchesLoanDate(DateTime LoanDate, DateTime BorrowDate, DateTime? ReturnDate)
         { 
-            if(ReturnDate.HasValue) return DateTime.Compare(LoanDate, ReturnDate.Value) < 0 && DateTime.Compare(LoanDate, BorrowDate) > 0;
-            else return DateTime.Compare(LoanDate, BorrowDate) > 0;
+            if(ReturnDate.HasValue) return DateTime.Compare(LoanDate, ReturnDate.Value) < 0 && DateTime.Compare(LoanDate, BorrowDate) >= 0;
+            else return DateTime.Compare(LoanDate, BorrowDate) >= 0;
         }
     }
 }

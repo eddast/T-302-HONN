@@ -34,7 +34,7 @@ namespace VideotapesGalore.WebApi.Controllers
 
         /// <summary>
         /// Gets list of all tapes in system or, if query parameter loan date is provided,
-        /// gets a report of tape borrows
+        /// gets all tapes filtered by whether they were on loan at that given date.
         /// </summary>
         /// <param name="LoanDate">
         /// query parameter which if provided will get report of tapes and borrows that

@@ -170,11 +170,11 @@ namespace VideotapesGalore.WebApi.Controllers
         }
 
         /// <summary>
-        /// Deletes borrow records for user from the system
+        /// Gets all borrow records of the tapes user currently has on loan
         /// </summary>
         /// <param name="Id">Id associated with user of the system</param>
-        /// <returns>A status code of 204 no content.</returns>
-        /// <response code="200">Returns borrow records for user</response>
+        /// <returns>A status code of 200 along with all borrows of tapes that user currently has on loan</returns>
+        /// <response code="200">Returns list of borrows for tapes that user has on loan</response>
         /// <response code="404">User not found</response>
         [HttpGet ("{id:int}/tapes")]
         [ProducesResponseType (200, Type = typeof(IEnumerable<TapeBorrowRecordDTO>))]
@@ -185,21 +185,40 @@ namespace VideotapesGalore.WebApi.Controllers
             return Ok(BorrowRecords);
         }
 
+        /// <summary>
+        /// Registers given tape on loan (on today's date) for a given user
+        /// </summary>
+        /// <param name="UserId">Id associated with user of the system</param>
+        /// <param name="TapeId">Id associated with tape of the system</param>
+        /// <returns>A status code of 204 no content.</returns>
+        /// <response code="204">Tape registered on loan by user</response>
+        /// <response code="404">User not found</response>
         [HttpPost ("{userId:int}/tapes/{tapeId:int}")]
         [Consumes ("application/json")]
         [ProducesResponseType (201)]
         [ProducesResponseType (404, Type = typeof(ExceptionModel))]
-        public IActionResult CreateBorrowRecord(int UserId, int TapeId, [FromBody] BorrowRecordInputModel BorrowRecord)
+        public IActionResult CreateBorrowRecord(int UserId, int TapeId)
         {
              // Check if input model is valid, output all errors if not
             if (!ModelState.IsValid) { 
                 IEnumerable<string> errorList = ModelState.Values.SelectMany(v => v.Errors).Select(x => x.ErrorMessage);
                 throw new InputFormatException("User input model improperly formatted.", errorList);
             }
-            _tapeService.CreateBorrowRecord(TapeId, UserId, BorrowRecord);
+            _tapeService.CreateBorrowRecord(TapeId, UserId);
             return Created($"{UserId}/tapes/{TapeId}", null);
         }
 
+        /// <summary>
+        /// Updates borrow record for user and tape. This route is available to admins only so 
+        /// full flexibility is provided for input model values despite possible inconsistencies
+        /// </summary>
+        /// <param name="UserId">Id associated with user of the system</param>
+        /// <param name="TapeId">Id associated with tape of the system</param>
+        /// <param name="BorrowRecord">Borrow record to register with any return and borrow date</param>
+        /// <returns>A status code of 204 no content.</returns>
+        /// <response code="204">Tape registered on loan by user</response>
+        /// <response code="404">User not found</response>
+        /// <response code="404">Tape not found</response>
         [HttpPut ("{userId:int}/tapes/{tapeId:int}")]
         [Consumes ("application/json")]
         [ProducesResponseType (204)]

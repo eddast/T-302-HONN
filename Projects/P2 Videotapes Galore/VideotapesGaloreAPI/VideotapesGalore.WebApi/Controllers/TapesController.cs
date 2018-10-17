@@ -167,10 +167,88 @@ namespace VideotapesGalore.WebApi.Controllers
         /// <response code="200">Success</response>
         [HttpGet ("reviews")]
         [ProducesResponseType (200, Type= typeof(IEnumerable<ReviewDTO>))]
-        [ProducesResponseType (404, Type = typeof(ExceptionModel))]
-         public IActionResult GetAllReviews(int UserId)
+         public IActionResult GetAllReviews()
         {
-            return Ok(_reviewService.GetUserReviewsById(UserId));
+            return Ok(_reviewService.GetAllReviews());
+        }
+
+        /// <summary>
+        /// Gets all reviews for a given tape
+        /// </summary>
+        /// <param name="id">Id associated with a tape in system</param>
+        /// <returns>A status code of 200 with list of all reviews for tape</returns>
+        /// <response code="200">Success</response>
+        /// <response code="404">Tape not found</response>
+        [HttpGet ("{id:int}/reviews")]
+        [ProducesResponseType (200, Type= typeof(IEnumerable<ReviewDTO>))]
+        [ProducesResponseType (404, Type = typeof(ExceptionModel))]
+         public IActionResult GetReviewsForTape(int id)
+        {
+            return Ok(_reviewService.GetTapeReviewsById(id));
+        }
+
+        /// <summary>
+        /// Gets a review for a given tape in system for given user
+        /// </summary>
+        /// <param name="TapeId">Id associated with tape of the system</param>
+        /// <param name="UserId">Id associated with user of the system</param>
+        /// <returns>A status code of 200 to indicate success</returns>
+        /// <response code="200">Success</response>
+        /// <response code="404">Tape not found</response>
+        /// <response code="404">User not found</response>
+        /// <response code="404">No review for user for tape found</response>
+        [HttpGet ("{tapeId:int}/reviews/{userId:int}")]
+        [ProducesResponseType (200, Type = typeof(ReviewDTO))]
+        [ProducesResponseType (404, Type = typeof(ExceptionModel))]
+         public IActionResult GetTapeReviewByUser(int TapeId, int UserId)
+        {
+            return Ok(_reviewService.GetUserReviewForTape(UserId, TapeId));
+        }
+
+        /// <summary>
+        /// Deletes a review for a given tape in system for given user
+        /// </summary>
+        /// <param name="TapeId">Id associated with tape of the system</param>
+        /// <param name="UserId">Id associated with user of the system</param>
+        /// <returns>A status code of 204 to indicate success</returns>
+        /// <response code="204">Review deleted</response>
+        /// <response code="404">Tape not found</response>
+        /// <response code="404">User not found</response>
+        /// <response code="404">No review for user for tape found</response>
+        [HttpDelete ("{tapeId:int}/reviews/{userId:int}")]
+        [ProducesResponseType (204)]
+        [ProducesResponseType (404, Type = typeof(ExceptionModel))]
+         public IActionResult DeleteTapeReviewByUser(int TapeId, int UserId)
+        {
+            _reviewService.DeleteUserReview(UserId, TapeId);
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Updates a review for a given tape in system for given user
+        /// </summary>
+        /// <param name="UserId">Id associated with user of the system</param>
+        /// <param name="TapeId">Id associated with tape of the system</param>
+        /// <param name="Review">Input model for review including rating for tape</param>
+        /// <returns>A status code of 204 to indicate success</returns>
+        /// <response code="204">Review deleted</response>
+        /// <response code="404">Tape not found</response>
+        /// <response code="404">User not found</response>
+        /// <response code="404">No review for user for tape found</response>
+        /// <response code="412">Review input model improperly formatted</response>
+        [HttpPut ("{tapeId:int}/reviews/{userId:int}")]
+        [ProducesResponseType (204)]
+        [ProducesResponseType (404, Type = typeof(ExceptionModel))]
+        [ProducesResponseType (412, Type = typeof(ExceptionModel))]
+         public IActionResult UpdateUserReviewForTape(int TapeId, int UserId, [FromBody] ReviewInputModel Review)
+        {
+            // Check if input model is valid, output all errors if not
+            if (!ModelState.IsValid) { 
+                IEnumerable<string> errorList = ModelState.Values.SelectMany(v => v.Errors).Select(x => x.ErrorMessage);
+                throw new InputFormatException("Review input model improperly formatted.", errorList);
+            }
+            _reviewService.EditUserReview(UserId, TapeId, Review);
+            return NoContent();
         }
 
 

@@ -23,7 +23,7 @@ namespace VideotapesGalore.Services.Interfaces
         /// <param name="LoanDate">Date to base record of users borrowing tapes on</param>
         /// <param name="LoanDuration">Duration in days to base record of users borrowing tapes for</param>
         /// <returns>List of user borrow record as report</returns>
-        List<UserAndBorrowedTapesDTO> GetUsersReportAtDateForDuration(DateTime? LoanDate, int? LoanDuration);
+        List<UserDTO> GetUsersReportAtDateForDuration(DateTime? LoanDate, int? LoanDuration);
         /// <summary>
         /// Gets user by id with his or her borrow history, throws exception if user is not found by id
         /// </summary>

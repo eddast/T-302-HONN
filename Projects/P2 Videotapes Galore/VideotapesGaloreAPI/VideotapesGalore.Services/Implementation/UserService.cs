@@ -57,33 +57,25 @@ namespace VideotapesGalore.Services.Implementation
         /// <param name="LoanDate">Date to base record of users borrowing tapes on</param>
         /// <param name="LoanDuration">Duration in days to base record of users borrowing tapes for</param>
         /// <returns>List of user borrow record as report</returns>
-        public List<UserAndBorrowedTapesDTO> GetUsersReportAtDateForDuration(DateTime? LoanDate, int? LoanDuration)
+        public List<UserDTO> GetUsersReportAtDateForDuration(DateTime? LoanDate, int? LoanDuration)
         {
             DateTime loanDate = LoanDate.HasValue ? LoanDate.Value : DateTime.Now;
-            var allUsersAndBorrows = Mapper.Map<List<UserAndBorrowedTapesDTO>>(_userRepository.GetAllUsers());
-            List<UserAndBorrowedTapesDTO> usersAndBorrows = new List<UserAndBorrowedTapesDTO>();
+            var allUsersAndBorrows = Mapper.Map<List<UserDTO>>(_userRepository.GetAllUsers());
+            List<UserDTO> usersFiltered = new List<UserDTO>();
             foreach (var user in allUsersAndBorrows) {
                 // Get borrow records for each user
-                List<TapeBorrowRecordDTO> tapeBorrowRecords = new List<TapeBorrowRecordDTO>();
                 var borrowRecords = _borrowRecordRepository.GetAllBorrowRecords().Where(u => u.UserId == user.Id);
                 foreach (var record in borrowRecords) {
                     // Get detailed borrow record for each user borrow IF tape was on loan at provided loan date
                     // AND for a given duration (if provided)
                     if ( MatchesLoanDate(loanDate, record.BorrowDate, record.ReturnDate) &&
                          MatchesDuration(LoanDuration, loanDate, record.BorrowDate) ) {
-                            var tape = _tapeRepository.GetAllTapes().FirstOrDefault(t => t.Id == record.TapeId);
-                            var tapeBorrowRecord = Mapper.Map<TapeBorrowRecordDTO>(tape);
-                            tapeBorrowRecord.BorrowDate = record.BorrowDate;
-                            tapeBorrowRecord.ReturnDate = record.ReturnDate;
-                            tapeBorrowRecords.Add(tapeBorrowRecord);
+                            usersFiltered.Add(user);
+                            break;
                     }
                 }
-                // Assign borrow record with all details to user
-                // Add user to list of borrowers if he's had tapes on loan for given restrictions
-                user.Tapes = tapeBorrowRecords;
-                if (user.Tapes.Count() > 0) usersAndBorrows.Add(user);
             }
-            return usersAndBorrows;
+            return usersFiltered;
         }
 
         /// <summary>

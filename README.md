@@ -25,7 +25,7 @@ username$ pwd
 username$ dotnet run
 ```
 
-Once web service is running, all routes in the system are available from the host http://localhost:5000. Once the web service is running, a thorough Swagger documentation explaining all API routes, their functionalities and how to query the API is available from /api/documentation.
+Once web service is running, all routes in the system are available from the host http://localhost:5000. Once the web service is running, a thorough Swagger documentation explaining all API routes, their functionalities and how to query the API is available from http://localhost:5000/api/documentation.
 
 **Note** that on Linux-based operating systems both the build and run command can be run at the same time for convenience with dotnet build && dotnet run which builds the web service project and runs it at the same time. See example terminal command below:
 

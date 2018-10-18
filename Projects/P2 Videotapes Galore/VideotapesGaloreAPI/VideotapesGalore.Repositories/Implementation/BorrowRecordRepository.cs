@@ -99,6 +99,16 @@ namespace VideotapesGalore.Repositories.Implementation
             }
             return rec;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Id"></param>
+        public void DeleteRecord(int Id)
+        {
+            var Record = _dbContext.BorrowRecords.FirstOrDefault(b => b.Id == Id);
+            _dbContext.BorrowRecords.Remove(Record);
+            _dbContext.SaveChanges();
+        }
 
         /// <summary>
         /// Helper method, updates relevant values of review to destination review

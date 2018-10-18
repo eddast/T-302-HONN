@@ -28,6 +28,10 @@ namespace VideotapesGalore.Services.Implementations
         /// User repository
         /// </summary>
         private readonly IUserRepository _userRepository;
+        /// <summary>
+        /// Review Repository
+        /// </summary>
+        private readonly IReviewRepository _reviewRepository;
 
         /// <summary>
         /// Initialize repository
@@ -35,11 +39,13 @@ namespace VideotapesGalore.Services.Implementations
         /// <param name="tapeRepository">Which implementation of tape repository to use</param>
         /// <param name="borrowRecordRepository">Which implementation of borrow record repository to use</param>
         /// <param name="userRepository">Which implementation of user repository to use</param>
-        public TapeService(ITapeRepository tapeRepository, IBorrowRecordRepository borrowRecordRepository, IUserRepository userRepository)
+        /// <param name="reviewRepository">Which implementation of review repository to use</param>
+        public TapeService(ITapeRepository tapeRepository, IBorrowRecordRepository borrowRecordRepository, IUserRepository userRepository, IReviewRepository reviewRepository)
         {
             this._tapeRepository = tapeRepository;
             this._borrowRecordRepository = borrowRecordRepository;
             this._userRepository = userRepository;
+            this._reviewRepository = reviewRepository;
         }
 
         /// <summary>
@@ -114,7 +120,11 @@ namespace VideotapesGalore.Services.Implementations
         {
             var tape = _tapeRepository.GetAllTapes().FirstOrDefault(t => t.Id == Id);
             if (tape == null) throw new ResourceNotFoundException($"Video tape with id {Id} was not found.");
-            else _tapeRepository.DeleteTape(Id);
+            else {
+                RemoveBorrowRecordsFromTape(Id);
+                RemoveReviewsFromTape(Id);
+                _tapeRepository.DeleteTape(Id);
+            }
         }
         /// <summary>
         /// Gets all tapes that user has on loan by user id
@@ -205,6 +215,28 @@ namespace VideotapesGalore.Services.Implementations
         { 
             if(ReturnDate.HasValue) return DateTime.Compare(LoanDate, ReturnDate.Value) < 0 && DateTime.Compare(LoanDate, BorrowDate) >= 0;
             else return DateTime.Compare(LoanDate, BorrowDate) >= 0;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Id"></param>
+        private void RemoveBorrowRecordsFromTape(int Id)
+        {
+            var tapeRecords = _borrowRecordRepository.GetAllBorrowRecords().Where(b => b.TapeId == Id);
+            foreach(var Record in tapeRecords) {
+                _borrowRecordRepository.DeleteRecord(Record.Id);
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Id"></param>
+        private void RemoveReviewsFromTape(int Id)
+        {
+            var tapeReviews = _reviewRepository.GetAllReviews().Where(r => r.TapeId == Id);
+            foreach(var Review in tapeReviews) {
+                _reviewRepository.DeleteReview(Review.UserId, Review.TapeId);
+            }
         }
     }
 }

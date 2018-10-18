@@ -30,17 +30,24 @@ namespace VideotapesGalore.Services.Implementation
         /// Borrow record repository
         /// </summary>
         private readonly ITapeRepository _tapeRepository;
+        /// <summary>
+        /// Review repository
+        /// </summary>
+        private readonly IReviewRepository _reviewRepository;
 
         /// <summary>
         /// Initialize repository
         /// </summary>
         /// <param name="userRepository">Which implementation of user repository to use</param>
         /// <param name="borrowRecordRepository">Which implementation of borrow record repository to use</param>
-        public UserService(IUserRepository userRepository, IBorrowRecordRepository borrowRecordRepository, ITapeRepository tapeRepository)
+        /// <param name="tapeRepository">Which implementation of tape repository to use</param>
+        /// <param name="reviewRepository">Which implementation of review repository to use</param>
+        public UserService(IUserRepository userRepository, IBorrowRecordRepository borrowRecordRepository, ITapeRepository tapeRepository, IReviewRepository reviewRepository)
         {
             this._userRepository = userRepository;
             this._borrowRecordRepository = borrowRecordRepository;
             this._tapeRepository = tapeRepository;
+            this._reviewRepository = reviewRepository;
         }
 
         /// <summary>
@@ -122,7 +129,11 @@ namespace VideotapesGalore.Services.Implementation
         {
             var user = _userRepository.GetAllUsers().FirstOrDefault(u => u.Id == Id);
             if (user == null) throw new ResourceNotFoundException($"User with id {Id} was not found.");
-            else _userRepository.DeleteUser(Id);
+            else {
+                RemoveBorrowRecordsForUser(Id);
+                RemoveReviewsForUser(Id);
+                _userRepository.DeleteUser(Id);
+            };
         }
 
         /// <summary>
@@ -137,7 +148,28 @@ namespace VideotapesGalore.Services.Implementation
             if(ReturnDate.HasValue) return DateTime.Compare(LoanDate, ReturnDate.Value) < 0 && DateTime.Compare(LoanDate, BorrowDate) > 0;
             else return DateTime.Compare(LoanDate, BorrowDate) > 0;
         }
-        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="UserId"></param>
+        private void RemoveBorrowRecordsForUser(int UserId)
+        {
+            var userRecords = _borrowRecordRepository.GetAllBorrowRecords().Where(b => b.UserId == UserId);
+            foreach(var Record in userRecords) {
+                _borrowRecordRepository.DeleteRecord(Record.Id);
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="UserId"></param>
+        private void RemoveReviewsForUser(int UserId)
+        {
+            var userReviews = _reviewRepository.GetAllReviews().Where(r => r.UserId == UserId);
+            foreach(var Review in userReviews) {
+                _reviewRepository.DeleteReview(Review.UserId, Review.TapeId);
+            }
+        }
         /// <summary>
         /// Compares if loan has lasted for a certain duration of days
         /// </summary>

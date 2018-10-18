@@ -44,5 +44,10 @@ namespace VideotapesGalore.Repositories.Interfaces
         /// <param name="UserId"></param>
         /// <param name="TapeId"></param>
         BorrowRecord GetCurrentBorrowRecordForUser(int UserId, int TapeId);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Id"></param>
+        void DeleteRecord(int Id);
     }
 }

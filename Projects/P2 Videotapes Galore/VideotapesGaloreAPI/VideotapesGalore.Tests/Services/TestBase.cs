@@ -19,19 +19,39 @@ namespace VideotapesGalore.Tests.Services
         /// <summary>
         /// Mock repository object to substitute for tape repository
         /// </summary>
-        public static Mock<ITapeRepository> _mockTapeRepository = new Mock<ITapeRepository>();
+        protected static Mock<ITapeRepository> _mockTapeRepository = new Mock<ITapeRepository>();
         /// <summary>
         /// Mock repository object to substitute for user repository
         /// </summary>
-        public static Mock<IUserRepository> _mockUserRepository = new Mock<IUserRepository>();
+        protected static Mock<IUserRepository> _mockUserRepository = new Mock<IUserRepository>();
         /// <summary>
         /// Mock repository object to substitute for borrow record repository
         /// </summary>
-        public static Mock<IBorrowRecordRepository> _mockBorrowRecordRepository = new Mock<IBorrowRecordRepository>();
+        protected static Mock<IBorrowRecordRepository> _mockBorrowRecordRepository = new Mock<IBorrowRecordRepository>();
         /// <summary>
         /// Mock repository object to substitute for review repository
         /// </summary>
-        public static Mock<IReviewRepository> _mockReviewRepository = new Mock<IReviewRepository>();
+        protected static Mock<IReviewRepository> _mockReviewRepository = new Mock<IReviewRepository>();
+
+        /// <summary>
+        /// Size of mocked list of tapes for tests
+        /// </summary>
+        protected static int _tapeMockListSize = 4;
+
+        /// <summary>
+        /// Size of mocked list of users for tests
+        /// </summary>
+        protected static int _userMockListSize = 3;
+
+        /// <summary>
+        /// Size of mocked list of borrow records for tests
+        /// </summary>
+        protected static int _borrowRecordMockListSize = 6;
+
+        /// <summary>
+        /// Size of mocked list of borrow records for tests
+        /// </summary>
+        protected static int _reviewMockListSize = 4;
 
         /// <summary>
         /// Initializes mocks for repositories for all derived test classes to use
@@ -52,7 +72,7 @@ namespace VideotapesGalore.Tests.Services
         private static void SetupTapeRepository() =>
             _mockTapeRepository.Setup(method => method.GetAllTapes())
                 .Returns(FizzWare.NBuilder.Builder<TapeDTO>
-                    .CreateListOfSize(4)
+                    .CreateListOfSize(_tapeMockListSize)
                     .TheFirst(1).With(t => t.Id = 1)
                     .TheNext(1).With(t => t.Id = 2)
                     .TheNext(1).With(t => t.Id = 3)
@@ -66,7 +86,7 @@ namespace VideotapesGalore.Tests.Services
         private static void SetupUserRepository() =>
             _mockUserRepository.Setup(method => method.GetAllUsers())
                 .Returns(FizzWare.NBuilder.Builder<UserDTO>
-                    .CreateListOfSize(3)
+                    .CreateListOfSize(_userMockListSize)
                     .TheFirst(1).With(u => u.Id = 1)
                     .TheNext(1).With(u => u.Id = 2)
                     .TheNext(1).With(u => u.Id = 3)
@@ -90,7 +110,7 @@ namespace VideotapesGalore.Tests.Services
         private static void SetupReviewRepository() =>
             _mockReviewRepository.Setup(method => method.GetAllReviews())
                 .Returns(FizzWare.NBuilder.Builder<ReviewDTO>
-                    .CreateListOfSize(3)
+                    .CreateListOfSize(_reviewMockListSize)
                     .TheFirst(1).With(r => r.TapeId = 1).With(r => r.UserId = 1)
                     .TheNext(1).With(r => r.TapeId = 2).With(r => r.UserId = 1)
                     .TheNext(1).With(r => r.TapeId = 2).With(r => r.UserId = 2)

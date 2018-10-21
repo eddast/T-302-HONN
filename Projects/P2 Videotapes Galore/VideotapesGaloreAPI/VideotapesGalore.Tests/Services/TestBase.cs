@@ -37,17 +37,14 @@ namespace VideotapesGalore.Tests.Services
         /// Size of mocked list of tapes for tests
         /// </summary>
         protected static int _tapeMockListSize = 4;
-
         /// <summary>
         /// Size of mocked list of users for tests
         /// </summary>
         protected static int _userMockListSize = 3;
-
         /// <summary>
         /// Size of mocked list of borrow records for tests
         /// </summary>
-        protected static int _borrowRecordMockListSize = 6;
-
+        protected static int _borrowRecordMockListSize = 5;
         /// <summary>
         /// Size of mocked list of borrow records for tests
         /// </summary>
@@ -59,6 +56,12 @@ namespace VideotapesGalore.Tests.Services
         [AssemblyInitialize]
         public static void AssemblyInitialize(TestContext tc)
         {
+            // Reset mapper and add need mappings for testing
+            AutoMapper.Mapper.Reset();
+            AutoMapper.Mapper.Initialize(cfg => {
+                cfg.CreateMap<UserDTO, UserDetailDTO>();
+            });
+
             SetupTapeRepository();
             SetupUserRepository();
             SetupBorrowRecordRepository();
@@ -94,11 +97,24 @@ namespace VideotapesGalore.Tests.Services
 
         /// <summary>
         /// Build mock functionality for borrow record repository
+        /// User with id 1 had tape with id 1 on loan in 2016 but returned it, currently has tapes with ids 1 and 2 on loan
+        /// User with id 2 had tape with id 2 on loan in 2015 but returned it, currently has tapes with id 3
+        /// User 3 does not have any borrow records associated with them
+        /// Tape 4 does not have any borrow record associated with it
         /// </summary>
-        private static void SetupBorrowRecordRepository()
-        {
-            // TODO
-        }
+        /// 
+        private static void SetupBorrowRecordRepository() =>
+            _mockBorrowRecordRepository.Setup(method => method.GetAllBorrowRecords())
+                .Returns(FizzWare.NBuilder.Builder<BorrowRecordDTO>
+                    .CreateListOfSize(_borrowRecordMockListSize)
+                    // Borrows for user with id 1
+                    .TheFirst(1).With(r => r.UserId = 1).With(r => r.TapeId = 1).With(r => r.BorrowDate = new DateTime(2016, 1, 1)).With(r => r.ReturnDate = new DateTime(2016, 12, 30))
+                    .TheNext(1).With(r => r.UserId = 1).With(r => r.TapeId = 1).With(r => r.BorrowDate = new DateTime(2018, 1, 1)).With(r => r.ReturnDate = null)
+                    .TheNext(1).With(r => r.UserId = 1).With(r => r.TapeId = 2).With(r => r.BorrowDate = new DateTime(2018, 10, 1)).With(r => r.ReturnDate = null)
+                    // Borrows for user with id 2
+                    .TheNext(1).With(r => r.UserId = 2).With(r => r.TapeId = 2).With(r => r.BorrowDate = new DateTime(2015, 8, 10)).With(r => r.ReturnDate = new DateTime(2016, 1, 10))
+                    .TheNext(1).With(r => r.UserId = 2).With(r => r.TapeId = 3).With(r => r.BorrowDate = new DateTime(2018, 10, 1)).With(r => r.ReturnDate = null)
+                .Build().ToList());
 
         /// <summary>
         /// Build mock functionality for review repository

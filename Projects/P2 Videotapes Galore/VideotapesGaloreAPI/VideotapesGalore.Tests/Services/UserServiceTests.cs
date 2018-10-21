@@ -46,19 +46,35 @@ namespace VideotapesGalore.Tests.Services
         /// <summary>
         /// Check if right user is fetched by id
         /// </summary>
-        /* [TestMethod]
+        [TestMethod]
         public void GetUserById_ShouldReturnCorrectUser()
         {
             var user = _userService.GetUserById(_userMockListSize);
             Assert.AreEqual(user.Id,_userMockListSize);
-        }*/
+        }
 
         /// <summary>
-        /// Check if not found error is thrown if user by id is not found
+        /// Check if not found error is thrown if requested to fetch user by id that does not exist
         /// </summary>
         [TestMethod]
         [ExpectedException(typeof(ResourceNotFoundException))]
         public void GetUserById_ShouldThrowNotFound() =>
             _userService.GetUserById(_userMockListSize+1);
+
+        /// <summary>
+        /// Check if not found error is thrown if requested to edit user by id that does not exist
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ResourceNotFoundException))]
+        public void EditUser_ShouldThrowNotFound() =>
+            _userService.EditUser(_userMockListSize+1, null);
+
+        /// <summary>
+        /// Check if not found error is thrown if requested to delete user by id that does not exist
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ResourceNotFoundException))]
+        public void DeleteUser_ShouldThrowNotFound() =>
+            _userService.DeleteUser(_userMockListSize+1);
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using VideotapesGalore.Models.Exceptions;
 using VideotapesGalore.Services.Implementation;
 using VideotapesGalore.Services.Interfaces;
 
@@ -39,11 +40,25 @@ namespace VideotapesGalore.Tests.Services
             Assert.AreEqual(_userMockListSize,users.Count());
         }
 
-        [TestMethod]
-        public void TestMethod2()
+        // TESTS FOR GetUsersReportAtDateForDuration
+
+        
+        /// <summary>
+        /// Check if right user is fetched by id
+        /// </summary>
+        /* [TestMethod]
+        public void GetUserById_ShouldReturnCorrectUser()
         {
-            Console.WriteLine("TestMethod2() user service");
-            Assert.AreEqual(1,1);
-        }
+            var user = _userService.GetUserById(_userMockListSize);
+            Assert.AreEqual(user.Id,_userMockListSize);
+        }*/
+
+        /// <summary>
+        /// Check if not found error is thrown if user by id is not found
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ResourceNotFoundException))]
+        public void GetUserById_ShouldThrowNotFound() =>
+            _userService.GetUserById(_userMockListSize+1);
     }
 }

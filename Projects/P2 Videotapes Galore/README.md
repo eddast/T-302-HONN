@@ -92,7 +92,7 @@ Once this command has been executed and tests have been run, a code coverage rep
 
 The following image demonstrates what the unit test coverage report should look like for reference:
 
-TODO SETJA MYND
+![alt text](https://image.ibb.co/gthGD0/screencapture-file-Users-eddarunarsdottir-Desktop-Haust2018-T-302-HONN-Projects-P2-Videotapes-Galore-Videotapes-Galore-API-Videotapes-Galore-Unit-Tests-coverage-index-htm-2018-10-21-21-38-52.png "Code Coverage Report Sample for Unit Tests")
 
 <a name="integration-testing"></a>
 ### Integration Testing

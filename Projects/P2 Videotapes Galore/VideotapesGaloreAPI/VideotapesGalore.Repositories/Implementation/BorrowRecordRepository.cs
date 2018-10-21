@@ -74,35 +74,21 @@ namespace VideotapesGalore.Repositories.Implementation
             _dbContext.SaveChanges();
         }
 
-        public BorrowRecord GetCurrentBorrowRecord(int TapeId)
+        public List<BorrowRecord> GetBorrowRecordsForTape(int TapeId)
         {
             var BorrowRecords = _dbContext.BorrowRecords.Where(record => record.TapeId == TapeId);
-            BorrowRecord rec = null;
-            foreach (var Record in BorrowRecords) {
-                if (Record.ReturnDate == null || Record.ReturnDate == new DateTime(0)) {
-                    rec = Record;
-                    break;
-                }
-            }
-            return rec;
+            return BorrowRecords.ToList();
         }
 
         /// <summary>
-        /// Finds the newest borrow record for given user for given tape
+        /// Finds borrow records for given user and for given tape
         /// </summary>
-        /// <param name="UserId">Id of user to get newest borrow record of tape for</param>
-        /// <param name="TapeId">Id of tape to get newest borrow record for by user</param>
-        public BorrowRecord GetCurrentBorrowRecordForUser(int UserId, int TapeId)
+        /// <param name="UserId">Id of user to get borrow records of tape for</param>
+        /// <param name="TapeId">Id of tape to get borrow records for user</param>
+        public List<BorrowRecord> GetBorrowRecordsForUser(int UserId, int TapeId)
         {
             var BorrowRecords = _dbContext.BorrowRecords.Where(record => record.UserId == UserId && record.TapeId == TapeId);
-            BorrowRecord rec = null;
-            foreach (var Record in BorrowRecords) {
-                if (Record.ReturnDate == null || Record.ReturnDate == new DateTime(0)) {
-                    rec = Record;
-                    break;
-                }
-            }
-            return rec;
+            return BorrowRecords.ToList();
         }
 
         /// <summary>

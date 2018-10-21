@@ -2,23 +2,23 @@
 <CoverageSession>
   <Summary numSequencePoints="232" visitedSequencePoints="222" numBranchPoints="232" visitedBranchPoints="222" sequenceCoverage="0.957" branchCoverage="0.957" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="3" numClasses="11" visitedMethods="37" numMethods="38" />
   <Modules>
-    <Module hash="DC5E3FEE-97A7-40AC-AF21-3F102EFA971D">
+    <Module hash="C1CD9230-7451-4921-B701-413E283E8481">
       <ModulePath>VideotapesGalore.Repositories.dll</ModulePath>
-      <ModuleTime>2018-10-21T09:12:24</ModuleTime>
+      <ModuleTime>2018-10-21T09:25:53</ModuleTime>
       <ModuleName>VideotapesGalore.Repositories</ModuleName>
       <Files />
       <Classes />
     </Module>
-    <Module hash="7815D0B2-AFC5-4A7B-A3F6-4423A3A3DC68">
+    <Module hash="A83829F1-2118-40EF-82C2-663990B12CA3">
       <ModulePath>VideotapesGalore.Models.dll</ModulePath>
-      <ModuleTime>2018-10-21T09:12:24</ModuleTime>
+      <ModuleTime>2018-10-21T09:25:53</ModuleTime>
       <ModuleName>VideotapesGalore.Models</ModuleName>
       <Files />
       <Classes />
     </Module>
-    <Module hash="E15F1354-CC9A-48EC-855C-F37E2EF12E09">
+    <Module hash="4F47AFE5-D84F-4001-A4EE-4527F266B4EC">
       <ModulePath>VideotapesGalore.Services.dll</ModulePath>
-      <ModuleTime>2018-10-21T09:12:24</ModuleTime>
+      <ModuleTime>2018-10-21T09:25:53</ModuleTime>
       <ModuleName>VideotapesGalore.Services</ModuleName>
       <Files>
         <File uid="1" fullPath="/Users/eddarunarsdottir/Desktop/Haust2018/T-302-HONN/Projects/P2 Videotapes Galore/VideotapesGaloreAPI/VideotapesGalore.Services/Implementation/RecommendationService.cs" />

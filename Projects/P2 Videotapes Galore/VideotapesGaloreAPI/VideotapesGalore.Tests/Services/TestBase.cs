@@ -61,7 +61,6 @@ namespace VideotapesGalore.Tests.Services
             AutoMapper.Mapper.Initialize(cfg => {
                 cfg.CreateMap<UserDTO, UserDetailDTO>();
             });
-
             SetupTapeRepository();
             SetupUserRepository();
             SetupBorrowRecordRepository();
@@ -86,7 +85,11 @@ namespace VideotapesGalore.Tests.Services
         /// Build minimal mock functionality for user repository for services to function
         /// All users method returns three users with ids 1-3
         /// </summary>
-        private static void SetupUserRepository() =>
+        private static void SetupUserRepository()
+        {
+            _mockUserRepository.Setup(mock => mock.CreateUser(null)).Returns(_userMockListSize+1);
+            _mockUserRepository.Setup(mock => mock.EditUser(It.IsAny<int>(), null));
+            _mockUserRepository.Setup(mock => mock.DeleteUser(It.IsAny<int>()));
             _mockUserRepository.Setup(method => method.GetAllUsers())
                 .Returns(FizzWare.NBuilder.Builder<UserDTO>
                     .CreateListOfSize(_userMockListSize)
@@ -94,15 +97,15 @@ namespace VideotapesGalore.Tests.Services
                     .TheNext(1).With(u => u.Id = 2)
                     .TheNext(1).With(u => u.Id = 3)
                 .Build().ToList());
+        }
 
         /// <summary>
         /// Build mock functionality for borrow record repository
         /// User with id 1 had tape with id 1 on loan in 2016 but returned it, currently has tapes with ids 1 and 2 on loan
-        /// User with id 2 had tape with id 2 on loan in 2015 but returned it, currently has tapes with id 3
+        /// User with id 2 had tape with id 2 on loan in 2015 but returned it, currently has tape with id 3 since early 2017
         /// User 3 does not have any borrow records associated with them
         /// Tape 4 does not have any borrow record associated with it
         /// </summary>
-        /// 
         private static void SetupBorrowRecordRepository() =>
             _mockBorrowRecordRepository.Setup(method => method.GetAllBorrowRecords())
                 .Returns(FizzWare.NBuilder.Builder<BorrowRecordDTO>
@@ -113,7 +116,7 @@ namespace VideotapesGalore.Tests.Services
                     .TheNext(1).With(r => r.UserId = 1).With(r => r.TapeId = 2).With(r => r.BorrowDate = new DateTime(2018, 10, 1)).With(r => r.ReturnDate = null)
                     // Borrows for user with id 2
                     .TheNext(1).With(r => r.UserId = 2).With(r => r.TapeId = 2).With(r => r.BorrowDate = new DateTime(2015, 8, 10)).With(r => r.ReturnDate = new DateTime(2016, 1, 10))
-                    .TheNext(1).With(r => r.UserId = 2).With(r => r.TapeId = 3).With(r => r.BorrowDate = new DateTime(2018, 10, 1)).With(r => r.ReturnDate = null)
+                    .TheNext(1).With(r => r.UserId = 2).With(r => r.TapeId = 3).With(r => r.BorrowDate = new DateTime(2017, 10, 1)).With(r => r.ReturnDate = null)
                 .Build().ToList());
 
         /// <summary>

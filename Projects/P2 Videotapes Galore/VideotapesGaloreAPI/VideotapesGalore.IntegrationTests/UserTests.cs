@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using AngleSharp.Dom.Html;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using Xunit.Abstractions;
 using VideotapesGalore.WebApi;
+using VideotapesGalore.Models.InputModels;
 
 namespace VideotapesGalore.IntegrationTests
 {
@@ -23,27 +25,28 @@ namespace VideotapesGalore.IntegrationTests
             this.output = output;
         }
 
-        [Theory]
+        [Fact]
         public async Task SimulateUserLoanActivity()
         {
             /*** Urls to use in test ***/
             string user = "api/v1/users";
             string tape1 = "tapes/1";
             string tape2 = "tapes/2";
+
             // Arrange
             var client = _factory.CreateClient();
+            var userInput = new UserInputModel(){
+                Name = "Test user 1",
+                Email = "testing@users.com",
+                Phone = "8449919",
+                Address = "address 1337"
+            };
 
             // Act
-            var response = await client.SendAsync(url, {
-                name: "Test user 1",
-                email: "testing@users.com",
-                phone: "8449919",
-                address: "address 1337"
-            });
+            var response = await client.PostAsync(user, new StringContent(userInput.ToString()));
 
             // Assert
             response.EnsureSuccessStatusCode();
-            response
         }
     }
 }

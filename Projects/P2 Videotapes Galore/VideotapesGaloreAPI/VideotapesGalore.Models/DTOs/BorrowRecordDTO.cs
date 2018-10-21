@@ -5,6 +5,11 @@ namespace VideotapesGalore.Models.DTOs
     public class BorrowRecordDTO
     {
         /// <summary>
+        /// Primary Id of borrow record
+        /// </summary>
+        /// <returns></returns>
+        public int Id { get; set; }
+        /// <summary>
         /// User ID of user that borrowed tape
         /// </summary>
         public int UserId { get; set; }

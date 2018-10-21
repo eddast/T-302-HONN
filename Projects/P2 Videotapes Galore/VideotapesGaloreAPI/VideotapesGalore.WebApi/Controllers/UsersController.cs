@@ -356,7 +356,7 @@ namespace VideotapesGalore.WebApi.Controllers
                 throw new InputFormatException("Review input model improperly formatted.", errorList);
             }
             _reviewService.CreateUserReview(userId, tapeId, Review);
-            return NoContent();
+            return Created($"{userId}/tapes/{tapeId}", null);
         }
 
         /// <summary>

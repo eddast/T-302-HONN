@@ -7,7 +7,7 @@ using VideotapesGalore.Models.Exceptions;
 using VideotapesGalore.Services.Implementation;
 using VideotapesGalore.Services.Interfaces;
 
-namespace VideotapesGalore.Tests.Services
+namespace VideotapesGalore.Tests
 {
     /// <summary>
     /// Tests user service
@@ -40,14 +40,14 @@ namespace VideotapesGalore.Tests.Services
 
         /// <summary>
         /// Test if report function regards loan date parameter correctly
-        /// Users with id 1 and users with id 2 had tapes on loan on the date 2016-1-5,
+        /// Users with id 1 and users with id 2 had tapes on loan on the date a day short of two years ago
         /// Test if both users with ids 1 and 2 are returned from procedure and only them
         /// </summary>
         [TestMethod]
         public void GetUsersReportAtDateForDuration_TestLoanDate_ShouldReturnUsersWithIds1and2Only()
         {
             List<int> userIdsWithTapesOnLoanOnGivenDate = new List<int>(){1, 2};
-            var users = _userService.GetUsersReportAtDateForDuration(new DateTime(2016, 1, 5), null);
+            var users = _userService.GetUsersReportAtDateForDuration(DateTime.Now.AddYears(-2).AddDays(1), null);
             Assert.AreEqual(userIdsWithTapesOnLoanOnGivenDate.Count, users.Count());
             foreach(var userId in userIdsWithTapesOnLoanOnGivenDate) {
                 Assert.IsNotNull(users.FirstOrDefault(u => u.Id == userId));
@@ -92,7 +92,7 @@ namespace VideotapesGalore.Tests.Services
         /// Check if create user method is called in user repository if user is being created from service
         /// </summary>
         [TestMethod]
-        public void CreateUser_ShouldCallEditUserFromRepository()
+        public void CreateUser_ShouldCallCreateUserFromUserRepository()
         {
             _userService.CreateUser(null);
             _mockUserRepository.Verify(mock => mock.CreateUser(null), Times.Once());

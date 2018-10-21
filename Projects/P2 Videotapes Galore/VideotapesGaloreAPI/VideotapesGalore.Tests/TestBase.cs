@@ -5,9 +5,10 @@ using FizzWare.NBuilder;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using VideotapesGalore.Models.DTOs;
+using VideotapesGalore.Models.InputModels;
 using VideotapesGalore.Repositories.Interfaces;
 
-namespace VideotapesGalore.Tests.Services
+namespace VideotapesGalore.Tests
 {
     /// <summary>
     /// Initializes repositories and mock functionality of repositories before all tests are run
@@ -60,6 +61,9 @@ namespace VideotapesGalore.Tests.Services
             AutoMapper.Mapper.Reset();
             AutoMapper.Mapper.Initialize(cfg => {
                 cfg.CreateMap<UserDTO, UserDetailDTO>();
+                cfg.CreateMap<TapeDTO, TapeDetailDTO>();
+                cfg.CreateMap<TapeDTO, TapeBorrowRecordDTO>();
+                cfg.CreateMap<BorrowRecordInputModel, BorrowRecordDTO>();
             });
             SetupTapeRepository();
             SetupUserRepository();
@@ -71,7 +75,11 @@ namespace VideotapesGalore.Tests.Services
         /// Build minimal mock functionality for tape repository for services to function
         /// All tapes method returns five tapes with ids 1-4
         /// </summary>
-        private static void SetupTapeRepository() =>
+        private static void SetupTapeRepository()
+        {
+            _mockTapeRepository.Setup(mock => mock.CreateTape(It.IsAny<TapeInputModel>())).Returns(_tapeMockListSize+1);
+            _mockTapeRepository.Setup(mock => mock.EditTape(It.IsAny<int>(), It.IsAny<TapeInputModel>()));
+            _mockTapeRepository.Setup(mock => mock.DeleteTape(It.IsAny<int>()));
             _mockTapeRepository.Setup(method => method.GetAllTapes())
                 .Returns(FizzWare.NBuilder.Builder<TapeDTO>
                     .CreateListOfSize(_tapeMockListSize)
@@ -80,6 +88,7 @@ namespace VideotapesGalore.Tests.Services
                     .TheNext(1).With(t => t.Id = 3)
                     .TheNext(1).With(t => t.Id = 4)
                 .Build().ToList());
+        }
 
         /// <summary>
         /// Build minimal mock functionality for user repository for services to function
@@ -87,8 +96,8 @@ namespace VideotapesGalore.Tests.Services
         /// </summary>
         private static void SetupUserRepository()
         {
-            _mockUserRepository.Setup(mock => mock.CreateUser(null)).Returns(_userMockListSize+1);
-            _mockUserRepository.Setup(mock => mock.EditUser(It.IsAny<int>(), null));
+            _mockUserRepository.Setup(mock => mock.CreateUser(It.IsAny<UserInputModel>())).Returns(_userMockListSize+1);
+            _mockUserRepository.Setup(mock => mock.EditUser(It.IsAny<int>(), It.IsAny<UserInputModel>()));
             _mockUserRepository.Setup(mock => mock.DeleteUser(It.IsAny<int>()));
             _mockUserRepository.Setup(method => method.GetAllUsers())
                 .Returns(FizzWare.NBuilder.Builder<UserDTO>
@@ -101,23 +110,28 @@ namespace VideotapesGalore.Tests.Services
 
         /// <summary>
         /// Build mock functionality for borrow record repository
-        /// User with id 1 had tape with id 1 on loan in 2016 but returned it, currently has tapes with ids 1 and 2 on loan
-        /// User with id 2 had tape with id 2 on loan in 2015 but returned it, currently has tape with id 3 since early 2017
+        /// User with id 1 had tape with id 1 on loan two years ago but returned it, currently has tapes with ids 1 and 2 on loan since January this year
+        /// User with id 2 had tape with id 2 on loan two years ago but returned it, currently has tape with id 3 since 1 and half years ago
         /// User 3 does not have any borrow records associated with them
         /// Tape 4 does not have any borrow record associated with it
         /// </summary>
-        private static void SetupBorrowRecordRepository() =>
+        private static void SetupBorrowRecordRepository()
+        {
+            _mockBorrowRecordRepository.Setup(mock => mock.CreateBorrowRecord(It.IsAny<BorrowRecordDTO>())).Returns(_borrowRecordMockListSize+1);
+            _mockBorrowRecordRepository.Setup(mock => mock.EditBorrowRecord(It.IsAny<int>(), It.IsAny<BorrowRecordInputModel>()));
+            _mockBorrowRecordRepository.Setup(mock => mock.DeleteRecord(It.IsAny<int>()));
             _mockBorrowRecordRepository.Setup(method => method.GetAllBorrowRecords())
                 .Returns(FizzWare.NBuilder.Builder<BorrowRecordDTO>
                     .CreateListOfSize(_borrowRecordMockListSize)
                     // Borrows for user with id 1
-                    .TheFirst(1).With(r => r.UserId = 1).With(r => r.TapeId = 1).With(r => r.BorrowDate = new DateTime(2016, 1, 1)).With(r => r.ReturnDate = new DateTime(2016, 12, 30))
-                    .TheNext(1).With(r => r.UserId = 1).With(r => r.TapeId = 1).With(r => r.BorrowDate = new DateTime(2018, 1, 1)).With(r => r.ReturnDate = null)
-                    .TheNext(1).With(r => r.UserId = 1).With(r => r.TapeId = 2).With(r => r.BorrowDate = new DateTime(2018, 10, 1)).With(r => r.ReturnDate = null)
+                    .TheFirst(1).With(r => r.UserId = 1).With(r => r.TapeId = 1).With(r => r.BorrowDate = DateTime.Now.AddYears(-2)).With(r => r.ReturnDate = DateTime.Now.AddYears(-1))
+                    .TheNext(1).With(r => r.UserId = 1).With(r => r.TapeId = 1).With(r => r.BorrowDate = new DateTime(DateTime.Today.Year, 1, 1)).With(r => r.ReturnDate = null)
+                    .TheNext(1).With(r => r.UserId = 1).With(r => r.TapeId = 2).With(r => r.BorrowDate = new DateTime(DateTime.Today.Year, 10, 1)).With(r => r.ReturnDate = null)
                     // Borrows for user with id 2
-                    .TheNext(1).With(r => r.UserId = 2).With(r => r.TapeId = 2).With(r => r.BorrowDate = new DateTime(2015, 8, 10)).With(r => r.ReturnDate = new DateTime(2016, 1, 10))
-                    .TheNext(1).With(r => r.UserId = 2).With(r => r.TapeId = 3).With(r => r.BorrowDate = new DateTime(2017, 10, 1)).With(r => r.ReturnDate = null)
+                    .TheNext(1).With(r => r.UserId = 2).With(r => r.TapeId = 2).With(r => r.BorrowDate = DateTime.Now.AddYears(-2)).With(r => r.ReturnDate = DateTime.Now.AddYears(-1))
+                    .TheNext(1).With(r => r.UserId = 2).With(r => r.TapeId = 3).With(r => r.BorrowDate = DateTime.Now.AddYears(-2).AddMonths(6)).With(r => r.ReturnDate = null)
                 .Build().ToList());
+        }
 
         /// <summary>
         /// Build mock functionality for review repository

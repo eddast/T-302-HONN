@@ -23,7 +23,6 @@ using VideotapesGalore.Repositories.DBContext;
 using VideotapesGalore.Repositories.Implementation;
 using VideotapesGalore.Repositories.Interfaces;
 using VideotapesGalore.Services.Implementation;
-using VideotapesGalore.Services.Implementations;
 using VideotapesGalore.Services.Interfaces;
 using VideotapesGalore.WebApi.Authorization;
 using VideotapesGalore.WebApi.Extensions;

@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using VideotapesGalore.Services.Interfaces;
 
-namespace VideotapesGalore.Services.Implementations
+namespace VideotapesGalore.Services.Implementation
 {
     /// <summary>
     /// Defines error logging action in system for global error handling

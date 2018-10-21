@@ -10,7 +10,7 @@ using VideotapesGalore.Models.Exceptions;
 using VideotapesGalore.Repositories.Interfaces;
 using System.Linq;
 
-namespace VideotapesGalore.Services.Implementations
+namespace VideotapesGalore.Services.Implementation
 {
     /// <summary>
     /// Defines error logging action in system for global error handling

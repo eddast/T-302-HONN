@@ -7,7 +7,6 @@ using VideotapesGalore.Models.DTOs;
 using VideotapesGalore.Models.Exceptions;
 using VideotapesGalore.Models.InputModels;
 using VideotapesGalore.Services.Implementation;
-using VideotapesGalore.Services.Implementations;
 using VideotapesGalore.Services.Interfaces;
 
 namespace VideotapesGalore.Tests

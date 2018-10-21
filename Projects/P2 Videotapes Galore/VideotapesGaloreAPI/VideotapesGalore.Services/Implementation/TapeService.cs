@@ -158,7 +158,7 @@ namespace VideotapesGalore.Services.Implementations
         public void CreateBorrowRecord(int TapeId, int UserId, BorrowRecordInputModel BorrowRecord)
         {
             ValidateBorrowRecord(TapeId, UserId);
-            var records = _borrowRecordRepository.GetBorrowRecordsForTape(TapeId);
+            var records = _borrowRecordRepository.GetAllBorrowRecords().Where(record => record.TapeId == TapeId).ToList();
             var currentRecord = GetCurrentBorrowRecord(records);
             if (currentRecord != null) throw new InputFormatException("Tape is already on loan");
             if (BorrowRecord == null) {
@@ -178,7 +178,7 @@ namespace VideotapesGalore.Services.Implementations
         public void UpdateBorrowRecord(int TapeId, int UserId, BorrowRecordInputModel BorrowRecord)
         {
             ValidateBorrowRecord(TapeId, UserId);
-            var records = _borrowRecordRepository.GetBorrowRecordsForUser(UserId, TapeId);
+            var records = _borrowRecordRepository.GetAllBorrowRecords().Where(record => record.UserId == UserId && record.TapeId == TapeId).ToList();
             var prevRecord = GetCurrentBorrowRecord(records);
             if (prevRecord == null) throw new ResourceNotFoundException($"User does not have the specified tape on loan");
             _borrowRecordRepository.EditBorrowRecord(prevRecord.Id, BorrowRecord);
@@ -191,7 +191,7 @@ namespace VideotapesGalore.Services.Implementations
         public void ReturnTape(int TapeId, int UserId)
         {
             ValidateBorrowRecord(TapeId, UserId);
-            var records = _borrowRecordRepository.GetBorrowRecordsForUser(UserId, TapeId);
+            var records = _borrowRecordRepository.GetAllBorrowRecords().Where(record => record.UserId == UserId && record.TapeId == TapeId).ToList();
             var prevRecord = GetCurrentBorrowRecord(records);
             if (prevRecord == null) throw new ResourceNotFoundException($"User does not have the specified tape on loan");
             _borrowRecordRepository.ReturnTape(prevRecord.Id);
@@ -243,9 +243,9 @@ namespace VideotapesGalore.Services.Implementations
             }
         }
 
-        private BorrowRecord GetCurrentBorrowRecord(List<BorrowRecord> BorrowRecords) 
+        private BorrowRecordDTO GetCurrentBorrowRecord(List<BorrowRecordDTO> BorrowRecords) 
         {
-            BorrowRecord rec = null;
+            BorrowRecordDTO rec = null;
             foreach (var Record in BorrowRecords) {
                 if (Record.ReturnDate == null || Record.ReturnDate == new DateTime(0)) {
                     rec = Record;

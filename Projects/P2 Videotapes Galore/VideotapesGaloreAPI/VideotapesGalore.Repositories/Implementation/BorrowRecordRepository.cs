@@ -73,24 +73,6 @@ namespace VideotapesGalore.Repositories.Implementation
             toUpdate.ReturnDate = DateTime.Now;
             _dbContext.SaveChanges();
         }
-
-        public List<BorrowRecord> GetBorrowRecordsForTape(int TapeId)
-        {
-            var BorrowRecords = _dbContext.BorrowRecords.Where(record => record.TapeId == TapeId);
-            return BorrowRecords.ToList();
-        }
-
-        /// <summary>
-        /// Finds borrow records for given user and for given tape
-        /// </summary>
-        /// <param name="UserId">Id of user to get borrow records of tape for</param>
-        /// <param name="TapeId">Id of tape to get borrow records for user</param>
-        public List<BorrowRecord> GetBorrowRecordsForUser(int UserId, int TapeId)
-        {
-            var BorrowRecords = _dbContext.BorrowRecords.Where(record => record.UserId == UserId && record.TapeId == TapeId);
-            return BorrowRecords.ToList();
-        }
-
         /// <summary>
         /// Deletes record from data source
         /// Not accessible by routes, only called when user or tape is deleted

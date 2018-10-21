@@ -6,15 +6,16 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
+using VideotapesGalore.WebApi;
 
 namespace VideotapesGalore.IntegrationTests
 {
     public class BasicTests 
-    : IClassFixture<WebApplicationFactory<Video>>
+    : IClassFixture<WebApplicationFactory<Startup>>
     {
-        private readonly WebApplicationFactory<RazorPagesProject.Startup> _factory;
+        private readonly WebApplicationFactory<Startup> _factory;
 
-        public BasicTests(WebApplicationFactory<RazorPagesProject.Startup> factory)
+        public BasicTests(WebApplicationFactory<Startup> factory)
         {
             _factory = factory;
         }

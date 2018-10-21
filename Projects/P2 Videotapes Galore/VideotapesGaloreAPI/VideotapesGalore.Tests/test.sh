@@ -1,5 +1,5 @@
 dotnet build
-coverlet ./bin/Debug/netcoreapp2.1/VideotapesGalore.Tests.dll --target "dotnet" --targetargs "test --no-build" --format opencover --include "[*]VideotapesGalore.Services.*"
+coverlet ./bin/Debug/netcoreapp2.1/VideotapesGalore.Tests.dll --target "dotnet" --targetargs "test --no-build" --format opencover --include "[*]VideotapesGalore.Services.*" --exclude "[*]VideotapesGalore.Services.Implementation.LogService"
 
 # Remove lines 5 - 18 from coverage
 sed -i -e '5,18d;' ./coverage.opencover.xml

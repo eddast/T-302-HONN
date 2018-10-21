@@ -29,7 +29,7 @@ namespace VideotapesGalore.Services.Interfaces
         /// </summary>
         /// <param name="Id">Id associated with user in system</param>
         /// <returns>A user detail dto with borrow history<</returns>
-        UserBorrowRecordDTO GetUserById(int Id);
+        UserDetailDTO GetUserById(int Id);
         /// <summary>
         /// Creates new user
         /// </summary>

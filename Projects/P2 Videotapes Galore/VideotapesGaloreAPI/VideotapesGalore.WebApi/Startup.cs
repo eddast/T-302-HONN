@@ -67,7 +67,7 @@ namespace VideotapesGalore.WebApi
                     "API for management system for renting video tapes to users. " +
                     "Includes review functionality as well as user personalized recommendation service. " +
                     "Serves data from a remote MySQL server. " +
-                    "This API was developed and designeed as assignment for the course T-302-HÖNN " +
+                    "This API was developed and designed as assignment for the course T-302-HÖNN " +
                     "for Reykjavík University by Edda Steinunn Rúnarsdóttir and Alexander Björnsson.",
                     
                 });
@@ -149,12 +149,12 @@ namespace VideotapesGalore.WebApi
                 cfg.CreateMap<BorrowRecord, BorrowRecordDTO>();
                 // Map DTOs to detail DTOs
                 cfg.CreateMap<TapeDetailDTO, TapeDTO>();
-                cfg.CreateMap<UserBorrowRecordDTO, UserDTO>();
+                cfg.CreateMap<UserDetailDTO, UserDTO>();
                 cfg.CreateMap<TapeDTO, TapeBorrowRecordDTO>();
                 cfg.CreateMap<BorrowRecordInputModel, BorrowRecordDTO>();
                 // Map detail DTOs to DTOs
                 cfg.CreateMap<TapeDTO, TapeDetailDTO>();
-                cfg.CreateMap<UserDTO, UserBorrowRecordDTO>();
+                cfg.CreateMap<UserDTO, UserDetailDTO>();
                 cfg.CreateMap<TapeBorrowRecordDTO, TapeDTO>();
                 // Map DTOs to entities
                 cfg.CreateMap<TapeDTO, Tape>();

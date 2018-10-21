@@ -5,7 +5,7 @@ namespace VideotapesGalore.Models.DTOs {
   /// <summary>
   /// Record for user along with user's borrow history for video tapes
   /// </summary>
-  public class UserBorrowRecordDTO {
+  public class UserDetailDTO {
     /// <summary>
     /// User unique ID
     /// </summary>

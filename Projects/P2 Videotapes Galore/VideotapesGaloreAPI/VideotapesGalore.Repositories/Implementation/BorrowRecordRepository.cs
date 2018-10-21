@@ -74,30 +74,16 @@ namespace VideotapesGalore.Repositories.Implementation
             _dbContext.SaveChanges();
         }
 
-        public BorrowRecord GetCurrentBorrowRecord(int TapeId)
+        public List<BorrowRecord> GetBorrowRecordsForTape(int TapeId)
         {
             var BorrowRecords = _dbContext.BorrowRecords.Where(record => record.TapeId == TapeId);
-            BorrowRecord rec = null;
-            foreach (var Record in BorrowRecords) {
-                if (Record.ReturnDate == null || Record.ReturnDate == new DateTime(0)) {
-                    rec = Record;
-                    break;
-                }
-            }
-            return rec;
+            return BorrowRecords.ToList();
         }
 
-        public BorrowRecord GetCurrentBorrowRecordForUser(int UserId, int TapeId)
+        public List<BorrowRecord> GetBorrowRecordsForUser(int UserId, int TapeId)
         {
             var BorrowRecords = _dbContext.BorrowRecords.Where(record => record.UserId == UserId && record.TapeId == TapeId);
-            BorrowRecord rec = null;
-            foreach (var Record in BorrowRecords) {
-                if (Record.ReturnDate == null || Record.ReturnDate == new DateTime(0)) {
-                    rec = Record;
-                    break;
-                }
-            }
-            return rec;
+            return BorrowRecords.ToList();
         }
         /// <summary>
         /// 

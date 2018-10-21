@@ -37,13 +37,13 @@ namespace VideotapesGalore.Repositories.Interfaces
         /// 
         /// </summary>
         /// <param name="TapeId"></param>
-        BorrowRecord GetCurrentBorrowRecord(int TapeId);
+        List<BorrowRecord> GetBorrowRecordsForTape(int TapeId);
         /// <summary>
         /// 
         /// </summary>
         /// <param name="UserId"></param>
         /// <param name="TapeId"></param>
-        BorrowRecord GetCurrentBorrowRecordForUser(int UserId, int TapeId);
+        List<BorrowRecord> GetBorrowRecordsForUser(int UserId, int TapeId);
         /// <summary>
         /// 
         /// </summary>

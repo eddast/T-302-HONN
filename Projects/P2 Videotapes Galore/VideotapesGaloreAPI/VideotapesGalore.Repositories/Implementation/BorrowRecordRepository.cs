@@ -87,6 +87,11 @@ namespace VideotapesGalore.Repositories.Implementation
             return rec;
         }
 
+        /// <summary>
+        /// Finds the newest borrow record for given user for given tape
+        /// </summary>
+        /// <param name="UserId">Id of user to get newest borrow record of tape for</param>
+        /// <param name="TapeId">Id of tape to get newest borrow record for by user</param>
         public BorrowRecord GetCurrentBorrowRecordForUser(int UserId, int TapeId)
         {
             var BorrowRecords = _dbContext.BorrowRecords.Where(record => record.UserId == UserId && record.TapeId == TapeId);
@@ -99,10 +104,13 @@ namespace VideotapesGalore.Repositories.Implementation
             }
             return rec;
         }
+
         /// <summary>
-        /// 
+        /// Deletes record from data source
+        /// Not accessible by routes, only called when user or tape is deleted
+        /// Causing cascading delete effect on borrow records
         /// </summary>
-        /// <param name="Id"></param>
+        /// <param name="Id">Id of borrow record to delete</param>
         public void DeleteRecord(int Id)
         {
             var Record = _dbContext.BorrowRecords.FirstOrDefault(b => b.Id == Id);

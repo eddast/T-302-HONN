@@ -1,7 +1,10 @@
 using System;
 using System.Diagnostics;
+using System.Linq;
+using FizzWare.NBuilder;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using VideotapesGalore.Models.DTOs;
 using VideotapesGalore.Repositories.Interfaces;
 
 namespace VideotapesGalore.Tests.Services
@@ -30,6 +33,9 @@ namespace VideotapesGalore.Tests.Services
         /// </summary>
         public static Mock<IReviewRepository> _mockReviewRepository = new Mock<IReviewRepository>();
 
+        /// <summary>
+        /// Initializes mocks for repositories for all derived test classes to use
+        /// </summary>
         [AssemblyInitialize]
         public static void AssemblyInitialize(TestContext tc)
         {
@@ -37,24 +43,34 @@ namespace VideotapesGalore.Tests.Services
             SetupUserRepository();
             SetupBorrowRecordRepository();
             SetupReviewRepository();
-            Console.WriteLine("AssemblyInitialize() in base");
         }
 
         /// <summary>
-        /// Build mock functionality for tape repository
+        /// Build minimal mock functionality for tape repository for services to function
+        /// All tapes method returns five tapes with ids 1-4
         /// </summary>
-        private static void SetupTapeRepository()
-        {
-            // TODO
-        }
+        private static void SetupTapeRepository() =>
+            _mockTapeRepository.Setup(method => method.GetAllTapes())
+                .Returns(FizzWare.NBuilder.Builder<TapeDTO>
+                    .CreateListOfSize(4)
+                    .TheFirst(1).With(t => t.Id = 1)
+                    .TheNext(1).With(t => t.Id = 2)
+                    .TheNext(1).With(t => t.Id = 3)
+                    .TheNext(1).With(t => t.Id = 4)
+                .Build().ToList());
 
         /// <summary>
-        /// Build mock functionality for user repository
+        /// Build minimal mock functionality for user repository for services to function
+        /// All users method returns three users with ids 1-3
         /// </summary>
-        private static void SetupUserRepository()
-        {
-            // TODO
-        }
+        private static void SetupUserRepository() =>
+            _mockUserRepository.Setup(method => method.GetAllUsers())
+                .Returns(FizzWare.NBuilder.Builder<UserDTO>
+                    .CreateListOfSize(3)
+                    .TheFirst(1).With(u => u.Id = 1)
+                    .TheNext(1).With(u => u.Id = 2)
+                    .TheNext(1).With(u => u.Id = 3)
+                .Build().ToList());
 
         /// <summary>
         /// Build mock functionality for borrow record repository
@@ -66,10 +82,19 @@ namespace VideotapesGalore.Tests.Services
 
         /// <summary>
         /// Build mock functionality for review repository
+        /// Tape with id 1 has one review from user 1
+        /// Tape with id 2 has two reviews from users with ids 1 and 2
+        /// Tape with id 3 has one review from user with id 2
+        /// Tape with id 4 has no reviews and user with id 3 has no reviews
         /// </summary>
-        private static void SetupReviewRepository()
-        {
-            // TODO
-        }
+        private static void SetupReviewRepository() =>
+            _mockReviewRepository.Setup(method => method.GetAllReviews())
+                .Returns(FizzWare.NBuilder.Builder<ReviewDTO>
+                    .CreateListOfSize(3)
+                    .TheFirst(1).With(r => r.TapeId = 1).With(r => r.UserId = 1)
+                    .TheNext(1).With(r => r.TapeId = 2).With(r => r.UserId = 1)
+                    .TheNext(1).With(r => r.TapeId = 2).With(r => r.UserId = 2)
+                    .TheNext(1).With(r => r.TapeId = 3).With(r => r.UserId = 2)
+                .Build().ToList());
     }
 }

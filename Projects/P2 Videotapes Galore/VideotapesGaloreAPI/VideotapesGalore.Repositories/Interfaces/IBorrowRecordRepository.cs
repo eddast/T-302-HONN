@@ -39,15 +39,17 @@ namespace VideotapesGalore.Repositories.Interfaces
         /// <param name="TapeId"></param>
         BorrowRecord GetCurrentBorrowRecord(int TapeId);
         /// <summary>
-        /// 
+        /// Finds the newest borrow record for given user for given tape
         /// </summary>
-        /// <param name="UserId"></param>
-        /// <param name="TapeId"></param>
+        /// <param name="UserId">Id of user to get newest borrow record of tape for</param>
+        /// <param name="TapeId">Id of tape to get newest borrow record for by user</param>
         BorrowRecord GetCurrentBorrowRecordForUser(int UserId, int TapeId);
         /// <summary>
-        /// 
+        /// Deletes record from data source
+        /// Not accessible by routes, only called when user or tape is deleted
+        /// Causing cascading delete effect on borrow records
         /// </summary>
-        /// <param name="Id"></param>
+        /// <param name="Id">Id of borrow record to delete</param>
         void DeleteRecord(int Id);
     }
 }

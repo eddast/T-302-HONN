@@ -21,8 +21,11 @@ namespace VideotapesGalore.Tests.Services
         /// Depends on mock repositories created in TestBase
         /// </summary>
         [ClassInitialize]
-        public static void ClassInitialize(TestContext testcontext) =>
+        public static void ClassInitialize(TestContext testcontext)
+        {
+            Console.WriteLine("ClassInitialize() in UserService");
             _userService = new UserService(_mockUserRepository.Object, _mockBorrowRecordRepository.Object, _mockTapeRepository.Object);
+        }
 
         [TestMethod]
         public void TestMethod1()

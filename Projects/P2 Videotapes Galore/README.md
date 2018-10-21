@@ -80,15 +80,15 @@ Installing ReportGenerator:
 username$ dotnet tool install -g dotnet-reportgenerator-globaltool
 ```
 
-After both tools are installed, to build, test and output code coverage report on project one must navigate to the unit test project of the source code and run the script **./test.sh** located in the VideotapesGaloreAPI.Tests folder. Note that if when running the script one gets permission denied error, one may need to run chmod +x on the script file before running it. See example terminal command for running the test script:
+After both tools are installed, to build, test and output code coverage report on project one must navigate to the unit test project of the source code and run the script **./test.sh** located in the VideotapesGaloreAPI.UnitTests folder. Note that if when running the script one gets permission denied error, one may need to run chmod +x on the script file before running it. See example terminal command for running the test script:
 
 ```bash
 username$ pwd
-~/.../alexanderb13_eddasr15-P2/VideotapesGaloreAPI/VideotapesGaloreAPI.Tests
+~/.../alexanderb13_eddasr15-P2/VideotapesGaloreAPI/VideotapesGaloreAPI.UnitTests
 username$ chmod +x test.sh
 username$ ./test.sh
 ```
-Once this command has been executed and tests have been run, a code coverage report is generated on a HTML form and can be viewed using browser (or other tools used display HTML documents). The code coverage report resides at the path _~/.../alexanderb13_eddasr15-P2/VideotapesGaloreAPI/VideotapesGaloreAPI.Tests/coverage/index.htm_.
+Once this command has been executed and tests have been run, a code coverage report is generated on a HTML form and can be viewed using browser (or other tools used display HTML documents). The code coverage report resides at the path _~/.../alexanderb13_eddasr15-P2/VideotapesGaloreAPI/VideotapesGaloreAPI.UnitTests/coverage/index.htm_.
 
 The following image demonstrates what the unit test coverage report should look like for reference:
 

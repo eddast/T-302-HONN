@@ -5,6 +5,9 @@ Videotapes Galore is a management system suitable to small-to-medium sized video
   * [Remote Usage of API](#usage-remote)
   * [Building and Running API Locally](#usage-local)
 - [Documentation](#documentation)
+- [Testing](#testing)
+  * [Unit Testing](#unit-testing)
+  * [Integration Testing](#integration-testing)
 - [Major Deviations from Provided System Design](#design)
   * [Using .NET Core with C#](#dotnet)
   * [Usage of Three Layered Design over Using Only Service Classes](#layers)
@@ -58,6 +61,39 @@ username$ dotnet build && dotnet run
 Developers decided on using Swagger as documentation tool for the API due to Swagger being a thorough documentation tool with good support for .NET core. In addition, minimal effort is required to generate a Swagger documentation thus documentation effort is minimized and productivity is enhanced. The Swagger documentation is generated from XML comments within the code which is why the project uses XML-like comments throughout for consistency. The Swagger document well describes the capabilities, (potential) access restrictions, return values, parameters and lists possible API responses for all routes in the system, so the user should not encounter difficulties using the API when navigating it with the help of the documentation. The documentation also clarifies all input models, data transfer objects returned from routes and parameters/body passed in to routes in terms of their types and attributes and gives example values for each such value potentially encountered using the API. Lastly, one can try querying the API via the Swagger documentation in an easy manner by clicking the "try it" options under each route which facilitates demonstration.
 
 The API's Swagger documentation is available from the subroute /api/v1/documentation, e.g. at the URL http://localhost:5000/api/v1/documentation when the API is run locally and at the URL http://<hostname>/api/v1/documentation when accessed remotely.
+
+<a name="testing"></a>
+## Testing
+TODO
+
+<a name="unit-testing"></a>
+### Unit Testing
+Building, running unit tests on the project and outputting a code coverage report was made easy via the code coverage tool **Coverlet** for .NET Core and the code coverage report generator tool **ReportGenerator** for .NET Core. The prerequisite to running tests and outputting a code coverage report is installing both these tools. This can be done directly via the dotnet terminal command. See below example terminal commands for a reference on how to install both tools.
+
+Installing Coverlet:
+```bash
+username$ dotnet tool install --global coverlet.console
+```
+
+Installing ReportGenerator:
+```bash
+username$ dotnet tool install -g dotnet-reportgenerator-globaltool
+```
+
+After both tools are installed, to build, test and output code coverage report on project one must navigate to the unit test project of the source code and run the script **./test.sh** located in the VideotapesGaloreAPI.Tests folder. See example terminal command:
+
+```bash
+username$ pwd
+~/.../alexanderb13_eddasr15-P2/VideotapesGaloreAPI/VideotapesGaloreAPI.Tests
+username$ ./test.sh
+```
+Once this command has been executed and tests have been run, a code coverage report is generated on a HTML form and can be viewed using browser (or other tools used display HTML documents). The code coverage report resides at the path _~/.../alexanderb13_eddasr15-P2/VideotapesGaloreAPI/VideotapesGaloreAPI.Tests/coverage/index.htm_.
+
+The following image demonstrates what the unit test coverage report should look like for reference:
+
+<a name="integration-testing"></a>
+### Integration Testing
+TODO
 
 <a name="design"></a>
 ## Major Deviations from Provided System Design

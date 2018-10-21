@@ -428,7 +428,7 @@ namespace VideotapesGalore.WebApi.Controllers
         /// <response code="401">Client not authorized for initialization</response>
         /// <response code="400">Users already initialized in some form</response>
         /// <response code="500">Internal server error</response>
-        [HttpPost ("initialize")]
+        [HttpPost ("seed")]
         [Authorize(Policy="InitializationAuth")]
         [Produces ("application/json")]
         [ProducesResponseType (204)]

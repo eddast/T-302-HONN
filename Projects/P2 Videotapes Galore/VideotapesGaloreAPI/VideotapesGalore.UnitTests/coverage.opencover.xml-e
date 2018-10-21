@@ -1,0 +1,817 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CoverageSession>
+  <Summary numSequencePoints="232" visitedSequencePoints="222" numBranchPoints="232" visitedBranchPoints="222" sequenceCoverage="0.957" branchCoverage="0.957" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="3" numClasses="11" visitedMethods="37" numMethods="38" />
+  <Modules>
+    <Module hash="C1CD9230-7451-4921-B701-413E283E8481">
+      <ModulePath>VideotapesGalore.Repositories.dll</ModulePath>
+      <ModuleTime>2018-10-21T09:25:53</ModuleTime>
+      <ModuleName>VideotapesGalore.Repositories</ModuleName>
+      <Files />
+      <Classes />
+    </Module>
+    <Module hash="A83829F1-2118-40EF-82C2-663990B12CA3">
+      <ModulePath>VideotapesGalore.Models.dll</ModulePath>
+      <ModuleTime>2018-10-21T09:25:53</ModuleTime>
+      <ModuleName>VideotapesGalore.Models</ModuleName>
+      <Files />
+      <Classes />
+    </Module>
+    <Module hash="4F47AFE5-D84F-4001-A4EE-4527F266B4EC">
+      <ModulePath>VideotapesGalore.Services.dll</ModulePath>
+      <ModuleTime>2018-10-21T09:25:53</ModuleTime>
+      <ModuleName>VideotapesGalore.Services</ModuleName>
+      <Files>
+        <File uid="1" fullPath="/Users/eddarunarsdottir/Desktop/Haust2018/T-302-HONN/Projects/P2 Videotapes Galore/VideotapesGaloreAPI/VideotapesGalore.Services/Implementation/RecommendationService.cs" />
+        <File uid="2" fullPath="/Users/eddarunarsdottir/Desktop/Haust2018/T-302-HONN/Projects/P2 Videotapes Galore/VideotapesGaloreAPI/VideotapesGalore.Services/Implementation/ReviewService.cs" />
+        <File uid="3" fullPath="/Users/eddarunarsdottir/Desktop/Haust2018/T-302-HONN/Projects/P2 Videotapes Galore/VideotapesGaloreAPI/VideotapesGalore.Services/Implementation/TapeService.cs" />
+        <File uid="4" fullPath="/Users/eddarunarsdottir/Desktop/Haust2018/T-302-HONN/Projects/P2 Videotapes Galore/VideotapesGaloreAPI/VideotapesGalore.Services/Implementation/UserService.cs" />
+      </Files>
+      <Classes>
+        <Class>
+          <Summary numSequencePoints="2" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="1" visitedMethods="0" numMethods="1" />
+          <FullName>VideotapesGalore.Services.Implementation.RecommendationService</FullName>
+          <Methods>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0" branchCoverage="0" isConstructor="False" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="2" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="1" />
+              <MetadataToken />
+              <Name>VideotapesGalore.Models.DTOs.TapeDTO VideotapesGalore.Services.Implementation.RecommendationService::GetRecommendationForUser(System.Int32)</Name>
+              <FileRef uid="1" />
+              <SequencePoints>
+                <SequencePoint vc="0" upsid="14" ordinal="0" sl="14" sc="1" el="14" ec="2" bec="0" bev="0" fileid="1" />
+                <SequencePoint vc="0" upsid="15" ordinal="1" sl="15" sc="1" el="15" ec="2" bec="0" bev="0" fileid="1" />
+              </SequencePoints>
+              <BranchPoints />
+              <MethodPoint vc="0" upsid="0" p8:type="SequencePoint" ordinal="0" offset="0" sc="0" sl="14" ec="1" el="15" bec="0" bev="0" fileid="1" xmlns:p8="xsi" />
+            </Method>
+          </Methods>
+        </Class>
+        <Class>
+          <Summary numSequencePoints="47" visitedSequencePoints="47" numBranchPoints="12" visitedBranchPoints="12" sequenceCoverage="1" branchCoverage="1" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="1" numClasses="1" visitedMethods="10" numMethods="10" />
+          <FullName>VideotapesGalore.Services.Implementation.ReviewService</FullName>
+          <Methods>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="1" branchCoverage="0" isConstructor="False" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="1" visitedSequencePoints="1" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="1" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>System.Collections.Generic.List`1&lt;VideotapesGalore.Models.DTOs.ReviewDTO&gt; VideotapesGalore.Services.Implementation.ReviewService::GetAllReviews()</Name>
+              <FileRef uid="2" />
+              <SequencePoints>
+                <SequencePoint vc="1" upsid="39" ordinal="0" sl="39" sc="1" el="39" ec="2" bec="0" bev="0" fileid="2" />
+              </SequencePoints>
+              <BranchPoints />
+              <MethodPoint vc="1" upsid="0" p8:type="SequencePoint" ordinal="0" offset="0" sc="0" sl="39" ec="1" el="39" bec="0" bev="0" fileid="2" xmlns:p8="xsi" />
+            </Method>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="1" branchCoverage="0" isConstructor="False" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="4" visitedSequencePoints="4" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="1" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>System.Collections.Generic.List`1&lt;VideotapesGalore.Models.DTOs.ReviewDTO&gt; VideotapesGalore.Services.Implementation.ReviewService::GetUserReviewsById(System.Int32)</Name>
+              <FileRef uid="2" />
+              <SequencePoints>
+                <SequencePoint vc="2" upsid="47" ordinal="0" sl="47" sc="1" el="47" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="2" upsid="48" ordinal="1" sl="48" sc="1" el="48" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="5" upsid="49" ordinal="2" sl="49" sc="1" el="49" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="1" upsid="50" ordinal="3" sl="50" sc="1" el="50" ec="2" bec="0" bev="0" fileid="2" />
+              </SequencePoints>
+              <BranchPoints />
+              <MethodPoint vc="4" upsid="0" p8:type="SequencePoint" ordinal="1" offset="1" sc="0" sl="47" ec="1" el="50" bec="0" bev="0" fileid="2" xmlns:p8="xsi" />
+            </Method>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="1" branchCoverage="0" isConstructor="False" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="4" visitedSequencePoints="4" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="1" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>System.Collections.Generic.List`1&lt;VideotapesGalore.Models.DTOs.ReviewDTO&gt; VideotapesGalore.Services.Implementation.ReviewService::GetTapeReviewsById(System.Int32)</Name>
+              <FileRef uid="2" />
+              <SequencePoints>
+                <SequencePoint vc="2" upsid="58" ordinal="0" sl="58" sc="1" el="58" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="2" upsid="59" ordinal="1" sl="59" sc="1" el="59" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="5" upsid="60" ordinal="2" sl="60" sc="1" el="60" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="1" upsid="61" ordinal="3" sl="61" sc="1" el="61" ec="2" bec="0" bev="0" fileid="2" />
+              </SequencePoints>
+              <BranchPoints />
+              <MethodPoint vc="4" upsid="0" p8:type="SequencePoint" ordinal="2" offset="2" sc="0" sl="58" ec="1" el="61" bec="0" bev="0" fileid="2" xmlns:p8="xsi" />
+            </Method>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="1" branchCoverage="1" isConstructor="False" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="6" visitedSequencePoints="6" numBranchPoints="2" visitedBranchPoints="2" sequenceCoverage="1" branchCoverage="1" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>VideotapesGalore.Models.DTOs.ReviewDTO VideotapesGalore.Services.Implementation.ReviewService::GetUserReviewForTape(System.Int32,System.Int32)</Name>
+              <FileRef uid="2" />
+              <SequencePoints>
+                <SequencePoint vc="4" upsid="70" ordinal="0" sl="70" sc="1" el="70" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="7" upsid="71" ordinal="1" sl="71" sc="1" el="71" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="7" upsid="72" ordinal="2" sl="72" sc="1" el="72" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="3" upsid="73" ordinal="3" sl="73" sc="1" el="73" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="1" upsid="74" ordinal="4" sl="74" sc="1" el="74" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="1" upsid="75" ordinal="5" sl="75" sc="1" el="75" ec="2" bec="0" bev="0" fileid="2" />
+              </SequencePoints>
+              <BranchPoints>
+                <BranchPoint vc="1" upsid="73" ordinal="0" path="0" offset="82" offsetend="84" sl="73" fileid="2" />
+                <BranchPoint vc="1" upsid="73" ordinal="1" path="1" offset="82" offsetend="122" sl="73" fileid="2" />
+              </BranchPoints>
+              <MethodPoint vc="6" upsid="0" p8:type="SequencePoint" ordinal="3" offset="3" sc="0" sl="70" ec="1" el="75" bec="0" bev="0" fileid="2" xmlns:p8="xsi" />
+            </Method>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="1" branchCoverage="1" isConstructor="False" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="6" visitedSequencePoints="6" numBranchPoints="2" visitedBranchPoints="2" sequenceCoverage="1" branchCoverage="1" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>System.Void VideotapesGalore.Services.Implementation.ReviewService::CreateUserReview(System.Int32,System.Int32,VideotapesGalore.Models.InputModels.ReviewInputModel)</Name>
+              <FileRef uid="2" />
+              <SequencePoints>
+                <SequencePoint vc="4" upsid="84" ordinal="0" sl="84" sc="1" el="84" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="7" upsid="85" ordinal="1" sl="85" sc="1" el="85" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="7" upsid="86" ordinal="2" sl="86" sc="1" el="86" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="3" upsid="87" ordinal="3" sl="87" sc="1" el="87" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="1" upsid="88" ordinal="4" sl="88" sc="1" el="88" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="1" upsid="89" ordinal="5" sl="89" sc="1" el="89" ec="2" bec="0" bev="0" fileid="2" />
+              </SequencePoints>
+              <BranchPoints>
+                <BranchPoint vc="1" upsid="87" ordinal="0" path="0" offset="82" offsetend="84" sl="87" fileid="2" />
+                <BranchPoint vc="1" upsid="87" ordinal="1" path="1" offset="82" offsetend="122" sl="87" fileid="2" />
+              </BranchPoints>
+              <MethodPoint vc="6" upsid="0" p8:type="SequencePoint" ordinal="4" offset="4" sc="0" sl="84" ec="1" el="89" bec="0" bev="0" fileid="2" xmlns:p8="xsi" />
+            </Method>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="1" branchCoverage="1" isConstructor="False" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="6" visitedSequencePoints="6" numBranchPoints="2" visitedBranchPoints="2" sequenceCoverage="1" branchCoverage="1" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>System.Void VideotapesGalore.Services.Implementation.ReviewService::EditUserReview(System.Int32,System.Int32,VideotapesGalore.Models.InputModels.ReviewInputModel)</Name>
+              <FileRef uid="2" />
+              <SequencePoints>
+                <SequencePoint vc="4" upsid="98" ordinal="0" sl="98" sc="1" el="98" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="7" upsid="99" ordinal="1" sl="99" sc="1" el="99" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="7" upsid="100" ordinal="2" sl="100" sc="1" el="100" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="3" upsid="101" ordinal="3" sl="101" sc="1" el="101" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="1" upsid="102" ordinal="4" sl="102" sc="1" el="102" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="1" upsid="103" ordinal="5" sl="103" sc="1" el="103" ec="2" bec="0" bev="0" fileid="2" />
+              </SequencePoints>
+              <BranchPoints>
+                <BranchPoint vc="1" upsid="101" ordinal="0" path="0" offset="82" offsetend="84" sl="101" fileid="2" />
+                <BranchPoint vc="1" upsid="101" ordinal="1" path="1" offset="82" offsetend="122" sl="101" fileid="2" />
+              </BranchPoints>
+              <MethodPoint vc="6" upsid="0" p8:type="SequencePoint" ordinal="5" offset="5" sc="0" sl="98" ec="1" el="103" bec="0" bev="0" fileid="2" xmlns:p8="xsi" />
+            </Method>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="1" branchCoverage="1" isConstructor="False" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="6" visitedSequencePoints="6" numBranchPoints="2" visitedBranchPoints="2" sequenceCoverage="1" branchCoverage="1" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>System.Void VideotapesGalore.Services.Implementation.ReviewService::DeleteUserReview(System.Int32,System.Int32)</Name>
+              <FileRef uid="2" />
+              <SequencePoints>
+                <SequencePoint vc="4" upsid="111" ordinal="0" sl="111" sc="1" el="111" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="7" upsid="112" ordinal="1" sl="112" sc="1" el="112" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="7" upsid="113" ordinal="2" sl="113" sc="1" el="113" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="3" upsid="114" ordinal="3" sl="114" sc="1" el="114" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="1" upsid="115" ordinal="4" sl="115" sc="1" el="115" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="1" upsid="116" ordinal="5" sl="116" sc="1" el="116" ec="2" bec="0" bev="0" fileid="2" />
+              </SequencePoints>
+              <BranchPoints>
+                <BranchPoint vc="1" upsid="114" ordinal="0" path="0" offset="82" offsetend="84" sl="114" fileid="2" />
+                <BranchPoint vc="1" upsid="114" ordinal="1" path="1" offset="82" offsetend="122" sl="114" fileid="2" />
+              </BranchPoints>
+              <MethodPoint vc="6" upsid="0" p8:type="SequencePoint" ordinal="6" offset="6" sc="0" sl="111" ec="1" el="116" bec="0" bev="0" fileid="2" xmlns:p8="xsi" />
+            </Method>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="1" branchCoverage="1" isConstructor="False" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="4" visitedSequencePoints="4" numBranchPoints="2" visitedBranchPoints="2" sequenceCoverage="1" branchCoverage="1" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>System.Void VideotapesGalore.Services.Implementation.ReviewService::ValidateUser(System.Int32)</Name>
+              <FileRef uid="2" />
+              <SequencePoints>
+                <SequencePoint vc="18" upsid="121" ordinal="0" sl="121" sc="1" el="121" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="62" upsid="122" ordinal="1" sl="122" sc="1" el="122" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="23" upsid="123" ordinal="2" sl="123" sc="1" el="123" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="13" upsid="124" ordinal="3" sl="124" sc="1" el="124" ec="2" bec="0" bev="0" fileid="2" />
+              </SequencePoints>
+              <BranchPoints>
+                <BranchPoint vc="5" upsid="123" ordinal="0" path="0" offset="49" offsetend="51" sl="123" fileid="2" />
+                <BranchPoint vc="13" upsid="123" ordinal="1" path="1" offset="49" offsetend="78" sl="123" fileid="2" />
+              </BranchPoints>
+              <MethodPoint vc="4" upsid="0" p8:type="SequencePoint" ordinal="7" offset="7" sc="0" sl="121" ec="1" el="124" bec="0" bev="0" fileid="2" xmlns:p8="xsi" />
+            </Method>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="1" branchCoverage="1" isConstructor="False" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="4" visitedSequencePoints="4" numBranchPoints="2" visitedBranchPoints="2" sequenceCoverage="1" branchCoverage="1" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>System.Void VideotapesGalore.Services.Implementation.ReviewService::ValidateTape(System.Int32)</Name>
+              <FileRef uid="2" />
+              <SequencePoints>
+                <SequencePoint vc="14" upsid="129" ordinal="0" sl="129" sc="1" el="129" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="56" upsid="130" ordinal="1" sl="130" sc="1" el="130" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="19" upsid="131" ordinal="2" sl="131" sc="1" el="131" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="9" upsid="132" ordinal="3" sl="132" sc="1" el="132" ec="2" bec="0" bev="0" fileid="2" />
+              </SequencePoints>
+              <BranchPoints>
+                <BranchPoint vc="5" upsid="131" ordinal="0" path="0" offset="49" offsetend="51" sl="131" fileid="2" />
+                <BranchPoint vc="9" upsid="131" ordinal="1" path="1" offset="49" offsetend="78" sl="131" fileid="2" />
+              </BranchPoints>
+              <MethodPoint vc="4" upsid="0" p8:type="SequencePoint" ordinal="8" offset="8" sc="0" sl="129" ec="1" el="132" bec="0" bev="0" fileid="2" xmlns:p8="xsi" />
+            </Method>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="1" branchCoverage="0" isConstructor="True" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="6" visitedSequencePoints="6" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="1" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>System.Void VideotapesGalore.Services.Implementation.ReviewService::.ctor(VideotapesGalore.Repositories.Interfaces.IReviewRepository,VideotapesGalore.Repositories.Interfaces.IUserRepository,VideotapesGalore.Repositories.Interfaces.ITapeRepository)</Name>
+              <FileRef uid="2" />
+              <SequencePoints>
+                <SequencePoint vc="1" upsid="27" ordinal="0" sl="27" sc="1" el="27" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="1" upsid="28" ordinal="1" sl="28" sc="1" el="28" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="1" upsid="29" ordinal="2" sl="29" sc="1" el="29" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="1" upsid="30" ordinal="3" sl="30" sc="1" el="30" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="1" upsid="31" ordinal="4" sl="31" sc="1" el="31" ec="2" bec="0" bev="0" fileid="2" />
+                <SequencePoint vc="1" upsid="32" ordinal="5" sl="32" sc="1" el="32" ec="2" bec="0" bev="0" fileid="2" />
+              </SequencePoints>
+              <BranchPoints />
+              <MethodPoint vc="6" upsid="0" p8:type="SequencePoint" ordinal="9" offset="9" sc="0" sl="27" ec="1" el="32" bec="0" bev="0" fileid="2" xmlns:p8="xsi" />
+            </Method>
+          </Methods>
+        </Class>
+        <Class>
+          <Summary numSequencePoints="0" visitedSequencePoints="0" numBranchPoints="2" visitedBranchPoints="2" sequenceCoverage="0" branchCoverage="1" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="1" visitedMethods="0" numMethods="0" />
+          <FullName>VideotapesGalore.Services.Implementation.ReviewService/&lt;&gt;c__DisplayClass7_0</FullName>
+          <Methods />
+        </Class>
+        <Class>
+          <Summary numSequencePoints="0" visitedSequencePoints="0" numBranchPoints="2" visitedBranchPoints="2" sequenceCoverage="0" branchCoverage="1" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="1" visitedMethods="0" numMethods="0" />
+          <FullName>VideotapesGalore.Services.Implementation.ReviewService/&lt;&gt;c__DisplayClass8_0</FullName>
+          <Methods />
+        </Class>
+        <Class>
+          <Summary numSequencePoints="0" visitedSequencePoints="0" numBranchPoints="2" visitedBranchPoints="2" sequenceCoverage="0" branchCoverage="1" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="1" visitedMethods="0" numMethods="0" />
+          <FullName>VideotapesGalore.Services.Implementation.ReviewService/&lt;&gt;c__DisplayClass9_0</FullName>
+          <Methods />
+        </Class>
+        <Class>
+          <Summary numSequencePoints="0" visitedSequencePoints="0" numBranchPoints="2" visitedBranchPoints="2" sequenceCoverage="0" branchCoverage="1" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="1" visitedMethods="0" numMethods="0" />
+          <FullName>VideotapesGalore.Services.Implementation.ReviewService/&lt;&gt;c__DisplayClass10_0</FullName>
+          <Methods />
+        </Class>
+        <Class>
+          <Summary numSequencePoints="119" visitedSequencePoints="115" numBranchPoints="48" visitedBranchPoints="41" sequenceCoverage="0.966" branchCoverage="0.854" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="1" numClasses="1" visitedMethods="16" numMethods="16" />
+          <FullName>VideotapesGalore.Services.Implementation.TapeService</FullName>
+          <Methods>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="1" branchCoverage="0" isConstructor="False" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="1" visitedSequencePoints="1" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="1" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>System.Collections.Generic.List`1&lt;VideotapesGalore.Models.DTOs.TapeDTO&gt; VideotapesGalore.Services.Implementation.TapeService::GetAllTapes()</Name>
+              <FileRef uid="3" />
+              <SequencePoints>
+                <SequencePoint vc="1" upsid="57" ordinal="0" sl="57" sc="1" el="57" ec="2" bec="0" bev="0" fileid="3" />
+              </SequencePoints>
+              <BranchPoints />
+              <MethodPoint vc="1" upsid="0" p8:type="SequencePoint" ordinal="0" offset="0" sc="0" sl="57" ec="1" el="57" bec="0" bev="0" fileid="3" xmlns:p8="xsi" />
+            </Method>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="1" branchCoverage="1" isConstructor="False" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="14" visitedSequencePoints="14" numBranchPoints="6" visitedBranchPoints="6" sequenceCoverage="1" branchCoverage="1" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>System.Collections.Generic.List`1&lt;VideotapesGalore.Models.DTOs.TapeDTO&gt; VideotapesGalore.Services.Implementation.TapeService::GetTapeReportAtDate(System.DateTime)</Name>
+              <FileRef uid="3" />
+              <SequencePoints>
+                <SequencePoint vc="1" upsid="65" ordinal="0" sl="65" sc="1" el="65" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="66" ordinal="1" sl="66" sc="1" el="66" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="67" ordinal="2" sl="67" sc="1" el="67" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="68" ordinal="3" sl="68" sc="1" el="68" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="15" upsid="69" ordinal="4" sl="69" sc="1" el="69" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="19" upsid="70" ordinal="5" sl="70" sc="1" el="70" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="22" upsid="71" ordinal="6" sl="71" sc="1" el="71" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="6" upsid="72" ordinal="7" sl="72" sc="1" el="72" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="2" upsid="73" ordinal="8" sl="73" sc="1" el="73" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="2" upsid="74" ordinal="9" sl="74" sc="1" el="74" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="2" upsid="76" ordinal="10" sl="76" sc="1" el="76" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="4" upsid="77" ordinal="11" sl="77" sc="1" el="77" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="78" ordinal="12" sl="78" sc="1" el="78" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="79" ordinal="13" sl="79" sc="1" el="79" ec="2" bec="0" bev="0" fileid="3" />
+              </SequencePoints>
+              <BranchPoints>
+                <BranchPoint vc="4" upsid="69" ordinal="5" path="1" offset="191" offsetend="49" sl="69" fileid="3" />
+                <BranchPoint vc="4" upsid="71" ordinal="3" path="1" offset="166" offsetend="104" sl="71" fileid="3" />
+                <BranchPoint vc="2" upsid="72" ordinal="0" path="0" offset="139" offsetend="141" sl="72" fileid="3" />
+                <BranchPoint vc="2" upsid="72" ordinal="1" path="1" offset="139" offsetend="158" sl="72" fileid="3" />
+                <BranchPoint vc="4" upsid="71" ordinal="2" path="0" offset="166" offsetend="168" sl="71" fileid="3" />
+                <BranchPoint vc="1" upsid="69" ordinal="4" path="0" offset="191" offsetend="196" sl="69" fileid="3" />
+              </BranchPoints>
+              <MethodPoint vc="14" upsid="0" p8:type="SequencePoint" ordinal="1" offset="1" sc="0" sl="65" ec="1" el="79" bec="0" bev="0" fileid="3" xmlns:p8="xsi" />
+            </Method>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="1" branchCoverage="1" isConstructor="False" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="8" visitedSequencePoints="8" numBranchPoints="2" visitedBranchPoints="2" sequenceCoverage="1" branchCoverage="1" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>VideotapesGalore.Models.DTOs.TapeDetailDTO VideotapesGalore.Services.Implementation.TapeService::GetTapeById(System.Int32)</Name>
+              <FileRef uid="3" />
+              <SequencePoints>
+                <SequencePoint vc="2" upsid="87" ordinal="0" sl="87" sc="1" el="87" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="10" upsid="88" ordinal="1" sl="88" sc="1" el="88" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="3" upsid="89" ordinal="2" sl="89" sc="1" el="89" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="90" ordinal="3" sl="90" sc="1" el="90" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="91" ordinal="4" sl="91" sc="1" el="91" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="92" ordinal="5" sl="92" sc="1" el="92" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="93" ordinal="6" sl="93" sc="1" el="93" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="94" ordinal="7" sl="94" sc="1" el="94" ec="2" bec="0" bev="0" fileid="3" />
+              </SequencePoints>
+              <BranchPoints>
+                <BranchPoint vc="1" upsid="89" ordinal="0" path="0" offset="51" offsetend="53" sl="89" fileid="3" />
+                <BranchPoint vc="1" upsid="89" ordinal="1" path="1" offset="51" offsetend="80" sl="89" fileid="3" />
+              </BranchPoints>
+              <MethodPoint vc="8" upsid="0" p8:type="SequencePoint" ordinal="2" offset="2" sc="0" sl="87" ec="1" el="94" bec="0" bev="0" fileid="3" xmlns:p8="xsi" />
+            </Method>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="1" branchCoverage="0" isConstructor="False" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="1" visitedSequencePoints="1" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="1" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>System.Int32 VideotapesGalore.Services.Implementation.TapeService::CreateTape(VideotapesGalore.Models.InputModels.TapeInputModel)</Name>
+              <FileRef uid="3" />
+              <SequencePoints>
+                <SequencePoint vc="1" upsid="102" ordinal="0" sl="102" sc="1" el="102" ec="2" bec="0" bev="0" fileid="3" />
+              </SequencePoints>
+              <BranchPoints />
+              <MethodPoint vc="1" upsid="0" p8:type="SequencePoint" ordinal="3" offset="3" sc="0" sl="102" ec="1" el="102" bec="0" bev="0" fileid="3" xmlns:p8="xsi" />
+            </Method>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="1" branchCoverage="1" isConstructor="False" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="5" visitedSequencePoints="5" numBranchPoints="2" visitedBranchPoints="2" sequenceCoverage="1" branchCoverage="1" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>System.Void VideotapesGalore.Services.Implementation.TapeService::EditTape(System.Int32,VideotapesGalore.Models.InputModels.TapeInputModel)</Name>
+              <FileRef uid="3" />
+              <SequencePoints>
+                <SequencePoint vc="2" upsid="110" ordinal="0" sl="110" sc="1" el="110" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="10" upsid="111" ordinal="1" sl="111" sc="1" el="111" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="3" upsid="112" ordinal="2" sl="112" sc="1" el="112" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="113" ordinal="3" sl="113" sc="1" el="113" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="114" ordinal="4" sl="114" sc="1" el="114" ec="2" bec="0" bev="0" fileid="3" />
+              </SequencePoints>
+              <BranchPoints>
+                <BranchPoint vc="1" upsid="112" ordinal="0" path="0" offset="49" offsetend="51" sl="112" fileid="3" />
+                <BranchPoint vc="1" upsid="112" ordinal="1" path="1" offset="49" offsetend="78" sl="112" fileid="3" />
+              </BranchPoints>
+              <MethodPoint vc="5" upsid="0" p8:type="SequencePoint" ordinal="4" offset="4" sc="0" sl="110" ec="1" el="114" bec="0" bev="0" fileid="3" xmlns:p8="xsi" />
+            </Method>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="1" branchCoverage="1" isConstructor="False" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="9" visitedSequencePoints="9" numBranchPoints="2" visitedBranchPoints="2" sequenceCoverage="1" branchCoverage="1" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>System.Void VideotapesGalore.Services.Implementation.TapeService::DeleteTape(System.Int32)</Name>
+              <FileRef uid="3" />
+              <SequencePoints>
+                <SequencePoint vc="2" upsid="121" ordinal="0" sl="121" sc="1" el="121" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="10" upsid="122" ordinal="1" sl="122" sc="1" el="122" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="3" upsid="123" ordinal="2" sl="123" sc="1" el="123" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="124" ordinal="3" sl="124" sc="1" el="124" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="125" ordinal="4" sl="125" sc="1" el="125" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="126" ordinal="5" sl="126" sc="1" el="126" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="127" ordinal="6" sl="127" sc="1" el="127" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="128" ordinal="7" sl="128" sc="1" el="128" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="129" ordinal="8" sl="129" sc="1" el="129" ec="2" bec="0" bev="0" fileid="3" />
+              </SequencePoints>
+              <BranchPoints>
+                <BranchPoint vc="1" upsid="123" ordinal="0" path="0" offset="49" offsetend="51" sl="123" fileid="3" />
+                <BranchPoint vc="1" upsid="123" ordinal="1" path="1" offset="49" offsetend="78" sl="123" fileid="3" />
+              </BranchPoints>
+              <MethodPoint vc="9" upsid="0" p8:type="SequencePoint" ordinal="5" offset="5" sc="0" sl="121" ec="1" el="129" bec="0" bev="0" fileid="3" xmlns:p8="xsi" />
+            </Method>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="1" branchCoverage="0.833" isConstructor="False" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="16" visitedSequencePoints="16" numBranchPoints="6" visitedBranchPoints="5" sequenceCoverage="1" branchCoverage="0.833" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>System.Collections.Generic.List`1&lt;VideotapesGalore.Models.DTOs.TapeBorrowRecordDTO&gt; VideotapesGalore.Services.Implementation.TapeService::GetTapesForUserOnLoan(System.Int32)</Name>
+              <FileRef uid="3" />
+              <SequencePoints>
+                <SequencePoint vc="2" upsid="136" ordinal="0" sl="136" sc="1" el="136" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="6" upsid="137" ordinal="1" sl="137" sc="1" el="137" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="3" upsid="138" ordinal="2" sl="138" sc="1" el="138" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="6" upsid="139" ordinal="3" sl="139" sc="1" el="139" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="140" ordinal="4" sl="140" sc="1" el="140" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="141" ordinal="5" sl="141" sc="1" el="141" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="9" upsid="142" ordinal="6" sl="142" sc="1" el="142" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="5" upsid="143" ordinal="7" sl="143" sc="1" el="143" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="2" upsid="144" ordinal="8" sl="144" sc="1" el="144" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="2" upsid="145" ordinal="9" sl="145" sc="1" el="145" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="2" upsid="146" ordinal="10" sl="146" sc="1" el="146" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="2" upsid="147" ordinal="11" sl="147" sc="1" el="147" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="2" upsid="148" ordinal="12" sl="148" sc="1" el="148" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="2" upsid="149" ordinal="13" sl="149" sc="1" el="149" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="150" ordinal="14" sl="150" sc="1" el="150" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="151" ordinal="15" sl="151" sc="1" el="151" ec="2" bec="0" bev="0" fileid="3" />
+              </SequencePoints>
+              <BranchPoints>
+                <BranchPoint vc="1" upsid="138" ordinal="0" path="0" offset="51" offsetend="53" sl="138" fileid="3" />
+                <BranchPoint vc="1" upsid="138" ordinal="1" path="1" offset="51" offsetend="80" sl="138" fileid="3" />
+                <BranchPoint vc="2" upsid="142" ordinal="5" path="1" offset="299" offsetend="147" sl="142" fileid="3" />
+                <BranchPoint vc="0" upsid="144" ordinal="2" path="0" offset="200" offsetend="202" sl="144" fileid="3" />
+                <BranchPoint vc="2" upsid="144" ordinal="3" path="1" offset="200" offsetend="235" sl="144" fileid="3" />
+                <BranchPoint vc="1" upsid="142" ordinal="4" path="0" offset="299" offsetend="304" sl="142" fileid="3" />
+              </BranchPoints>
+              <MethodPoint vc="16" upsid="0" p8:type="SequencePoint" ordinal="6" offset="6" sc="0" sl="136" ec="1" el="151" bec="0" bev="0" fileid="3" xmlns:p8="xsi" />
+            </Method>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="1" branchCoverage="0.75" isConstructor="False" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="13" visitedSequencePoints="13" numBranchPoints="4" visitedBranchPoints="3" sequenceCoverage="1" branchCoverage="0.75" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>System.Void VideotapesGalore.Services.Implementation.TapeService::CreateBorrowRecord(System.Int32,System.Int32,VideotapesGalore.Models.InputModels.BorrowRecordInputModel)</Name>
+              <FileRef uid="3" />
+              <SequencePoints>
+                <SequencePoint vc="3" upsid="159" ordinal="0" sl="159" sc="1" el="159" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="3" upsid="160" ordinal="1" sl="160" sc="1" el="160" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="6" upsid="161" ordinal="2" sl="161" sc="1" el="161" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="162" ordinal="3" sl="162" sc="1" el="162" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="163" ordinal="4" sl="163" sc="1" el="163" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="2" upsid="164" ordinal="5" sl="164" sc="1" el="164" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="165" ordinal="6" sl="165" sc="1" el="165" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="166" ordinal="7" sl="166" sc="1" el="166" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="167" ordinal="8" sl="167" sc="1" el="167" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="168" ordinal="9" sl="168" sc="1" el="168" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="169" ordinal="10" sl="169" sc="1" el="169" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="170" ordinal="11" sl="170" sc="1" el="170" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="171" ordinal="12" sl="171" sc="1" el="171" ec="2" bec="0" bev="0" fileid="3" />
+              </SequencePoints>
+              <BranchPoints>
+                <BranchPoint vc="0" upsid="163" ordinal="0" path="0" offset="78" offsetend="80" sl="163" fileid="3" />
+                <BranchPoint vc="1" upsid="163" ordinal="1" path="1" offset="78" offsetend="91" sl="163" fileid="3" />
+                <BranchPoint vc="1" upsid="164" ordinal="2" path="0" offset="99" offsetend="101" sl="164" fileid="3" />
+                <BranchPoint vc="1" upsid="164" ordinal="3" path="1" offset="99" offsetend="127" sl="164" fileid="3" />
+              </BranchPoints>
+              <MethodPoint vc="13" upsid="0" p8:type="SequencePoint" ordinal="7" offset="7" sc="0" sl="159" ec="1" el="171" bec="0" bev="0" fileid="3" xmlns:p8="xsi" />
+            </Method>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="1" branchCoverage="1" isConstructor="False" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="7" visitedSequencePoints="7" numBranchPoints="2" visitedBranchPoints="2" sequenceCoverage="1" branchCoverage="1" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>System.Void VideotapesGalore.Services.Implementation.TapeService::UpdateBorrowRecord(System.Int32,System.Int32,VideotapesGalore.Models.InputModels.BorrowRecordInputModel)</Name>
+              <FileRef uid="3" />
+              <SequencePoints>
+                <SequencePoint vc="4" upsid="179" ordinal="0" sl="179" sc="1" el="179" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="4" upsid="180" ordinal="1" sl="180" sc="1" el="180" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="12" upsid="181" ordinal="2" sl="181" sc="1" el="181" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="2" upsid="182" ordinal="3" sl="182" sc="1" el="182" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="3" upsid="183" ordinal="4" sl="183" sc="1" el="183" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="184" ordinal="5" sl="184" sc="1" el="184" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="185" ordinal="6" sl="185" sc="1" el="185" ec="2" bec="0" bev="0" fileid="3" />
+              </SequencePoints>
+              <BranchPoints>
+                <BranchPoint vc="1" upsid="183" ordinal="0" path="0" offset="88" offsetend="90" sl="183" fileid="3" />
+                <BranchPoint vc="1" upsid="183" ordinal="1" path="1" offset="88" offsetend="101" sl="183" fileid="3" />
+              </BranchPoints>
+              <MethodPoint vc="7" upsid="0" p8:type="SequencePoint" ordinal="8" offset="8" sc="0" sl="179" ec="1" el="185" bec="0" bev="0" fileid="3" xmlns:p8="xsi" />
+            </Method>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="1" branchCoverage="1" isConstructor="False" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="7" visitedSequencePoints="7" numBranchPoints="2" visitedBranchPoints="2" sequenceCoverage="1" branchCoverage="1" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>System.Void VideotapesGalore.Services.Implementation.TapeService::ReturnTape(System.Int32,System.Int32)</Name>
+              <FileRef uid="3" />
+              <SequencePoints>
+                <SequencePoint vc="4" upsid="192" ordinal="0" sl="192" sc="1" el="192" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="4" upsid="193" ordinal="1" sl="193" sc="1" el="193" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="12" upsid="194" ordinal="2" sl="194" sc="1" el="194" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="2" upsid="195" ordinal="3" sl="195" sc="1" el="195" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="3" upsid="196" ordinal="4" sl="196" sc="1" el="196" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="197" ordinal="5" sl="197" sc="1" el="197" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="198" ordinal="6" sl="198" sc="1" el="198" ec="2" bec="0" bev="0" fileid="3" />
+              </SequencePoints>
+              <BranchPoints>
+                <BranchPoint vc="1" upsid="196" ordinal="0" path="0" offset="88" offsetend="90" sl="196" fileid="3" />
+                <BranchPoint vc="1" upsid="196" ordinal="1" path="1" offset="88" offsetend="101" sl="196" fileid="3" />
+              </BranchPoints>
+              <MethodPoint vc="7" upsid="0" p8:type="SequencePoint" ordinal="9" offset="9" sc="0" sl="192" ec="1" el="198" bec="0" bev="0" fileid="3" xmlns:p8="xsi" />
+            </Method>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="1" branchCoverage="1" isConstructor="False" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="6" visitedSequencePoints="6" numBranchPoints="4" visitedBranchPoints="4" sequenceCoverage="1" branchCoverage="1" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>System.Void VideotapesGalore.Services.Implementation.TapeService::ValidateBorrowRecord(System.Int32,System.Int32)</Name>
+              <FileRef uid="3" />
+              <SequencePoints>
+                <SequencePoint vc="11" upsid="205" ordinal="0" sl="205" sc="1" el="205" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="49" upsid="206" ordinal="1" sl="206" sc="1" el="206" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="14" upsid="207" ordinal="2" sl="207" sc="1" el="207" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="28" upsid="208" ordinal="3" sl="208" sc="1" el="208" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="11" upsid="209" ordinal="4" sl="209" sc="1" el="209" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="5" upsid="210" ordinal="5" sl="210" sc="1" el="210" ec="2" bec="0" bev="0" fileid="3" />
+              </SequencePoints>
+              <BranchPoints>
+                <BranchPoint vc="3" upsid="207" ordinal="0" path="0" offset="56" offsetend="58" sl="207" fileid="3" />
+                <BranchPoint vc="8" upsid="207" ordinal="1" path="1" offset="56" offsetend="85" sl="207" fileid="3" />
+                <BranchPoint vc="3" upsid="209" ordinal="2" path="0" offset="122" offsetend="124" sl="209" fileid="3" />
+                <BranchPoint vc="5" upsid="209" ordinal="3" path="1" offset="122" offsetend="151" sl="209" fileid="3" />
+              </BranchPoints>
+              <MethodPoint vc="6" upsid="0" p8:type="SequencePoint" ordinal="10" offset="10" sc="0" sl="205" ec="1" el="210" bec="0" bev="0" fileid="3" xmlns:p8="xsi" />
+            </Method>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="1" branchCoverage="0.75" isConstructor="False" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="4" visitedSequencePoints="4" numBranchPoints="4" visitedBranchPoints="3" sequenceCoverage="1" branchCoverage="0.75" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>System.Boolean VideotapesGalore.Services.Implementation.TapeService::MatchesLoanDate(System.DateTime,System.DateTime,System.Nullable`1&lt;System.DateTime&gt;)</Name>
+              <FileRef uid="3" />
+              <SequencePoints>
+                <SequencePoint vc="4" upsid="219" ordinal="0" sl="219" sc="1" el="219" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="6" upsid="220" ordinal="1" sl="220" sc="1" el="220" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="2" upsid="221" ordinal="2" sl="221" sc="1" el="221" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="4" upsid="222" ordinal="3" sl="222" sc="1" el="222" ec="2" bec="0" bev="0" fileid="3" />
+              </SequencePoints>
+              <BranchPoints>
+                <BranchPoint vc="2" upsid="220" ordinal="0" path="0" offset="10" offsetend="12" sl="220" fileid="3" />
+                <BranchPoint vc="2" upsid="220" ordinal="2" path="0" offset="26" offsetend="28" sl="220" fileid="3" />
+                <BranchPoint vc="0" upsid="220" ordinal="3" path="1" offset="26" offsetend="43" sl="220" fileid="3" />
+                <BranchPoint vc="2" upsid="220" ordinal="1" path="1" offset="10" offsetend="47" sl="220" fileid="3" />
+              </BranchPoints>
+              <MethodPoint vc="4" upsid="0" p8:type="SequencePoint" ordinal="11" offset="11" sc="0" sl="219" ec="1" el="222" bec="0" bev="0" fileid="3" xmlns:p8="xsi" />
+            </Method>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.667" branchCoverage="0.5" isConstructor="False" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="6" visitedSequencePoints="4" numBranchPoints="2" visitedBranchPoints="1" sequenceCoverage="0.667" branchCoverage="0.5" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>System.Void VideotapesGalore.Services.Implementation.TapeService::RemoveBorrowRecordsFromTape(System.Int32)</Name>
+              <FileRef uid="3" />
+              <SequencePoints>
+                <SequencePoint vc="1" upsid="228" ordinal="0" sl="228" sc="1" el="228" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="6" upsid="229" ordinal="1" sl="229" sc="1" el="229" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="3" upsid="230" ordinal="2" sl="230" sc="1" el="230" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="0" upsid="231" ordinal="3" sl="231" sc="1" el="231" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="0" upsid="232" ordinal="4" sl="232" sc="1" el="232" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="233" ordinal="5" sl="233" sc="1" el="233" ec="2" bec="0" bev="0" fileid="3" />
+              </SequencePoints>
+              <BranchPoints>
+                <BranchPoint vc="0" upsid="230" ordinal="1" path="1" offset="86" offsetend="53" sl="230" fileid="3" />
+                <BranchPoint vc="1" upsid="230" ordinal="0" path="0" offset="86" offsetend="88" sl="230" fileid="3" />
+              </BranchPoints>
+              <MethodPoint vc="4" upsid="0" p8:type="SequencePoint" ordinal="12" offset="12" sc="0" sl="228" ec="1" el="233" bec="0" bev="0" fileid="3" xmlns:p8="xsi" />
+            </Method>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.667" branchCoverage="0.5" isConstructor="False" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="6" visitedSequencePoints="4" numBranchPoints="2" visitedBranchPoints="1" sequenceCoverage="0.667" branchCoverage="0.5" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>System.Void VideotapesGalore.Services.Implementation.TapeService::RemoveReviewsFromTape(System.Int32)</Name>
+              <FileRef uid="3" />
+              <SequencePoints>
+                <SequencePoint vc="1" upsid="239" ordinal="0" sl="239" sc="1" el="239" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="5" upsid="240" ordinal="1" sl="240" sc="1" el="240" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="3" upsid="241" ordinal="2" sl="241" sc="1" el="241" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="0" upsid="242" ordinal="3" sl="242" sc="1" el="242" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="0" upsid="243" ordinal="4" sl="243" sc="1" el="243" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="244" ordinal="5" sl="244" sc="1" el="244" ec="2" bec="0" bev="0" fileid="3" />
+              </SequencePoints>
+              <BranchPoints>
+                <BranchPoint vc="0" upsid="241" ordinal="1" path="1" offset="92" offsetend="53" sl="241" fileid="3" />
+                <BranchPoint vc="1" upsid="241" ordinal="0" path="0" offset="92" offsetend="94" sl="241" fileid="3" />
+              </BranchPoints>
+              <MethodPoint vc="4" upsid="0" p8:type="SequencePoint" ordinal="13" offset="13" sc="0" sl="239" ec="1" el="244" bec="0" bev="0" fileid="3" xmlns:p8="xsi" />
+            </Method>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="1" branchCoverage="0.8" isConstructor="False" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="9" visitedSequencePoints="9" numBranchPoints="10" visitedBranchPoints="8" sequenceCoverage="1" branchCoverage="0.8" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>VideotapesGalore.Models.DTOs.BorrowRecordDTO VideotapesGalore.Services.Implementation.TapeService::GetCurrentBorrowRecord(System.Collections.Generic.List`1&lt;VideotapesGalore.Models.DTOs.BorrowRecordDTO&gt;)</Name>
+              <FileRef uid="3" />
+              <SequencePoints>
+                <SequencePoint vc="5" upsid="247" ordinal="0" sl="247" sc="1" el="247" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="5" upsid="248" ordinal="1" sl="248" sc="1" el="248" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="25" upsid="249" ordinal="2" sl="249" sc="1" el="249" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="6" upsid="250" ordinal="3" sl="250" sc="1" el="250" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="2" upsid="251" ordinal="4" sl="251" sc="1" el="251" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="2" upsid="252" ordinal="5" sl="252" sc="1" el="252" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="2" upsid="254" ordinal="6" sl="254" sc="1" el="254" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="5" upsid="255" ordinal="7" sl="255" sc="1" el="255" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="5" upsid="256" ordinal="8" sl="256" sc="1" el="256" ec="2" bec="0" bev="0" fileid="3" />
+              </SequencePoints>
+              <BranchPoints>
+                <BranchPoint vc="4" upsid="249" ordinal="9" path="1" offset="114" offsetend="13" sl="249" fileid="3" />
+                <BranchPoint vc="2" upsid="250" ordinal="0" path="0" offset="37" offsetend="39" sl="250" fileid="3" />
+                <BranchPoint vc="0" upsid="250" ordinal="2" path="0" offset="63" offsetend="65" sl="250" fileid="3" />
+                <BranchPoint vc="2" upsid="250" ordinal="3" path="1" offset="63" offsetend="68" sl="250" fileid="3" />
+                <BranchPoint vc="0" upsid="250" ordinal="4" path="0" offset="75" offsetend="77" sl="250" fileid="3" />
+                <BranchPoint vc="2" upsid="250" ordinal="5" path="1" offset="75" offsetend="80" sl="250" fileid="3" />
+                <BranchPoint vc="2" upsid="250" ordinal="1" path="1" offset="37" offsetend="96" sl="250" fileid="3" />
+                <BranchPoint vc="2" upsid="250" ordinal="6" path="0" offset="99" offsetend="101" sl="250" fileid="3" />
+                <BranchPoint vc="2" upsid="250" ordinal="7" path="1" offset="99" offsetend="106" sl="250" fileid="3" />
+                <BranchPoint vc="5" upsid="249" ordinal="8" path="0" offset="114" offsetend="116" sl="249" fileid="3" />
+              </BranchPoints>
+              <MethodPoint vc="9" upsid="0" p8:type="SequencePoint" ordinal="14" offset="14" sc="0" sl="247" ec="1" el="256" bec="0" bev="0" fileid="3" xmlns:p8="xsi" />
+            </Method>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="1" branchCoverage="0" isConstructor="True" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="7" visitedSequencePoints="7" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="1" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>System.Void VideotapesGalore.Services.Implementation.TapeService::.ctor(VideotapesGalore.Repositories.Interfaces.ITapeRepository,VideotapesGalore.Repositories.Interfaces.IBorrowRecordRepository,VideotapesGalore.Repositories.Interfaces.IUserRepository,VideotapesGalore.Repositories.Interfaces.IReviewRepository)</Name>
+              <FileRef uid="3" />
+              <SequencePoints>
+                <SequencePoint vc="1" upsid="44" ordinal="0" sl="44" sc="1" el="44" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="45" ordinal="1" sl="45" sc="1" el="45" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="46" ordinal="2" sl="46" sc="1" el="46" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="47" ordinal="3" sl="47" sc="1" el="47" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="48" ordinal="4" sl="48" sc="1" el="48" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="49" ordinal="5" sl="49" sc="1" el="49" ec="2" bec="0" bev="0" fileid="3" />
+                <SequencePoint vc="1" upsid="50" ordinal="6" sl="50" sc="1" el="50" ec="2" bec="0" bev="0" fileid="3" />
+              </SequencePoints>
+              <BranchPoints />
+              <MethodPoint vc="7" upsid="0" p8:type="SequencePoint" ordinal="15" offset="15" sc="0" sl="44" ec="1" el="50" bec="0" bev="0" fileid="3" xmlns:p8="xsi" />
+            </Method>
+          </Methods>
+        </Class>
+        <Class>
+          <Summary numSequencePoints="0" visitedSequencePoints="0" numBranchPoints="8" visitedBranchPoints="6" sequenceCoverage="0" branchCoverage="0.75" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="1" visitedMethods="0" numMethods="0" />
+          <FullName>VideotapesGalore.Services.Implementation.TapeService/&lt;&gt;c__DisplayClass11_0</FullName>
+          <Methods />
+        </Class>
+        <Class>
+          <Summary numSequencePoints="0" visitedSequencePoints="0" numBranchPoints="2" visitedBranchPoints="2" sequenceCoverage="0" branchCoverage="1" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="1" visitedMethods="0" numMethods="0" />
+          <FullName>VideotapesGalore.Services.Implementation.TapeService/&lt;&gt;c__DisplayClass13_0</FullName>
+          <Methods />
+        </Class>
+        <Class>
+          <Summary numSequencePoints="0" visitedSequencePoints="0" numBranchPoints="2" visitedBranchPoints="2" sequenceCoverage="0" branchCoverage="1" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="1" visitedMethods="0" numMethods="0" />
+          <FullName>VideotapesGalore.Services.Implementation.TapeService/&lt;&gt;c__DisplayClass14_0</FullName>
+          <Methods />
+        </Class>
+        <Class>
+          <Summary numSequencePoints="64" visitedSequencePoints="60" numBranchPoints="26" visitedBranchPoints="24" sequenceCoverage="0.938" branchCoverage="0.923" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="1" numClasses="1" visitedMethods="11" numMethods="11" />
+          <FullName>VideotapesGalore.Services.Implementation.UserService</FullName>
+          <Methods>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="1" branchCoverage="0" isConstructor="False" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="1" visitedSequencePoints="1" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="1" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>System.Collections.Generic.List`1&lt;VideotapesGalore.Models.DTOs.UserDTO&gt; VideotapesGalore.Services.Implementation.UserService::GetAllUsers()</Name>
+              <FileRef uid="4" />
+              <SequencePoints>
+                <SequencePoint vc="1" upsid="58" ordinal="0" sl="58" sc="1" el="58" ec="2" bec="0" bev="0" fileid="4" />
+              </SequencePoints>
+              <BranchPoints />
+              <MethodPoint vc="1" upsid="0" p8:type="SequencePoint" ordinal="0" offset="0" sc="0" sl="58" ec="1" el="58" bec="0" bev="0" fileid="4" xmlns:p8="xsi" />
+            </Method>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="1" branchCoverage="1" isConstructor="False" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="16" visitedSequencePoints="16" numBranchPoints="10" visitedBranchPoints="10" sequenceCoverage="1" branchCoverage="1" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>System.Collections.Generic.List`1&lt;VideotapesGalore.Models.DTOs.UserDTO&gt; VideotapesGalore.Services.Implementation.UserService::GetUsersReportAtDateForDuration(System.Nullable`1&lt;System.DateTime&gt;,System.Nullable`1&lt;System.Int32&gt;)</Name>
+              <FileRef uid="4" />
+              <SequencePoints>
+                <SequencePoint vc="2" upsid="68" ordinal="0" sl="68" sc="1" el="68" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="2" upsid="69" ordinal="1" sl="69" sc="1" el="69" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="2" upsid="70" ordinal="2" sl="70" sc="1" el="70" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="2" upsid="71" ordinal="3" sl="71" sc="1" el="71" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="2" upsid="72" ordinal="4" sl="72" sc="1" el="72" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="24" upsid="73" ordinal="5" sl="73" sc="1" el="73" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="31" upsid="75" ordinal="6" sl="75" sc="1" el="75" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="36" upsid="76" ordinal="7" sl="76" sc="1" el="76" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="7" upsid="79" ordinal="8" sl="79" sc="1" el="79" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="10" upsid="80" ordinal="9" sl="80" sc="1" el="80" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="3" upsid="81" ordinal="10" sl="81" sc="1" el="81" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="3" upsid="82" ordinal="11" sl="82" sc="1" el="82" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="4" upsid="84" ordinal="12" sl="84" sc="1" el="84" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="6" upsid="85" ordinal="13" sl="85" sc="1" el="85" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="2" upsid="86" ordinal="14" sl="86" sc="1" el="86" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="2" upsid="87" ordinal="15" sl="87" sc="1" el="87" ec="2" bec="0" bev="0" fileid="4" />
+              </SequencePoints>
+              <BranchPoints>
+                <BranchPoint vc="1" upsid="69" ordinal="0" path="0" offset="8" offsetend="10" sl="69" fileid="4" />
+                <BranchPoint vc="1" upsid="69" ordinal="1" path="1" offset="8" offsetend="17" sl="69" fileid="4" />
+                <BranchPoint vc="6" upsid="73" ordinal="9" path="1" offset="236" offsetend="74" sl="73" fileid="4" />
+                <BranchPoint vc="7" upsid="76" ordinal="7" path="1" offset="211" offsetend="129" sl="76" fileid="4" />
+                <BranchPoint vc="5" upsid="79" ordinal="2" path="0" offset="160" offsetend="162" sl="79" fileid="4" />
+                <BranchPoint vc="2" upsid="79" ordinal="3" path="1" offset="160" offsetend="179" sl="79" fileid="4" />
+                <BranchPoint vc="3" upsid="79" ordinal="4" path="0" offset="184" offsetend="186" sl="79" fileid="4" />
+                <BranchPoint vc="4" upsid="79" ordinal="5" path="1" offset="184" offsetend="203" sl="79" fileid="4" />
+                <BranchPoint vc="6" upsid="76" ordinal="6" path="0" offset="211" offsetend="213" sl="76" fileid="4" />
+                <BranchPoint vc="2" upsid="73" ordinal="8" path="0" offset="236" offsetend="241" sl="73" fileid="4" />
+              </BranchPoints>
+              <MethodPoint vc="16" upsid="0" p8:type="SequencePoint" ordinal="1" offset="1" sc="0" sl="68" ec="1" el="87" bec="0" bev="0" fileid="4" xmlns:p8="xsi" />
+            </Method>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="1" branchCoverage="1" isConstructor="False" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="8" visitedSequencePoints="8" numBranchPoints="2" visitedBranchPoints="2" sequenceCoverage="1" branchCoverage="1" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>VideotapesGalore.Models.DTOs.UserDetailDTO VideotapesGalore.Services.Implementation.UserService::GetUserById(System.Int32)</Name>
+              <FileRef uid="4" />
+              <SequencePoints>
+                <SequencePoint vc="2" upsid="95" ordinal="0" sl="95" sc="1" el="95" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="8" upsid="96" ordinal="1" sl="96" sc="1" el="96" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="3" upsid="97" ordinal="2" sl="97" sc="1" el="97" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="1" upsid="98" ordinal="3" sl="98" sc="1" el="98" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="1" upsid="99" ordinal="4" sl="99" sc="1" el="99" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="1" upsid="100" ordinal="5" sl="100" sc="1" el="100" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="1" upsid="101" ordinal="6" sl="101" sc="1" el="101" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="1" upsid="102" ordinal="7" sl="102" sc="1" el="102" ec="2" bec="0" bev="0" fileid="4" />
+              </SequencePoints>
+              <BranchPoints>
+                <BranchPoint vc="1" upsid="97" ordinal="0" path="0" offset="51" offsetend="53" sl="97" fileid="4" />
+                <BranchPoint vc="1" upsid="97" ordinal="1" path="1" offset="51" offsetend="80" sl="97" fileid="4" />
+              </BranchPoints>
+              <MethodPoint vc="8" upsid="0" p8:type="SequencePoint" ordinal="2" offset="2" sc="0" sl="95" ec="1" el="102" bec="0" bev="0" fileid="4" xmlns:p8="xsi" />
+            </Method>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="1" branchCoverage="0" isConstructor="False" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="1" visitedSequencePoints="1" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="1" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>System.Int32 VideotapesGalore.Services.Implementation.UserService::CreateUser(VideotapesGalore.Models.InputModels.UserInputModel)</Name>
+              <FileRef uid="4" />
+              <SequencePoints>
+                <SequencePoint vc="1" upsid="110" ordinal="0" sl="110" sc="1" el="110" ec="2" bec="0" bev="0" fileid="4" />
+              </SequencePoints>
+              <BranchPoints />
+              <MethodPoint vc="1" upsid="0" p8:type="SequencePoint" ordinal="3" offset="3" sc="0" sl="110" ec="1" el="110" bec="0" bev="0" fileid="4" xmlns:p8="xsi" />
+            </Method>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="1" branchCoverage="1" isConstructor="False" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="5" visitedSequencePoints="5" numBranchPoints="2" visitedBranchPoints="2" sequenceCoverage="1" branchCoverage="1" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>System.Void VideotapesGalore.Services.Implementation.UserService::EditUser(System.Int32,VideotapesGalore.Models.InputModels.UserInputModel)</Name>
+              <FileRef uid="4" />
+              <SequencePoints>
+                <SequencePoint vc="2" upsid="118" ordinal="0" sl="118" sc="1" el="118" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="8" upsid="119" ordinal="1" sl="119" sc="1" el="119" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="3" upsid="120" ordinal="2" sl="120" sc="1" el="120" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="1" upsid="121" ordinal="3" sl="121" sc="1" el="121" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="1" upsid="122" ordinal="4" sl="122" sc="1" el="122" ec="2" bec="0" bev="0" fileid="4" />
+              </SequencePoints>
+              <BranchPoints>
+                <BranchPoint vc="1" upsid="120" ordinal="0" path="0" offset="49" offsetend="51" sl="120" fileid="4" />
+                <BranchPoint vc="1" upsid="120" ordinal="1" path="1" offset="49" offsetend="78" sl="120" fileid="4" />
+              </BranchPoints>
+              <MethodPoint vc="5" upsid="0" p8:type="SequencePoint" ordinal="4" offset="4" sc="0" sl="118" ec="1" el="122" bec="0" bev="0" fileid="4" xmlns:p8="xsi" />
+            </Method>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="1" branchCoverage="1" isConstructor="False" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="9" visitedSequencePoints="9" numBranchPoints="2" visitedBranchPoints="2" sequenceCoverage="1" branchCoverage="1" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>System.Void VideotapesGalore.Services.Implementation.UserService::DeleteUser(System.Int32)</Name>
+              <FileRef uid="4" />
+              <SequencePoints>
+                <SequencePoint vc="2" upsid="129" ordinal="0" sl="129" sc="1" el="129" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="8" upsid="130" ordinal="1" sl="130" sc="1" el="130" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="3" upsid="131" ordinal="2" sl="131" sc="1" el="131" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="1" upsid="132" ordinal="3" sl="132" sc="1" el="132" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="1" upsid="133" ordinal="4" sl="133" sc="1" el="133" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="1" upsid="134" ordinal="5" sl="134" sc="1" el="134" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="1" upsid="135" ordinal="6" sl="135" sc="1" el="135" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="2" upsid="136" ordinal="7" sl="136" sc="1" el="136" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="1" upsid="137" ordinal="8" sl="137" sc="1" el="137" ec="2" bec="0" bev="0" fileid="4" />
+              </SequencePoints>
+              <BranchPoints>
+                <BranchPoint vc="1" upsid="131" ordinal="0" path="0" offset="49" offsetend="51" sl="131" fileid="4" />
+                <BranchPoint vc="1" upsid="131" ordinal="1" path="1" offset="49" offsetend="78" sl="131" fileid="4" />
+              </BranchPoints>
+              <MethodPoint vc="9" upsid="0" p8:type="SequencePoint" ordinal="5" offset="5" sc="0" sl="129" ec="1" el="137" bec="0" bev="0" fileid="4" xmlns:p8="xsi" />
+            </Method>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="1" branchCoverage="1" isConstructor="False" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="4" visitedSequencePoints="4" numBranchPoints="4" visitedBranchPoints="4" sequenceCoverage="1" branchCoverage="1" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>System.Boolean VideotapesGalore.Services.Implementation.UserService::MatchesLoanDate(System.DateTime,System.DateTime,System.Nullable`1&lt;System.DateTime&gt;)</Name>
+              <FileRef uid="4" />
+              <SequencePoints>
+                <SequencePoint vc="7" upsid="147" ordinal="0" sl="147" sc="1" el="147" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="11" upsid="148" ordinal="1" sl="148" sc="1" el="148" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="3" upsid="149" ordinal="2" sl="149" sc="1" el="149" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="7" upsid="150" ordinal="3" sl="150" sc="1" el="150" ec="2" bec="0" bev="0" fileid="4" />
+              </SequencePoints>
+              <BranchPoints>
+                <BranchPoint vc="4" upsid="148" ordinal="0" path="0" offset="10" offsetend="12" sl="148" fileid="4" />
+                <BranchPoint vc="2" upsid="148" ordinal="2" path="0" offset="26" offsetend="28" sl="148" fileid="4" />
+                <BranchPoint vc="2" upsid="148" ordinal="3" path="1" offset="26" offsetend="43" sl="148" fileid="4" />
+                <BranchPoint vc="3" upsid="148" ordinal="1" path="1" offset="10" offsetend="47" sl="148" fileid="4" />
+              </BranchPoints>
+              <MethodPoint vc="4" upsid="0" p8:type="SequencePoint" ordinal="6" offset="6" sc="0" sl="147" ec="1" el="150" bec="0" bev="0" fileid="4" xmlns:p8="xsi" />
+            </Method>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.667" branchCoverage="0.5" isConstructor="False" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="6" visitedSequencePoints="4" numBranchPoints="2" visitedBranchPoints="1" sequenceCoverage="0.667" branchCoverage="0.5" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>System.Void VideotapesGalore.Services.Implementation.UserService::RemoveBorrowRecordsForUser(System.Int32)</Name>
+              <FileRef uid="4" />
+              <SequencePoints>
+                <SequencePoint vc="1" upsid="156" ordinal="0" sl="156" sc="1" el="156" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="6" upsid="157" ordinal="1" sl="157" sc="1" el="157" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="3" upsid="158" ordinal="2" sl="158" sc="1" el="158" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="0" upsid="159" ordinal="3" sl="159" sc="1" el="159" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="0" upsid="160" ordinal="4" sl="160" sc="1" el="160" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="1" upsid="161" ordinal="5" sl="161" sc="1" el="161" ec="2" bec="0" bev="0" fileid="4" />
+              </SequencePoints>
+              <BranchPoints>
+                <BranchPoint vc="0" upsid="158" ordinal="1" path="1" offset="86" offsetend="53" sl="158" fileid="4" />
+                <BranchPoint vc="1" upsid="158" ordinal="0" path="0" offset="86" offsetend="88" sl="158" fileid="4" />
+              </BranchPoints>
+              <MethodPoint vc="4" upsid="0" p8:type="SequencePoint" ordinal="7" offset="7" sc="0" sl="156" ec="1" el="161" bec="0" bev="0" fileid="4" xmlns:p8="xsi" />
+            </Method>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="0.667" branchCoverage="0.5" isConstructor="False" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="6" visitedSequencePoints="4" numBranchPoints="2" visitedBranchPoints="1" sequenceCoverage="0.667" branchCoverage="0.5" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>System.Void VideotapesGalore.Services.Implementation.UserService::RemoveReviewsForUser(System.Int32)</Name>
+              <FileRef uid="4" />
+              <SequencePoints>
+                <SequencePoint vc="1" upsid="167" ordinal="0" sl="167" sc="1" el="167" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="5" upsid="168" ordinal="1" sl="168" sc="1" el="168" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="3" upsid="169" ordinal="2" sl="169" sc="1" el="169" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="0" upsid="170" ordinal="3" sl="170" sc="1" el="170" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="0" upsid="171" ordinal="4" sl="171" sc="1" el="171" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="1" upsid="172" ordinal="5" sl="172" sc="1" el="172" ec="2" bec="0" bev="0" fileid="4" />
+              </SequencePoints>
+              <BranchPoints>
+                <BranchPoint vc="0" upsid="169" ordinal="1" path="1" offset="92" offsetend="53" sl="169" fileid="4" />
+                <BranchPoint vc="1" upsid="169" ordinal="0" path="0" offset="92" offsetend="94" sl="169" fileid="4" />
+              </BranchPoints>
+              <MethodPoint vc="4" upsid="0" p8:type="SequencePoint" ordinal="8" offset="8" sc="0" sl="167" ec="1" el="172" bec="0" bev="0" fileid="4" xmlns:p8="xsi" />
+            </Method>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="1" branchCoverage="1" isConstructor="False" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="1" visitedSequencePoints="1" numBranchPoints="2" visitedBranchPoints="2" sequenceCoverage="1" branchCoverage="1" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>System.Boolean VideotapesGalore.Services.Implementation.UserService::MatchesDuration(System.Nullable`1&lt;System.Int32&gt;,System.DateTime,System.DateTime)</Name>
+              <FileRef uid="4" />
+              <SequencePoints>
+                <SequencePoint vc="5" upsid="181" ordinal="0" sl="181" sc="1" el="181" ec="2" bec="0" bev="0" fileid="4" />
+              </SequencePoints>
+              <BranchPoints>
+                <BranchPoint vc="3" upsid="181" ordinal="0" path="0" offset="7" offsetend="9" sl="181" fileid="4" />
+                <BranchPoint vc="2" upsid="181" ordinal="1" path="1" offset="7" offsetend="39" sl="181" fileid="4" />
+              </BranchPoints>
+              <MethodPoint vc="1" upsid="0" p8:type="SequencePoint" ordinal="9" offset="9" sc="0" sl="181" ec="1" el="181" bec="0" bev="0" fileid="4" xmlns:p8="xsi" />
+            </Method>
+            <Method cyclomaticComplexity="0" nPathComplexity="0" sequenceCoverage="1" branchCoverage="0" isConstructor="True" isGetter="False" isSetter="False" isStatic="True">
+              <Summary numSequencePoints="7" visitedSequencePoints="7" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="1" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="1" numMethods="1" />
+              <MetadataToken />
+              <Name>System.Void VideotapesGalore.Services.Implementation.UserService::.ctor(VideotapesGalore.Repositories.Interfaces.IUserRepository,VideotapesGalore.Repositories.Interfaces.IBorrowRecordRepository,VideotapesGalore.Repositories.Interfaces.ITapeRepository,VideotapesGalore.Repositories.Interfaces.IReviewRepository)</Name>
+              <FileRef uid="4" />
+              <SequencePoints>
+                <SequencePoint vc="1" upsid="45" ordinal="0" sl="45" sc="1" el="45" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="1" upsid="46" ordinal="1" sl="46" sc="1" el="46" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="1" upsid="47" ordinal="2" sl="47" sc="1" el="47" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="1" upsid="48" ordinal="3" sl="48" sc="1" el="48" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="1" upsid="49" ordinal="4" sl="49" sc="1" el="49" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="1" upsid="50" ordinal="5" sl="50" sc="1" el="50" ec="2" bec="0" bev="0" fileid="4" />
+                <SequencePoint vc="1" upsid="51" ordinal="6" sl="51" sc="1" el="51" ec="2" bec="0" bev="0" fileid="4" />
+              </SequencePoints>
+              <BranchPoints />
+              <MethodPoint vc="7" upsid="0" p8:type="SequencePoint" ordinal="10" offset="10" sc="0" sl="45" ec="1" el="51" bec="0" bev="0" fileid="4" xmlns:p8="xsi" />
+            </Method>
+          </Methods>
+        </Class>
+      </Classes>
+    </Module>
+  </Modules>
+</CoverageSession>

@@ -11,7 +11,6 @@ Videotapes Galore is a management system suitable to small-to-medium sized video
 - [Major Deviations from Provided System Design](#design)
   * [Using .NET Core with C#](#dotnet)
   * [Usage of Three Layered Design over Using Only Service Classes](#layers)
-  * [_WithBorrows_ Query Parameter in GET routes for Users and Video Tapes](#withborrows)
   * [The Initialization Routes](#initialization)
 - [Known Limitations and Simplifications](#limitations)
 
@@ -64,10 +63,11 @@ The API's Swagger documentation is available from the subroute /api/v1/documenta
 
 <a name="testing"></a>
 ## Testing
-TODO
 
 <a name="unit-testing"></a>
 ### Unit Testing
+The branch coverage for unit tests for the system is 89.5% and the line coverage for unit tests in system is 95.6% which is a optimal coverage in terms of balancing effort and efficiency of unit tests. The unit tests cover only the buisness logic part of the system (e.g. the service classes) first and foremost as the buisness logic is the most testable part when conducting decoupled unit tests and because controllers and repositories have minimal internal logic and are therefore more suited to be tested via integration tests.
+
 Building, running unit tests on the project and outputting a code coverage report was made easy via the code coverage tool **Coverlet** for .NET Core and the code coverage report generator tool **ReportGenerator** for .NET Core. The prerequisite to running tests and outputting a code coverage report is installing both these tools. This can be done directly via the dotnet terminal command. See below example terminal commands for a reference on how to install both tools.
 
 Installing Coverlet:
@@ -80,16 +80,19 @@ Installing ReportGenerator:
 username$ dotnet tool install -g dotnet-reportgenerator-globaltool
 ```
 
-After both tools are installed, to build, test and output code coverage report on project one must navigate to the unit test project of the source code and run the script **./test.sh** located in the VideotapesGaloreAPI.Tests folder. See example terminal command:
+After both tools are installed, to build, test and output code coverage report on project one must navigate to the unit test project of the source code and run the script **./test.sh** located in the VideotapesGaloreAPI.Tests folder. Note that if when running the script one gets permission denied error, one may need to run chmod +x on the script file before running it. See example terminal command for running the test script:
 
 ```bash
 username$ pwd
 ~/.../alexanderb13_eddasr15-P2/VideotapesGaloreAPI/VideotapesGaloreAPI.Tests
+username$ chmod +x test.sh
 username$ ./test.sh
 ```
 Once this command has been executed and tests have been run, a code coverage report is generated on a HTML form and can be viewed using browser (or other tools used display HTML documents). The code coverage report resides at the path _~/.../alexanderb13_eddasr15-P2/VideotapesGaloreAPI/VideotapesGaloreAPI.Tests/coverage/index.htm_.
 
 The following image demonstrates what the unit test coverage report should look like for reference:
+
+TODO SETJA MYND
 
 <a name="integration-testing"></a>
 ### Integration Testing

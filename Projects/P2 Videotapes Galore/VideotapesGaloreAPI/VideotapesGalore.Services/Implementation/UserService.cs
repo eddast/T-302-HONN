@@ -91,12 +91,12 @@ namespace VideotapesGalore.Services.Implementation
         /// </summary>
         /// <param name="Id">Id associated with user in system</param>
         /// <returns>A user detail dto with borrow history<</returns>
-        public UserBorrowRecordDTO GetUserById(int Id)
+        public UserDetailDTO GetUserById(int Id)
         {
             var user = _userRepository.GetAllUsers().FirstOrDefault(u => u.Id == Id);
             if (user == null) throw new ResourceNotFoundException($"User with id {Id} was not found.");
             var borrowRecords = _borrowRecordRepository.GetAllBorrowRecords().Where(t => t.UserId == Id);
-            var userDetails = Mapper.Map<UserBorrowRecordDTO>(user);
+            var userDetails = Mapper.Map<UserDetailDTO>(user);
             userDetails.History = borrowRecords;
             return userDetails;
         }
@@ -145,8 +145,8 @@ namespace VideotapesGalore.Services.Implementation
         /// <returns></returns>
         private bool MatchesLoanDate(DateTime LoanDate, DateTime BorrowDate, DateTime? ReturnDate)
         { 
-            if(ReturnDate.HasValue) return DateTime.Compare(LoanDate, ReturnDate.Value) < 0 && DateTime.Compare(LoanDate, BorrowDate) > 0;
-            else return DateTime.Compare(LoanDate, BorrowDate) > 0;
+            if(ReturnDate.HasValue) return DateTime.Compare(LoanDate, ReturnDate.Value) < 0 && DateTime.Compare(LoanDate, BorrowDate) >= 0;
+            else return DateTime.Compare(LoanDate, BorrowDate) >= 0;
         }
         /// <summary>
         /// 

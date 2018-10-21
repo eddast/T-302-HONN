@@ -54,11 +54,13 @@ namespace VideotapesGalore.WebApi.Controllers
         /// <returns>a list of all tapes or a report on tape borrows relative to loan date if provided</returns>
         /// <response code="200">Success</response>
         /// <response code="400">LoanDate improperly formatted</response>
+        /// <response code="500">Internal server error</response>
         [HttpGet]
         [Route ("")]
         [Produces ("application/json")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<TapeDTO>))]
-        [ProducesResponseType(400, Type = typeof(ExceptionModel))]
+        [ProducesResponseType (200, Type = typeof(IEnumerable<TapeDTO>))]
+        [ProducesResponseType (400, Type = typeof(ExceptionModel))]
+        [ProducesResponseType (500, Type = typeof(ExceptionModel))]
         public IActionResult GetAllTapes([FromQuery] string LoanDate)
         {
             // If no loan date provided as query parameter all tapes are returned
@@ -81,11 +83,13 @@ namespace VideotapesGalore.WebApi.Controllers
         /// <returns>A single tape if found</returns>
         /// <response code="200">Success</response>
         /// <response code="404">Tape not found</response>
+        /// <response code="500">Internal server error</response>
         [HttpGet]
         [Route ("{id:int}", Name = "GetTapeById")]
         [Produces ("application/json")]
-        [ProducesResponseType(200, Type = typeof(TapeDetailDTO))]
-        [ProducesResponseType(404, Type = typeof(ExceptionModel))]
+        [ProducesResponseType (200, Type = typeof(TapeDetailDTO))]
+        [ProducesResponseType (404, Type = typeof(ExceptionModel))]
+        [ProducesResponseType (500, Type = typeof(ExceptionModel))]
         public IActionResult GetTapeById(int id) =>
             Ok(_tapeService.GetTapeById(id));
 
@@ -96,11 +100,13 @@ namespace VideotapesGalore.WebApi.Controllers
         /// <returns>A status code of 201 created and a set Location header if model is correctly formatted, otherwise error.</returns>
         /// <response code="201">Video tape created</response>
         /// <response code="412">Video tape input model improperly formatted</response>
+        /// <response code="500">Internal server error</response>
         [HttpPost]
         [Route ("")]
         [Consumes ("application/json")]
-        [ProducesResponseType(201)]
-        [ProducesResponseType(412, Type = typeof(ExceptionModel))]
+        [ProducesResponseType (201)]
+        [ProducesResponseType (412, Type = typeof(ExceptionModel))]
+        [ProducesResponseType (500, Type = typeof(ExceptionModel))]
         public IActionResult CreateTape([FromBody] TapeInputModel Tape)
         {
             // Check if input model is valid, output all errors if not
@@ -122,10 +128,14 @@ namespace VideotapesGalore.WebApi.Controllers
         /// <response code="204">Video tape updated</response>
         /// <response code="404">Video tape not found</response>
         /// <response code="412">Video tape input model improperly formatted</response>
+        /// <response code="500">Internal server error</response>
         [HttpPut ("{id:int}")]
-        [ProducesResponseType(204)]
-        [ProducesResponseType(404, Type = typeof(ExceptionModel))]
-        [ProducesResponseType(412, Type = typeof(ExceptionModel))]
+        [Consumes ("application/json")]
+        [Produces ("application/json")]
+        [ProducesResponseType (204)]
+        [ProducesResponseType (404, Type = typeof(ExceptionModel))]
+        [ProducesResponseType (412, Type = typeof(ExceptionModel))]
+        [ProducesResponseType (500, Type = typeof(ExceptionModel))]
         public IActionResult EditTape(int id, [FromBody] TapeInputModel Tape)
         {
             // Check if input model is valid, output all errors if not
@@ -141,16 +151,18 @@ namespace VideotapesGalore.WebApi.Controllers
         /// <summary>
         /// Deletes tape from the system
         /// </summary>
-        /// <param name="Id">Id associated with tape of the system</param>
+        /// <param name="id">Id associated with tape of the system</param>
         /// <returns>A status code of 204 no content.</returns>
         /// <response code="204">Video tape removed</response>
         /// <response code="404">Video tape not found</response>
+        /// <response code="500">Internal server error</response>
         [HttpDelete ("{id:int}")]
         [ProducesResponseType (204)]
-        [ProducesResponseType(404, Type = typeof(ExceptionModel))]
-        public IActionResult DeleteTape(int Id)
+        [ProducesResponseType (404, Type = typeof(ExceptionModel))]
+        [ProducesResponseType (500, Type = typeof(ExceptionModel))]
+        public IActionResult DeleteTape(int id)
         {
-            _tapeService.DeleteTape(Id);
+            _tapeService.DeleteTape(id);
             return NoContent();
         }
 
@@ -165,8 +177,10 @@ namespace VideotapesGalore.WebApi.Controllers
         /// </summary>
         /// <returns>A status code of 200 with list of all reviews for tape</returns>
         /// <response code="200">Success</response>
+        /// <response code="500">Internal server error</response>
         [HttpGet ("reviews")]
         [ProducesResponseType (200, Type= typeof(IEnumerable<ReviewDTO>))]
+        [ProducesResponseType (500, Type = typeof(ExceptionModel))]
          public IActionResult GetAllReviews()
         {
             return Ok(_reviewService.GetAllReviews());
@@ -179,9 +193,11 @@ namespace VideotapesGalore.WebApi.Controllers
         /// <returns>A status code of 200 with list of all reviews for tape</returns>
         /// <response code="200">Success</response>
         /// <response code="404">Tape not found</response>
+        /// <response code="500">Internal server error</response>
         [HttpGet ("{id:int}/reviews")]
         [ProducesResponseType (200, Type= typeof(IEnumerable<ReviewDTO>))]
         [ProducesResponseType (404, Type = typeof(ExceptionModel))]
+        [ProducesResponseType (500, Type = typeof(ExceptionModel))]
          public IActionResult GetReviewsForTape(int id)
         {
             return Ok(_reviewService.GetTapeReviewsById(id));
@@ -190,45 +206,49 @@ namespace VideotapesGalore.WebApi.Controllers
         /// <summary>
         /// Gets a review for a given tape in system for given user
         /// </summary>
-        /// <param name="TapeId">Id associated with tape of the system</param>
-        /// <param name="UserId">Id associated with user of the system</param>
+        /// <param name="tapeId">Id associated with tape of the system</param>
+        /// <param name="userId">Id associated with user of the system</param>
         /// <returns>A status code of 200 to indicate success</returns>
         /// <response code="200">Success</response>
         /// <response code="404">Tape not found</response>
         /// <response code="404">User not found</response>
         /// <response code="404">No review for user for tape found</response>
+        /// <response code="500">Internal server error</response>
         [HttpGet ("{tapeId:int}/reviews/{userId:int}")]
         [ProducesResponseType (200, Type = typeof(ReviewDTO))]
         [ProducesResponseType (404, Type = typeof(ExceptionModel))]
-         public IActionResult GetTapeReviewByUser(int TapeId, int UserId)
+        [ProducesResponseType (500, Type = typeof(ExceptionModel))]
+         public IActionResult GetTapeReviewByUser(int tapeId, int userId)
         {
-            return Ok(_reviewService.GetUserReviewForTape(UserId, TapeId));
+            return Ok(_reviewService.GetUserReviewForTape(userId, tapeId));
         }
 
         /// <summary>
         /// Deletes a review for a given tape in system for given user
         /// </summary>
-        /// <param name="TapeId">Id associated with tape of the system</param>
-        /// <param name="UserId">Id associated with user of the system</param>
+        /// <param name="tapeId">Id associated with tape of the system</param>
+        /// <param name="userId">Id associated with user of the system</param>
         /// <returns>A status code of 204 to indicate success</returns>
         /// <response code="204">Review deleted</response>
         /// <response code="404">Tape not found</response>
         /// <response code="404">User not found</response>
         /// <response code="404">No review for user for tape found</response>
+        /// <response code="500">Internal server error</response>
         [HttpDelete ("{tapeId:int}/reviews/{userId:int}")]
         [ProducesResponseType (204)]
         [ProducesResponseType (404, Type = typeof(ExceptionModel))]
-         public IActionResult DeleteTapeReviewByUser(int TapeId, int UserId)
+        [ProducesResponseType (500, Type = typeof(ExceptionModel))]
+         public IActionResult DeleteTapeReviewByUser(int tapeId, int userId)
         {
-            _reviewService.DeleteUserReview(UserId, TapeId);
+            _reviewService.DeleteUserReview(userId, tapeId);
             return NoContent();
         }
 
         /// <summary>
         /// Updates a review for a given tape in system for given user
         /// </summary>
-        /// <param name="UserId">Id associated with user of the system</param>
-        /// <param name="TapeId">Id associated with tape of the system</param>
+        /// <param name="userId">Id associated with user of the system</param>
+        /// <param name="tapeId">Id associated with tape of the system</param>
         /// <param name="Review">Input model for review including rating for tape</param>
         /// <returns>A status code of 204 to indicate success</returns>
         /// <response code="204">Review deleted</response>
@@ -236,18 +256,22 @@ namespace VideotapesGalore.WebApi.Controllers
         /// <response code="404">User not found</response>
         /// <response code="404">No review for user for tape found</response>
         /// <response code="412">Review input model improperly formatted</response>
+        /// <response code="500">Internal server error</response>
         [HttpPut ("{tapeId:int}/reviews/{userId:int}")]
+        [Consumes ("application/json")]
+        [Produces ("application/json")]
         [ProducesResponseType (204)]
         [ProducesResponseType (404, Type = typeof(ExceptionModel))]
         [ProducesResponseType (412, Type = typeof(ExceptionModel))]
-         public IActionResult UpdateUserReviewForTape(int TapeId, int UserId, [FromBody] ReviewInputModel Review)
+        [ProducesResponseType (500, Type = typeof(ExceptionModel))]
+         public IActionResult UpdateUserReviewForTape(int tapeId, int userId, [FromBody] ReviewInputModel Review)
         {
             // Check if input model is valid, output all errors if not
             if (!ModelState.IsValid) { 
                 IEnumerable<string> errorList = ModelState.Values.SelectMany(v => v.Errors).Select(x => x.ErrorMessage);
                 throw new InputFormatException("Review input model improperly formatted.", errorList);
             }
-            _reviewService.EditUserReview(UserId, TapeId, Review);
+            _reviewService.EditUserReview(userId, tapeId, Review);
             return NoContent();
         }
 
@@ -266,11 +290,15 @@ namespace VideotapesGalore.WebApi.Controllers
         /// <response code="204">Tapes initialized</response>
         /// <response code="401">Client not authorized for initialization</response>
         /// <response code="400">Tapes already initialized in some form</response>
+        /// <response code="500">Internal server error</response>
         [HttpPost ("initialize")]
         [Authorize(Policy="InitializationAuth")]
+        [Consumes ("application/json")]
+        [Produces ("application/json")]
         [ProducesResponseType (204)]
-        [ProducesResponseType(401, Type = typeof(ExceptionModel))]
-        [ProducesResponseType(400, Type = typeof(ExceptionModel))]
+        [ProducesResponseType (401, Type = typeof(ExceptionModel))]
+        [ProducesResponseType (400, Type = typeof(ExceptionModel))]
+        [ProducesResponseType (500, Type = typeof(ExceptionModel))]
         public IActionResult InitializeTapes()
         {
             // We do not initialize unless database is empty for safety reasons

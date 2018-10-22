@@ -11,12 +11,13 @@
     <PackageReference Include="xunit" Version="2.3.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="2.1.3" />
-    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.4" />
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.3" />
     <PackageReference Include="AngleSharp" Version="0.9.10" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\VideotapesGalore.WebApi\VideotapesGalore.WebApi.csproj" />
+    <ProjectReference Include="..\VideotapesGalore.Models\VideotapesGalore.Models.csproj" />
   </ItemGroup>
 
 </Project>

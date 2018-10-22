@@ -24,6 +24,8 @@ namespace VideotapesGalore.Services.Implementation
         /// Initialize repositories
         /// </summary>
         /// <param name="reviewRepository">Which implementation of review repository to use</param>
+        /// <param name="userRepository">Which implementation of user repository to use</param>
+        /// <param name="tapeRepository">Which implementation of tape repository to use</param>
         public ReviewService(IReviewRepository reviewRepository, IUserRepository userRepository, ITapeRepository tapeRepository)
         {
             this._reviewRepository = reviewRepository;

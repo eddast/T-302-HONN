@@ -26,6 +26,8 @@ namespace VideotapesGalore.WebApi.Controllers
         private readonly ITapeService _tapeService;
         /// <summary>service used to fetch and manipulate review data</summary>
         private readonly IReviewService _reviewService;
+        /// <summary>service used to fetch and manipulate review data</summary>
+        private readonly IRecommendationService _recommendationService;
 
         /// <summary>
         /// Set the services as dependency injection for user routes
@@ -33,11 +35,13 @@ namespace VideotapesGalore.WebApi.Controllers
         /// <param name="userService">user service</param>
         /// <param name="tapeService">tape service</param>
         /// <param name="reviewService">review service</param>
-        public UsersController(IUserService userService, ITapeService tapeService, IReviewService reviewService)
+        /// <param name="recommendationService">recommendation service</param>
+        public UsersController(IUserService userService, ITapeService tapeService, IReviewService reviewService, IRecommendationService recommendationService)
         { 
             this._userService = userService;
             this._tapeService = tapeService;
             this._reviewService = reviewService;
+            this._recommendationService = recommendationService;
         }
 
 
@@ -287,6 +291,7 @@ namespace VideotapesGalore.WebApi.Controllers
             return NoContent();
         }
 
+
         /****************************
          *                          *
          *      USER REVIEWS        *
@@ -410,6 +415,30 @@ namespace VideotapesGalore.WebApi.Controllers
             _reviewService.EditUserReview(userId, tapeId, Review);
             return NoContent();
         }
+
+
+        /********************************
+         *                              *
+         *      USER RECOMMENDATION     *
+         *                              *
+         ********************************/
+
+        /// <summary>
+        /// Gets tape recommendation for user
+        /// </summary>
+        /// <param name="id">Id associated with user of the system</param>
+        /// <returns>User by id if found</returns>
+        /// <response code="200">Success</response>
+        /// <response code="404">Recommendation not found</response>
+        /// <response code="500">Internal server error</response>
+        [HttpGet]
+        [Route ("{id:int}/recommendation")]
+        [Produces ("application/json")]
+        [ProducesResponseType (200, Type = typeof(TapeRecommendationDTO))]
+        [ProducesResponseType (404, Type = typeof(ExceptionModel))]
+        [ProducesResponseType (500, Type = typeof(ExceptionModel))]
+        public IActionResult GetRecommendationForUser(int id) =>
+            Ok(_recommendationService.GetRecommendationForUser(id));
 
 
         /********************************

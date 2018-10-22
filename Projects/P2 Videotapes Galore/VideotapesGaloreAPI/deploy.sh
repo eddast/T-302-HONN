@@ -1,1 +1,1 @@
-ssh -i ./videotapes-galore.pem eddast@35.178.107.155
+ssh -i ./videotapes-galore-key.pem 35.176.20.49

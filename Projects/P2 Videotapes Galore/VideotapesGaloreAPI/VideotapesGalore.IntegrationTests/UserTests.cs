@@ -19,9 +19,10 @@ namespace VideotapesGalore.IntegrationTests
         private readonly WebApplicationFactory<Startup> _factory;
         private readonly ITestOutputHelper output;
 
-        public UserTests(WebApplicationFactory<Startup> factory, ITestOutputHelper output)
+        public UserTests(ITestOutputHelper output)
         {
-            _factory = factory;
+            AutoMapper.Mapper.Reset();
+            _factory = SetupTests.GetWebApplicationFactory();
             this.output = output;
         }
 
@@ -30,10 +31,8 @@ namespace VideotapesGalore.IntegrationTests
         {
             /*** Urls to use in test ***/
             string user = "api/v1/users";
-            string tape1 = "tapes/1";
-            string tape2 = "tapes/2";
-
-            // Arrange
+            //string tape1 = "tapes/1";
+            //string tape2 = "tapes/2";
             var client = _factory.CreateClient();
             var userInput = new UserInputModel(){
                 Name = "Test user 1",
@@ -41,11 +40,7 @@ namespace VideotapesGalore.IntegrationTests
                 Phone = "8449919",
                 Address = "address 1337"
             };
-
-            // Act
             var response = await client.PostAsync(user, new StringContent(userInput.ToString()));
-
-            // Assert
             response.EnsureSuccessStatusCode();
         }
     }

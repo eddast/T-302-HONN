@@ -18,12 +18,16 @@ namespace VideotapesGalore.IntegrationTests
         private readonly WebApplicationFactory<Startup> _factory;
         private readonly ITestOutputHelper output;
 
-        public BaseTests(WebApplicationFactory<Startup> factory, ITestOutputHelper output)
+        public BaseTests(ITestOutputHelper output)
         {
-            _factory = factory;
+            _factory = SetupTests.GetWebApplicationFactory();
             this.output = output;
         }
 
+        /// <summary>
+        /// Check if all safe request return 200(OK) status code and application/json content
+        /// (Safe routes are all GET routes in system that do not modify any system data)
+        /// </summary>
         [Theory]
         [InlineData("/api/v1/users")]
         [InlineData("/api/v1/users/2")]
@@ -35,17 +39,10 @@ namespace VideotapesGalore.IntegrationTests
         [InlineData("api/v1/tapes/1/reviews")]
         public async Task Get_EndpointsReturnSuccess(string url)
         {
-            // Arrange
             var client = _factory.CreateClient();
-
-            // Act
             var response = await client.GetAsync(url);
-
-            // Assert
-            // This ensures that the data received is valid and the endpoints work through and through
             response.EnsureSuccessStatusCode();
-            Assert.Equal("application/json; charset=utf-8", 
-                    response.Content.Headers.ContentType.ToString());
+            Assert.Equal("application/json; charset=utf-8", response.Content.Headers.ContentType.ToString());
         }
     }
 }

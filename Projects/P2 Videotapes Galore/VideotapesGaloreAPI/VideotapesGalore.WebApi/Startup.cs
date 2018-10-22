@@ -140,6 +140,7 @@ namespace VideotapesGalore.WebApi
             app.UseMvc();
 
             // Create support for automatic mapping of models in system
+            AutoMapper.Mapper.Reset();
             AutoMapper.Mapper.Initialize(cfg => {
                 // Map entities to DTOs
                 cfg.CreateMap<Tape, TapeDTO>();
@@ -148,10 +149,12 @@ namespace VideotapesGalore.WebApi
                 cfg.CreateMap<BorrowRecord, BorrowRecordDTO>();
                 // Map DTOs to detail DTOs
                 cfg.CreateMap<TapeDetailDTO, TapeDTO>();
+                cfg.CreateMap<TapeRecommendationDTO, TapeDTO>();
                 cfg.CreateMap<UserDetailDTO, UserDTO>();
                 cfg.CreateMap<TapeDTO, TapeBorrowRecordDTO>();
                 cfg.CreateMap<BorrowRecordInputModel, BorrowRecordDTO>();
                 // Map detail DTOs to DTOs
+                cfg.CreateMap<TapeDTO, TapeRecommendationDTO>();
                 cfg.CreateMap<TapeDTO, TapeDetailDTO>();
                 cfg.CreateMap<UserDTO, UserDetailDTO>();
                 cfg.CreateMap<TapeBorrowRecordDTO, TapeDTO>();

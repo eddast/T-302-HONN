@@ -1,0 +1,1 @@
+ssh -i ./videotapes-galore.pem eddast@35.178.107.155

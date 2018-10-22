@@ -48,5 +48,77 @@ namespace VideotapesGalore.IntegrationTests
             // Assert
             response.EnsureSuccessStatusCode();
         }
+
+        [Fact]
+        public async Task SimulateUserReviewActivity()
+        {
+            /*** Urls to use in test ***/
+            string user = "api/v1/users";
+            string tape1 = "tapes/1";
+            string tape2 = "tapes/2";
+
+            // Arrange
+            var client = _factory.CreateClient();
+            var userInput = new UserInputModel(){
+                Name = "Test user 1",
+                Email = "testing@users.com",
+                Phone = "8449919",
+                Address = "address 1337"
+            };
+
+            // Act
+            var response = await client.PostAsync(user, new StringContent(userInput.ToString()));
+
+            // Assert
+            response.EnsureSuccessStatusCode();
+        }
+
+        [Fact]
+        public async Task SimulateUserReturnTapeActivity()
+        {
+            /*** Urls to use in test ***/
+            string user = "api/v1/users";
+            string tape1 = "tapes/1";
+            string tape2 = "tapes/2";
+
+            // Arrange
+            var client = _factory.CreateClient();
+            var userInput = new UserInputModel(){
+                Name = "Test user 1",
+                Email = "testing@users.com",
+                Phone = "8449919",
+                Address = "address 1337"
+            };
+
+            // Act
+            var response = await client.PostAsync(user, new StringContent(userInput.ToString()));
+
+            // Assert
+            response.EnsureSuccessStatusCode();
+        }
+
+        [Fact]
+        public async Task SimulateUserRecommendationActivity()
+        {
+            /*** Urls to use in test ***/
+            string user = "api/v1/users";
+            string tape1 = "tapes/1";
+            string tape2 = "tapes/2";
+
+            // Arrange
+            var client = _factory.CreateClient();
+            var userInput = new UserInputModel(){
+                Name = "Test user 1",
+                Email = "testing@users.com",
+                Phone = "8449919",
+                Address = "address 1337"
+            };
+
+            // Act
+            var response = await client.PostAsync(user, new StringContent(userInput.ToString()));
+
+            // Assert
+            response.EnsureSuccessStatusCode();
+        }
     }
 }

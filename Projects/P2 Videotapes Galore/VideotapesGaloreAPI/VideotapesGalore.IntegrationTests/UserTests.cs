@@ -39,9 +39,14 @@ namespace VideotapesGalore.IntegrationTests
         [Fact]
         public async Task TestUserCRUDFunctionalities()
         {
-            string user = "api/v1/users";
+            string userRoute = "api/v1/users";
             var client = _factory.CreateClient();
-            
+
+            /// [GET] get all users in system and store count
+            var response = await client.GetAsync(userRoute);
+            response.EnsureSuccessStatusCode();
+            int allUsersCount = JsonConvert.DeserializeObject<List<UserDTO>>(await response.Content.ReadAsStringAsync()).Count;
+
             /// [POST] api/v1/users an invalid user model (name is required and email should be valid email)
             /// Expect response to be 412 (precondition failed) to indicate badly formatted input body from user
             var userInput = new UserInputModel(){
@@ -51,7 +56,7 @@ namespace VideotapesGalore.IntegrationTests
             };
             var userInputJSON = JsonConvert.SerializeObject(userInput);
             HttpContent content = new StringContent(userInputJSON, Encoding.UTF8, "application/json");
-            var createResponse = await client.PostAsync(user, content);
+            var createResponse = await client.PostAsync(userRoute, content);
             Assert.Equal(HttpStatusCode.PreconditionFailed, createResponse.StatusCode);
 
             /// [POST] api/v1/users a valid user model
@@ -65,7 +70,7 @@ namespace VideotapesGalore.IntegrationTests
             };
             userInputJSON = JsonConvert.SerializeObject(userInput);
             content = new StringContent(userInputJSON, Encoding.UTF8, "application/json");
-            createResponse = await client.PostAsync(user, content);
+            createResponse = await client.PostAsync(userRoute, content);
             var newResourceLocation = createResponse.Headers.Location;
             Assert.Equal("", await createResponse.Content.ReadAsStringAsync());
             createResponse.EnsureSuccessStatusCode();
@@ -77,6 +82,12 @@ namespace VideotapesGalore.IntegrationTests
             Assert.Equal(newUser.Phone,userInput.Phone);
             Assert.Equal(newUser.Address,userInput.Address);
 
+            /// [GET] get all users in system and check that count has increased by one
+            response = await client.GetAsync(userRoute);
+            response.EnsureSuccessStatusCode();
+            var allUsersAfterPOST = JsonConvert.DeserializeObject<List<UserDTO>>(await response.Content.ReadAsStringAsync());
+            Assert.Equal(allUsersCount+1, allUsersAfterPOST.Count);
+
             // [PUT] api/v1/users with invalid values (phone is required)
             // Expect response to POST request to be 412 (for precondition failed)
             // to indicate badly formatted input body from user
@@ -87,7 +98,7 @@ namespace VideotapesGalore.IntegrationTests
             };
             userInputJSON = JsonConvert.SerializeObject(userInput);
             content = new StringContent(userInputJSON, Encoding.UTF8, "application/json");
-            var response = await client.PostAsync(user, content);
+            response = await client.PostAsync(userRoute, content);
             Assert.Equal(HttpStatusCode.PreconditionFailed, response.StatusCode);
 
             /// [PUT] api/v1/users a valid user model

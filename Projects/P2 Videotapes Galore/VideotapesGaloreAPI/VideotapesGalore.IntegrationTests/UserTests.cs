@@ -22,13 +22,13 @@ namespace VideotapesGalore.IntegrationTests
     public class UserTests : IClassFixture<WebApplicationFactory<Startup>>
     {
         private readonly WebApplicationFactory<Startup> _factory;
-        private readonly ITestOutputHelper output;
 
-        public UserTests(WebApplicationFactory<Startup> factory, ITestOutputHelper output)
-        {
+        /// <summary>
+        /// Setup web application context as factory
+        /// </summary>
+        /// <param name="factory">the web application context</param>
+        public UserTests(WebApplicationFactory<Startup> factory) =>
             _factory = factory;
-            this.output = output;
-        }
 
 
         /// <summary>

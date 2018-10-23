@@ -31,13 +31,8 @@ namespace VideotapesGalore.IntegrationTests
         /// </summary>
         [Theory]
         [InlineData("/api/v1/users")]
-        [InlineData("/api/v1/users/2")]
-        [InlineData("/api/v1/users/2/tapes")]
-        [InlineData("/api/v1/users/2/reviews")]
         [InlineData("/api/v1/tapes")]
-        [InlineData("/api/v1/tapes/1")]
         [InlineData("/api/v1/tapes/reviews")]
-        [InlineData("api/v1/tapes/1/reviews")]
         public async Task Get_EndpointsReturnSuccess(string url)
         {
             var client = _factory.CreateClient();

@@ -110,7 +110,7 @@ namespace VideotapesGalore.WebApi
         /// </summary>
         /// <param name="app"></param>
         /// <param name="env"></param>
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IApplicationLifetime applicationLifetime)
         {
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
@@ -139,47 +139,51 @@ namespace VideotapesGalore.WebApi
 
             app.UseMvc();
 
-            // Create support for automatic mapping of models in system
-            AutoMapper.Mapper.Reset();
-            AutoMapper.Mapper.Initialize(cfg => {
-                // Map entities to DTOs
-                cfg.CreateMap<Tape, TapeDTO>();
-                cfg.CreateMap<User, UserDTO>();
-                cfg.CreateMap<Review, ReviewDTO>();
-                cfg.CreateMap<BorrowRecord, BorrowRecordDTO>();
-                // Map DTOs to detail DTOs
-                cfg.CreateMap<TapeDetailDTO, TapeDTO>();
-                cfg.CreateMap<TapeRecommendationDTO, TapeDTO>();
-                cfg.CreateMap<UserDetailDTO, UserDTO>();
-                cfg.CreateMap<TapeDTO, TapeBorrowRecordDTO>();
-                cfg.CreateMap<BorrowRecordInputModel, BorrowRecordDTO>();
-                // Map detail DTOs to DTOs
-                cfg.CreateMap<TapeDTO, TapeRecommendationDTO>();
-                cfg.CreateMap<TapeDTO, TapeDetailDTO>();
-                cfg.CreateMap<UserDTO, UserDetailDTO>();
-                cfg.CreateMap<TapeBorrowRecordDTO, TapeDTO>();
-                // Map DTOs to entities
-                cfg.CreateMap<TapeDTO, Tape>();
-                cfg.CreateMap<UserDTO, User>();
-                cfg.CreateMap<ReviewDTO, Review>();
-                cfg.CreateMap<BorrowRecordDTO, BorrowRecord>();
-                // Map input models to entities
-                cfg.CreateMap<TapeInputModel, Tape>()
-                    .ForMember(m => m.CreatedAt, opt => opt.UseValue(DateTime.Now))
-                    .ForMember(m => m.LastModified, opt => opt.UseValue(DateTime.Now));
-                cfg.CreateMap<UserInputModel, User>()
-                    .ForMember(m => m.CreatedAt, opt => opt.UseValue(DateTime.Now))
-                    .ForMember(m => m.LastModified, opt => opt.UseValue(DateTime.Now));
-                cfg.CreateMap<ReviewInputModel, Review>()
-                    .ForMember(m => m.CreatedAt, opt => opt.UseValue(DateTime.Now))
-                    .ForMember(m => m.LastModified, opt => opt.UseValue(DateTime.Now));
-                cfg.CreateMap<BorrowRecordInputModel, BorrowRecord>()
-                    .ForMember(m => m.CreatedAt, opt => opt.UseValue(DateTime.Now))
-                    .ForMember(m => m.LastModified, opt => opt.UseValue(DateTime.Now));
-                cfg.CreateMap<BorrowRecordDTO, BorrowRecord>()
-                    .ForMember(m => m.CreatedAt, opt => opt.UseValue(DateTime.Now))
-                    .ForMember(m => m.LastModified, opt => opt.UseValue(DateTime.Now));
-            });
+           try {
+                // Create support for automatic mapping of models in system
+                AutoMapper.Mapper.Initialize(cfg => {
+                    // Map entities to DTOs
+                    cfg.CreateMap<Tape, TapeDTO>();
+                    cfg.CreateMap<User, UserDTO>();
+                    cfg.CreateMap<Review, ReviewDTO>();
+                    cfg.CreateMap<BorrowRecord, BorrowRecordDTO>();
+                    // Map DTOs to detail DTOs
+                    cfg.CreateMap<TapeDetailDTO, TapeDTO>();
+                    cfg.CreateMap<TapeRecommendationDTO, TapeDTO>();
+                    cfg.CreateMap<UserDetailDTO, UserDTO>();
+                    cfg.CreateMap<TapeDTO, TapeBorrowRecordDTO>();
+                    cfg.CreateMap<BorrowRecordInputModel, BorrowRecordDTO>();
+                    // Map detail DTOs to DTOs
+                    cfg.CreateMap<TapeDTO, TapeRecommendationDTO>();
+                    cfg.CreateMap<TapeDTO, TapeDetailDTO>();
+                    cfg.CreateMap<UserDTO, UserDetailDTO>();
+                    cfg.CreateMap<TapeBorrowRecordDTO, TapeDTO>();
+                    // Map DTOs to entities
+                    cfg.CreateMap<TapeDTO, Tape>();
+                    cfg.CreateMap<UserDTO, User>();
+                    cfg.CreateMap<ReviewDTO, Review>();
+                    cfg.CreateMap<BorrowRecordDTO, BorrowRecord>();
+                    cfg.CreateMap<UserInputModel, UserDTO>();
+                    // Map input models to entities
+                    cfg.CreateMap<TapeInputModel, Tape>()
+                        .ForMember(m => m.CreatedAt, opt => opt.UseValue(DateTime.Now))
+                        .ForMember(m => m.LastModified, opt => opt.UseValue(DateTime.Now));
+                    cfg.CreateMap<UserInputModel, User>()
+                        .ForMember(m => m.CreatedAt, opt => opt.UseValue(DateTime.Now))
+                        .ForMember(m => m.LastModified, opt => opt.UseValue(DateTime.Now));
+                    cfg.CreateMap<ReviewInputModel, Review>()
+                        .ForMember(m => m.CreatedAt, opt => opt.UseValue(DateTime.Now))
+                        .ForMember(m => m.LastModified, opt => opt.UseValue(DateTime.Now));
+                    cfg.CreateMap<BorrowRecordInputModel, BorrowRecord>()
+                        .ForMember(m => m.CreatedAt, opt => opt.UseValue(DateTime.Now))
+                        .ForMember(m => m.LastModified, opt => opt.UseValue(DateTime.Now));
+                    cfg.CreateMap<BorrowRecordDTO, BorrowRecord>()
+                        .ForMember(m => m.CreatedAt, opt => opt.UseValue(DateTime.Now))
+                        .ForMember(m => m.LastModified, opt => opt.UseValue(DateTime.Now));
+                });
+           } catch(InvalidOperationException) {
+                // Automapper already set, do nothing    
+           }
         }
     }
 }

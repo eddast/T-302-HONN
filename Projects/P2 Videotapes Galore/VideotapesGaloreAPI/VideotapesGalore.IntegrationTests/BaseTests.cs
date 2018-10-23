@@ -18,11 +18,12 @@ namespace VideotapesGalore.IntegrationTests
         private readonly WebApplicationFactory<Startup> _factory;
         private readonly ITestOutputHelper output;
 
-        public BaseTests(ITestOutputHelper output)
+        public BaseTests(WebApplicationFactory<Startup> factory, ITestOutputHelper output)
         {
-            _factory = SetupTests.GetWebApplicationFactory();
+            _factory = factory;
             this.output = output;
         }
+
 
         /// <summary>
         /// Check if all safe request return 200(OK) status code and application/json content

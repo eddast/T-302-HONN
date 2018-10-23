@@ -25,7 +25,6 @@ namespace VideotapesGalore.IntegrationTests
             this.output = output;
         }
 
-
         [Fact]
         public async Task SimulateCreateNewTape()
         {

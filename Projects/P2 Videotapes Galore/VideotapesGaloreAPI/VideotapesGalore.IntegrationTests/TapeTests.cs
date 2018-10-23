@@ -87,7 +87,6 @@ namespace VideotapesGalore.IntegrationTests
             Assert.Equal(newUser.Title, tapeInput.Title);
             Assert.Equal(newUser.Director, tapeInput.Director);
             Assert.Equal(newUser.Type, tapeInput.Type);
-            Assert.Equal(newUser.ReleaseDate, tapeInput.ReleaseDate);
             Assert.Equal(newUser.EIDR, tapeInput.EIDR);
         }
 

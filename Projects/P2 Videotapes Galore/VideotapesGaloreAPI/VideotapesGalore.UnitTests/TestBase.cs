@@ -37,7 +37,7 @@ namespace VideotapesGalore.Tests
         /// <summary>
         /// Size of mocked list of tapes for tests
         /// </summary>
-        protected static int _tapeMockListSize = 4;
+        protected static int _tapeMockListSize = 5;
         /// <summary>
         /// Size of mocked list of users for tests
         /// </summary>
@@ -45,11 +45,11 @@ namespace VideotapesGalore.Tests
         /// <summary>
         /// Size of mocked list of borrow records for tests
         /// </summary>
-        protected static int _borrowRecordMockListSize = 5;
+        protected static int _borrowRecordMockListSize = 7;
         /// <summary>
         /// Size of mocked list of borrow records for tests
         /// </summary>
-        protected static int _reviewMockListSize = 4;
+        protected static int _reviewMockListSize = 6;
 
         /// <summary>
         /// Initializes mocks for repositories for all derived test classes to use
@@ -63,6 +63,8 @@ namespace VideotapesGalore.Tests
                 cfg.CreateMap<UserDTO, UserDetailDTO>();
                 cfg.CreateMap<TapeDTO, TapeDetailDTO>();
                 cfg.CreateMap<TapeDTO, TapeBorrowRecordDTO>();
+                cfg.CreateMap<TapeDTO, TapeRecommendationDTO>();
+                cfg.CreateMap<TapeRecommendationDTO, TapeDTO>();
                 cfg.CreateMap<BorrowRecordInputModel, BorrowRecordDTO>();
             });
             SetupTapeRepository();
@@ -87,6 +89,7 @@ namespace VideotapesGalore.Tests
                     .TheNext(1).With(t => t.Id = 2)
                     .TheNext(1).With(t => t.Id = 3)
                     .TheNext(1).With(t => t.Id = 4)
+                    .TheNext(1).With(t => t.Id = 5)
                 .Build().ToList());
         }
 
@@ -111,9 +114,8 @@ namespace VideotapesGalore.Tests
         /// <summary>
         /// Build mock functionality for borrow record repository
         /// User with id 1 had tape with id 1 on loan two years ago but returned it, currently has tapes with ids 1 and 2 on loan since January this year
-        /// User with id 2 had tape with id 2 on loan two years ago but returned it, currently has tape with id 3 since 1 and half years ago
+        /// User with id 2 had tape with ids 2, 4 and 5 on loan two years ago but returned it, currently has tape with id 3 since 1 and half years ago
         /// User 3 does not have any borrow records associated with them
-        /// Tape 4 does not have any borrow record associated with it
         /// </summary>
         private static void SetupBorrowRecordRepository()
         {
@@ -129,6 +131,8 @@ namespace VideotapesGalore.Tests
                     .TheNext(1).With(r => r.UserId = 1).With(r => r.TapeId = 2).With(r => r.BorrowDate = new DateTime(DateTime.Today.Year, 10, 1)).With(r => r.ReturnDate = null)
                     // Borrows for user with id 2
                     .TheNext(1).With(r => r.UserId = 2).With(r => r.TapeId = 2).With(r => r.BorrowDate = DateTime.Now.AddYears(-2)).With(r => r.ReturnDate = DateTime.Now.AddYears(-1))
+                    .TheNext(1).With(r => r.UserId = 2).With(r => r.TapeId = 4).With(r => r.BorrowDate = DateTime.Now.AddYears(-2)).With(r => r.ReturnDate = DateTime.Now.AddYears(-1))
+                    .TheNext(1).With(r => r.UserId = 2).With(r => r.TapeId = 5).With(r => r.BorrowDate = DateTime.Now.AddYears(-2)).With(r => r.ReturnDate = DateTime.Now.AddYears(-1))
                     .TheNext(1).With(r => r.UserId = 2).With(r => r.TapeId = 3).With(r => r.BorrowDate = DateTime.Now.AddYears(-2).AddMonths(6)).With(r => r.ReturnDate = null)
                 .Build().ToList());
         }
@@ -138,7 +142,7 @@ namespace VideotapesGalore.Tests
         /// Tape with id 1 has one review from user 1
         /// Tape with id 2 has two reviews from users with ids 1 and 2
         /// Tape with id 3 has one review from user with id 2
-        /// Tape with id 4 has no reviews and user with id 3 has no reviews
+        /// Tape with id 4 has one review from user with id 2
         /// </summary>
         private static void SetupReviewRepository() =>
             _mockReviewRepository.Setup(method => method.GetAllReviews())
@@ -148,6 +152,8 @@ namespace VideotapesGalore.Tests
                     .TheNext(1).With(r => r.TapeId = 2).With(r => r.UserId = 1)
                     .TheNext(1).With(r => r.TapeId = 2).With(r => r.UserId = 2)
                     .TheNext(1).With(r => r.TapeId = 3).With(r => r.UserId = 2)
+                    .TheNext(1).With(r => r.TapeId = 4).With(r => r.UserId = 2).With(r => r.Rating = 4)
+                    .TheNext(1).With(r => r.TapeId = 5).With(r => r.UserId = 2).With(r => r.Rating = 5)
                 .Build().ToList());
     }
 }

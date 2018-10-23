@@ -424,12 +424,12 @@ namespace VideotapesGalore.WebApi.Controllers
          ********************************/
 
         /// <summary>
-        /// Gets tape recommendation for user
+        /// Gets tape recommendation for user explicitly showing the reason for recommendation as well
         /// </summary>
         /// <param name="id">Id associated with user of the system</param>
         /// <returns>User by id if found</returns>
         /// <response code="200">Success</response>
-        /// <response code="404">Recommendation not found</response>
+        /// <response code="404">Recommendation unavailable</response>
         /// <response code="500">Internal server error</response>
         [HttpGet]
         [Route ("{id:int}/recommendation")]
@@ -448,10 +448,9 @@ namespace VideotapesGalore.WebApi.Controllers
          ********************************/
 
         /// <summary>
-        /// RESTRICTED ROUTE, ONLY ACCESSIBLE WITH SECRET KEY.  
+        /// RESTRICTED ROUTE, ONLY ACCESSIBLE WITH SECRET KEY. 
         /// Initializes users and borrow records from local initialization file if no users are in system. 
-        /// Note that before calling this route, tapes need to have been initialized already so that borrow records can be registered. 
-        /// (Routine takes a while, around 5-15 minutes on average)
+        /// Note that before calling this route, tapes need to have been initialized already so that borrow records can be registered.
         /// </summary>
         /// <response code="204">Users and borrows initialized</response>
         /// <response code="401">Client not authorized for initialization</response>

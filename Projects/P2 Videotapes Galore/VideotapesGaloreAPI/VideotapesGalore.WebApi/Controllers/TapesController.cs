@@ -283,9 +283,8 @@ namespace VideotapesGalore.WebApi.Controllers
          ********************************/
 
         /// <summary>
-        /// RESTRICTED ROUTE, ONLY ACCESSIBLE WITH SECRET KEY.  
-        /// Initializes tapes from local initialization file if no tapes are in system. 
-        /// (Routine takes around 5-15 minutes on average)
+        /// RESTRICTED ROUTE, ONLY ACCESSIBLE WITH SECRET KEY. 
+        /// Initializes tapes from local initialization file if no tapes are in system.
         /// </summary>
         /// <response code="204">Tapes initialized</response>
         /// <response code="401">Client not authorized for initialization</response>

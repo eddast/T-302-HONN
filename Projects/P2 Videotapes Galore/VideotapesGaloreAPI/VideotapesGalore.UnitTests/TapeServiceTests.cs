@@ -42,13 +42,13 @@ namespace VideotapesGalore.Tests
 
         /// <summary>
         /// Test if report function in regards to loan date parameter functions correctly
-        /// Tapes with ids 1 and 2 were the only ones on loan just short of two years ago
-        /// Test if both tapes with ids 1 and 2 are returned from procedure and only them
+        /// Tapes with ids 1, 2, 4 and 5 were the ones on loan just short of two years ago
+        /// Test if all tapes with ids 1, 2, 4 and 5 are returned from procedure and only them
         /// </summary>
         [TestMethod]
-        public void GetTapeReportAtDate_ReturnsTapeWithId1And2FromTwoYearsAgo()
+        public void GetTapeReportAtDate_ReturnsTapesWithId1And2And4And5FromTwoYearsAgo()
         {
-            List<int> tapeIdsForTapesOnLoanTwoYearsAgo = new List<int>(){1, 2};
+            List<int> tapeIdsForTapesOnLoanTwoYearsAgo = new List<int>(){1, 2, 4, 5};
             var tapes = _tapeService.GetTapeReportAtDate(DateTime.Now.AddYears(-2).AddDays(1));
             Assert.AreEqual(tapeIdsForTapesOnLoanTwoYearsAgo.Count, tapes.Count());
             foreach(var tapeId in tapeIdsForTapesOnLoanTwoYearsAgo) {

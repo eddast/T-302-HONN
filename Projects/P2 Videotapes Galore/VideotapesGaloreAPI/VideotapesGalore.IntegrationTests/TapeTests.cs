@@ -20,83 +20,161 @@ namespace VideotapesGalore.IntegrationTests
     public class TapeTests: IClassFixture<WebApplicationFactory<Startup>>
     {
         private readonly WebApplicationFactory<Startup> _factory;
-        private readonly ITestOutputHelper output;
 
-        public TapeTests(WebApplicationFactory<Startup> factory, ITestOutputHelper output)
-        {
+        /// <summary>
+        /// Setup web application context as factory
+        /// </summary>
+        /// <param name="factory">the web application context</param>
+        public TapeTests(WebApplicationFactory<Startup> factory) =>
             _factory = factory;
-            this.output = output;
-        }
 
+        /// <summary>
+        /// Simulates and tests all basic CRUD functionalities for Tape resource in system
+        /// E.g. adding tape resources, updating tape resources, deleteting tape resources and reading tape resources accordingly
+        /// Also verify that proper errors are returned when user provides any bad or invalid input
+        /// </summary>
         [Fact]
         public async Task SimulateTapeCRUD()
         {
-            /*** Urls to use in test ***/
-            string tapes = "api/v1/tapes";
-
-
+            // Base URL to tape resources
+            string tapesBaseRoute = "api/v1/tapes";
             var client = _factory.CreateClient();
 
-            int previousLength = await GetCurrentTapesLength(client, tapes);
-            var currentDate = DateTime.Now;
-            /// [POST] api/v1/tape an invalid user model (name is required and email should be valid email)
-            var invalidTapeInput = new TapeInputModel(){
-                Title = "Mojo Jojo Attack on Townsville",
-                ReleaseDate = currentDate,
-                Type = "VHS",
-                EIDR = "10.5240/2B3B-1E0E-9314-2C6E-A453-3"
-            };
+            /// [GET] get all tapes in system and store their total count
+            int allTapesCount = await GetCurrentTapeCount(client, tapesBaseRoute);
 
-            var createPreconditionFailedResponse = await PostTape(client, tapes, invalidTapeInput);
-            Assert.Equal(HttpStatusCode.PreconditionFailed, createPreconditionFailedResponse.StatusCode);
-
-            /// [POST] api/v1/tape a valid user model (name is required and email should be valid email)
-            var tapeInput = new TapeInputModel(){
+            /// [POST] attempt to create tape using invalid tape model (type must be either VHS or Betamax)
+            /// Expect response to be 412 (precondition failed) to indicate badly formatted input body from user
+            var tapeInput = new TapeInputModel() {
                 Title = "Mojo Jojo Attack on Townsville",
                 Director = "Not Mojo Jojo",
-                ReleaseDate = currentDate,
+                ReleaseDate = DateTime.Now,
+                Type = "Blu-Ray",
+                EIDR = "10.5240/2B3B-1E0E-9314-2C6E-A453-3"
+            };
+            var createPreconditionFailedResponse = await PostTape(client, tapesBaseRoute, tapeInput);
+            Assert.Equal(HttpStatusCode.PreconditionFailed, createPreconditionFailedResponse.StatusCode);
+
+            /// [POST] create new tape using a valid tape model
+            /// Expect response to POST request to be 201 (created) and expect to get location header pointing to new resource, then
+            /// [GET] user by the pointer from location header for response to previous POST request and check if user values match
+            tapeInput = new TapeInputModel() {
+                Title = "Mojo Jojo: Greatest Townsville Attacks",
+                Director = "Definately Not Mojo Jojo",
+                ReleaseDate = DateTime.Now,
                 Type = "VHS",
                 EIDR = "10.5240/2B3B-1E0E-9314-2C6E-A453-3"
             };
+            var createResponse = await PostTape(client, tapesBaseRoute, tapeInput);
+            Assert.Equal(HttpStatusCode.Created, createResponse.StatusCode);
+            var newResourceLocation = createResponse.Headers.Location;
+            await AssertGetTapeById(client, newResourceLocation, tapeInput, true);
 
-            var createTapeResponse = await PostTape(client, tapes, tapeInput);
+            /// [GET] get all tapes in system and check that count has increased by one
+            Assert.Equal(allTapesCount+1, await GetCurrentTapeCount(client, tapesBaseRoute));
 
-            // Expect response to POST request to be 201 (created) and location header pointing to new resource
-            Assert.Equal("", await createTapeResponse.Content.ReadAsStringAsync());
-            createTapeResponse.EnsureSuccessStatusCode();
+            // [PUT] attempt to update tape using invalid input model (title is required)
+            // Expect response to POST request to be 412 (for precondition failed)
+            // to indicate badly formatted input body from user
+            tapeInput = new TapeInputModel() {
+                Director = "Bubbles",
+                ReleaseDate = DateTime.Now,
+                Type = "VHS",
+                EIDR = "10.5240/2B3B-1E0E-9314-2C6E-A453-4"
+            };
+            var editFailResponse = await PutTape(client, newResourceLocation, tapeInput);
+            Assert.Equal(HttpStatusCode.PreconditionFailed, editFailResponse.StatusCode);
 
-            int afterCreateLength = await GetCurrentTapesLength(client, tapes);
-            Assert.Equal(previousLength + 1, afterCreateLength);
+            /// [PUT] update tape using a valid tape model
+            /// Expect response to be 204 (no content) and then
+            /// [GET] tape by id again and check if all values were updated in the put request
+            tapeInput = tapeInput = new TapeInputModel() {
+                Title = "Mojo Jojo Strikes Townsville... Again!",
+                Director = "Bubbles",
+                ReleaseDate = DateTime.Now,
+                Type = "Betamax",
+                EIDR = "10.5240/2B3B-1E0E-9314-2C6E-A453-4"
+            };
+            var editResponse = await PutTape(client, newResourceLocation, tapeInput);
+            Assert.Equal(HttpStatusCode.NoContent, editResponse.StatusCode);
+            await AssertGetTapeById(client, newResourceLocation, tapeInput, true);
 
-            /// [GET] user by the pointer from location header for response to previous POST request and check if user values match
-            await AssertGetTapeById(client, createTapeResponse.Headers.Location, tapeInput);
+            // [DELETE] new tape by id and expect status to be 204 (no content)
+            // Attempt to delete again and expect not found error (404)
+            // Then lastly re-fetch tape by id that was deleted and expect not found error (404)
+            var deleteResponse = await client.DeleteAsync(newResourceLocation);
+            Assert.Equal(HttpStatusCode.NoContent, deleteResponse.StatusCode);
+            var deleteFailResponse = await client.DeleteAsync(newResourceLocation);
+            Assert.Equal(HttpStatusCode.NotFound, deleteFailResponse.StatusCode);
+            await AssertGetTapeById(client, newResourceLocation, tapeInput, false);
         }
 
-        private async Task<int> GetCurrentTapesLength(HttpClient client, string url) {
+        /// <summary>
+        /// Gets length of the list of all tapes in system
+        /// </summary>
+        /// <param name="client">http client to use to issue request to API</param>
+        /// <param name="url">url to issue request to</param>
+        /// <returns>count of all tapes in system</returns>
+        private async Task<int> GetCurrentTapeCount(HttpClient client, string url) {
             var response = await client.GetAsync(url);
             response.EnsureSuccessStatusCode();
-            List<TapeDTO> tapes = JsonConvert.DeserializeObject<List<TapeDTO>>(await response.Content.ReadAsStringAsync());
+            var tapes = JsonConvert.DeserializeObject<List<TapeDTO>>(await response.Content.ReadAsStringAsync());
             return tapes.Count;
         }
 
-        private async Task AssertGetTapeById(HttpClient client, Uri Location, TapeInputModel tapeInput)
-        {
-            var validateCreateTapeResponse = await client.GetAsync(Location);
-            validateCreateTapeResponse.EnsureSuccessStatusCode();
-            TapeDTO newUser = JsonConvert.DeserializeObject<TapeDTO>(await validateCreateTapeResponse.Content.ReadAsStringAsync());
-            Assert.Equal(newUser.Title, tapeInput.Title);
-            Assert.Equal(newUser.Director, tapeInput.Director);
-            Assert.Equal(newUser.Type, tapeInput.Type);
-            Assert.Equal(newUser.EIDR, tapeInput.EIDR);
-        }
-
+        /// <summary>
+        /// Creates new tape into the system e.g. conducts POST request
+        /// Returns response for post request
+        /// </summary>
+        /// <param name="client">http client to use to issue request to API</param>
+        /// <param name="url">url to issue request to</param>
+        /// <param name="tapeInput">input model to use to create new tape</param>
+        /// <returns></returns>
         private async Task<HttpResponseMessage> PostTape(HttpClient client, string url, TapeInputModel tapeInput)
         {
             var tapeInputJSON = JsonConvert.SerializeObject(tapeInput);
             HttpContent content = new StringContent(tapeInputJSON, Encoding.UTF8, "application/json");
-            var createTapeResponse = await client.PostAsync(url, content);
-            return createTapeResponse;
+            return await client.PostAsync(url, content);
+        }
 
+        /// <summary>
+        /// Updates existing tape into the system e.g. conducts PUT request
+        /// Returns response for put request
+        /// </summary>
+        /// <param name="client">http client to use to issue request to API</param>
+        /// <param name="url">url to issue request to</param>
+        /// <param name="tapeInput">input model to use to create new tape</param>
+        /// <returns>Response for HTTP request made</returns>
+        private async Task<HttpResponseMessage> PutTape(HttpClient client, Uri url, TapeInputModel tapeInput)
+        {
+            var tapeInputJSON = JsonConvert.SerializeObject(tapeInput);
+            HttpContent content = new StringContent(tapeInputJSON, Encoding.UTF8, "application/json");
+            return await client.PutAsync(url, content);
+        }
+
+        /// <summary>
+        /// Fetches tape by an id using Location URI (which we get when new tape is created)
+        /// Either expect to get tape back and verify that a given tape matches tape that is returned from request if shouldBeInSystem is set to true
+        /// Otherwise we assert that we get a not found error for resource
+        /// </summary>
+        /// <param name="client">http client to use to issue request to API</param>
+        /// <param name="Location">uri to resource</param>
+        /// <param name="tapeInput">input model to compare to tape we get back</param>
+        /// <param name="shouldBeInSystem">true if we expect this resource to be in system, false if we expect 404 error</param>
+        /// <returns>Response for HTTP request made</returns>
+        private async Task AssertGetTapeById(HttpClient client, Uri Location, TapeInputModel tapeInput, bool shouldBeInSystem)
+        {
+            var response = await client.GetAsync(Location);
+            if(shouldBeInSystem) {
+                response.EnsureSuccessStatusCode();
+                TapeDTO newTape = JsonConvert.DeserializeObject<TapeDTO>(await response.Content.ReadAsStringAsync());
+                Assert.Equal(newTape.Title, tapeInput.Title);
+                Assert.Equal(newTape.Director, tapeInput.Director);
+                Assert.Equal(newTape.Type, tapeInput.Type);
+                Assert.Equal(newTape.EIDR, tapeInput.EIDR);
+            } else {
+                Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+            }
         }
     }
 }

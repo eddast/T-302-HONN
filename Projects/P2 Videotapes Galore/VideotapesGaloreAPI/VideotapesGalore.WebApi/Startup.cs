@@ -110,6 +110,7 @@ namespace VideotapesGalore.WebApi
         /// </summary>
         /// <param name="app"></param>
         /// <param name="env"></param>
+        /// <param name="applicationLifetime"></param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, IApplicationLifetime applicationLifetime)
         {
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();

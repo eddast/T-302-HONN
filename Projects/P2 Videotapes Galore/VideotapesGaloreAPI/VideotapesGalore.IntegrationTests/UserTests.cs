@@ -32,34 +32,31 @@ namespace VideotapesGalore.IntegrationTests
 
 
         /// <summary>
-        /// Tests all basic CRUD functionalities for User resource in system
-        /// E.g. adding user resources, updating user resources, reading user resources and deleteting user resources
-        /// Also verify that errors are returned on bad input from user
+        /// Simulates and tests all basic CRUD functionalities for User resource in system
+        /// E.g. adding user resources, updating user resources, deleteting user resources and reading user resources accordingly 
+        /// Also verify that proper errors are returned when user provides any bad or invalid input
         /// </summary>
         [Fact]
-        public async Task TestUserCRUDFunctionalities()
+        public async Task SimulateUserCRUD()
         {
-            string userRoute = "api/v1/users";
+            // Base URL to tape resources
+            string userBaseRoute = "api/v1/users";
             var client = _factory.CreateClient();
 
             /// [GET] get all users in system and store count
-            var response = await client.GetAsync(userRoute);
-            response.EnsureSuccessStatusCode();
-            int allUsersCount = JsonConvert.DeserializeObject<List<UserDTO>>(await response.Content.ReadAsStringAsync()).Count;
+            int allUsersCount = await GetCurrentUserCount(client, userBaseRoute);
 
-            /// [POST] api/v1/users an invalid user model (name is required and email should be valid email)
+            /// [POST] attempt to create user using invalid user model (name is required and email should be valid email)
             /// Expect response to be 412 (precondition failed) to indicate badly formatted input body from user
             var userInput = new UserInputModel(){
                 Email = "Mojo Jojo",
                 Phone = "123 456 789",
                 Address = "Townsville"
             };
-            var userInputJSON = JsonConvert.SerializeObject(userInput);
-            HttpContent content = new StringContent(userInputJSON, Encoding.UTF8, "application/json");
-            var createResponse = await client.PostAsync(userRoute, content);
-            Assert.Equal(HttpStatusCode.PreconditionFailed, createResponse.StatusCode);
+            var createFailResponse = await PostUser(client, userBaseRoute, userInput);
+            Assert.Equal(HttpStatusCode.PreconditionFailed, createFailResponse.StatusCode);
 
-            /// [POST] api/v1/users a valid user model
+            /// [POST] create new user using a valid user model
             /// Expect response to POST request to be 201 (created) and expect to get location header pointing to new resource, then
             /// [GET] user by the pointer from location header for response to previous POST request and check if user values match
             userInput = new UserInputModel(){
@@ -68,27 +65,15 @@ namespace VideotapesGalore.IntegrationTests
                 Phone = "123 456 789",
                 Address = "Townsville"
             };
-            userInputJSON = JsonConvert.SerializeObject(userInput);
-            content = new StringContent(userInputJSON, Encoding.UTF8, "application/json");
-            createResponse = await client.PostAsync(userRoute, content);
+            var createResponse = await PostUser(client, userBaseRoute, userInput);
+            Assert.Equal(HttpStatusCode.Created, createResponse.StatusCode);
             var newResourceLocation = createResponse.Headers.Location;
-            Assert.Equal("", await createResponse.Content.ReadAsStringAsync());
-            createResponse.EnsureSuccessStatusCode();
-            var validateResponse = await client.GetAsync(newResourceLocation);
-            validateResponse.EnsureSuccessStatusCode();
-            UserDTO newUser = JsonConvert.DeserializeObject<UserDTO>(await validateResponse.Content.ReadAsStringAsync());
-            Assert.Equal(newUser.Name,userInput.Name);
-            Assert.Equal(newUser.Email,userInput.Email);
-            Assert.Equal(newUser.Phone,userInput.Phone);
-            Assert.Equal(newUser.Address,userInput.Address);
+            await AssertGetUserById(client, newResourceLocation, userInput, true);
 
             /// [GET] get all users in system and check that count has increased by one
-            response = await client.GetAsync(userRoute);
-            response.EnsureSuccessStatusCode();
-            var allUsersAfterPOST = JsonConvert.DeserializeObject<List<UserDTO>>(await response.Content.ReadAsStringAsync());
-            Assert.Equal(allUsersCount+1, allUsersAfterPOST.Count);
+            Assert.Equal(allUsersCount+1, await GetCurrentUserCount(client, userBaseRoute));
 
-            // [PUT] api/v1/users with invalid values (phone is required)
+            // [PUT] attempt to update user using invalid input model (phone is required)
             // Expect response to POST request to be 412 (for precondition failed)
             // to indicate badly formatted input body from user
             userInput = new UserInputModel(){
@@ -96,12 +81,10 @@ namespace VideotapesGalore.IntegrationTests
                 Email = "Mojo Jojo",
                 Address = "Townsville"
             };
-            userInputJSON = JsonConvert.SerializeObject(userInput);
-            content = new StringContent(userInputJSON, Encoding.UTF8, "application/json");
-            response = await client.PostAsync(userRoute, content);
-            Assert.Equal(HttpStatusCode.PreconditionFailed, response.StatusCode);
+            var editFailResponse = await PutUser(client, newResourceLocation, userInput);
+            Assert.Equal(HttpStatusCode.PreconditionFailed, editFailResponse.StatusCode);
 
-            /// [PUT] api/v1/users a valid user model
+            /// [PUT] update user using a valid user model
             /// Expect response to be 204 (no content) and then
             /// [GET] user by id again and check if all values were updated in the put request
             userInput = new UserInputModel(){
@@ -110,27 +93,86 @@ namespace VideotapesGalore.IntegrationTests
                 Phone = "987 456 345",
                 Address = "New York"
             };
-            userInputJSON = JsonConvert.SerializeObject(userInput);
-            content = new StringContent(userInputJSON, Encoding.UTF8, "application/json");
-            response = await client.PutAsync(newResourceLocation, content);
-            Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
-            validateResponse = await client.GetAsync(newResourceLocation);
-            validateResponse.EnsureSuccessStatusCode();
-            UserDTO updatedUser = JsonConvert.DeserializeObject<UserDTO>(await validateResponse.Content.ReadAsStringAsync());
-            Assert.Equal(updatedUser.Name,userInput.Name);
-            Assert.Equal(updatedUser.Email,userInput.Email);
-            Assert.Equal(updatedUser.Phone,userInput.Phone);
-            Assert.Equal(updatedUser.Address,userInput.Address);
+            var editResponse = await PutUser(client, newResourceLocation, userInput);
+            Assert.Equal(HttpStatusCode.NoContent, editResponse.StatusCode);
+            await AssertGetUserById(client, newResourceLocation, userInput, true);
 
             // [DELETE] new user by id and expect status to be 204 (no content)
             // Attempt to delete again and expect not found error (404)
             // Then lastly re-fetch user by id that was deleted and expect not found error (404)
-            response = await client.DeleteAsync(newResourceLocation);
-            Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
-            response = await client.DeleteAsync(newResourceLocation);
-            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
-            response = await client.GetAsync(newResourceLocation);
-            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+            var deleteResponse = await client.DeleteAsync(newResourceLocation);
+            Assert.Equal(HttpStatusCode.NoContent, deleteResponse.StatusCode);
+            var deleteFailResponse = await client.DeleteAsync(newResourceLocation);
+            Assert.Equal(HttpStatusCode.NotFound, deleteFailResponse.StatusCode);
+            await AssertGetUserById(client, newResourceLocation, userInput, false);
+        }
+
+        /// <summary>
+        /// Gets length of the list of all users in system
+        /// </summary>
+        /// <param name="client">http client to use to issue request to API</param>
+        /// <param name="url">url to issue request to</param>
+        /// <returns>count of all users in system</returns>
+        private async Task<int> GetCurrentUserCount(HttpClient client, string url) {
+            var response = await client.GetAsync(url);
+            response.EnsureSuccessStatusCode();
+            var users = JsonConvert.DeserializeObject<List<UserDTO>>(await response.Content.ReadAsStringAsync());
+            return users.Count;
+        }
+
+        /// <summary>
+        /// Creates new user into the system e.g. conducts POST request
+        /// Returns response for post request
+        /// </summary>
+        /// <param name="client">http client to use to issue request to API</param>
+        /// <param name="url">url to issue request to</param>
+        /// <param name="tapeInput">input model to use to create new tape</param>
+        /// <returns></returns>
+        private async Task<HttpResponseMessage> PostUser(HttpClient client, string url, UserInputModel userInput)
+        {
+            var userInputJSON = JsonConvert.SerializeObject(userInput);
+            HttpContent content = new StringContent(userInputJSON, Encoding.UTF8, "application/json");
+            return await client.PostAsync(url, content);
+        }
+
+        /// <summary>
+        /// Updates existing user into the system e.g. conducts PUT request
+        /// Returns response for put request
+        /// </summary>
+        /// <param name="client">http client to use to issue request to API</param>
+        /// <param name="url">url to issue request to</param>
+        /// <param name="userInput">input model to use to create new user</param>
+        /// <returns>Response for HTTP request made</returns>
+        private async Task<HttpResponseMessage> PutUser(HttpClient client, Uri url, UserInputModel userInput)
+        {
+            var userInputJSON = JsonConvert.SerializeObject(userInput);
+            HttpContent content = new StringContent(userInputJSON, Encoding.UTF8, "application/json");
+            return await client.PutAsync(url, content);
+        }
+
+        /// <summary>
+        /// Fetches user by an id using Location URI (which we get when new user is created)
+        /// Either expect to get user back and verify that a given user matches user that is returned from request if shouldBeInSystem is set to true
+        /// Otherwise we assert that we get a not found error for resource
+        /// </summary>
+        /// <param name="client">http client to use to issue request to API</param>
+        /// <param name="Location">uri to resource</param>
+        /// <param name="userInput">input model to compare to user we get back</param>
+        /// <param name="shouldBeInSystem">true if we expect this resource to be in system, false if we expect 404 error</param>
+        /// <returns>Response for HTTP request made</returns>
+        private async Task AssertGetUserById(HttpClient client, Uri Location, UserInputModel userInput, bool shouldBeInSystem)
+        {
+            var response = await client.GetAsync(Location);
+            if(shouldBeInSystem) {
+                response.EnsureSuccessStatusCode();
+                UserDTO newUser = JsonConvert.DeserializeObject<UserDTO>(await response.Content.ReadAsStringAsync());
+                Assert.Equal(newUser.Name, userInput.Name);
+                Assert.Equal(newUser.Email, userInput.Email);
+                Assert.Equal(newUser.Phone, userInput.Phone);
+                Assert.Equal(newUser.Address, userInput.Address);
+            } else {
+                Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+            }
         }
     }
 }

@@ -12,22 +12,17 @@ using VideotapesGalore.WebApi;
 
 namespace VideotapesGalore.IntegrationTests
 {
-    public class BaseTests 
-    : IClassFixture<WebApplicationFactory<Startup>>
+    public class BaseTests : IClassFixture<TestsContextFixture>
     {
         private readonly WebApplicationFactory<Startup> _factory;
-        private readonly ITestOutputHelper output;
 
-        public BaseTests(WebApplicationFactory<Startup> factory, ITestOutputHelper output)
-        {
+        public BaseTests(WebApplicationFactory<Startup> factory) =>
             _factory = factory;
-            this.output = output;
-        }
 
 
         /// <summary>
-        /// Check if all safe request return 200(OK) status code and application/json content
-        /// (Safe routes are all GET routes in system that do not modify any system data)
+        /// Check if all safe requests return 200 (OK) status code and application/json content
+        /// (Safe routes are all GET routes in system e.g. routes that do not modify any system data)
         /// </summary>
         [Theory]
         [InlineData("/api/v1/users")]

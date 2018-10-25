@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.Dependencyinjection" Version="5.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.1.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="xunit" Version="2.3.1" />
@@ -19,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\VideotapesGalore.WebApi\VideotapesGalore.WebApi.csproj" />
     <ProjectReference Include="..\VideotapesGalore.Models\VideotapesGalore.Models.csproj" />
+    <ProjectReference Include="..\VideotapesGalore.Repositories\VideotapesGalore.Repositories.csproj" />
   </ItemGroup>
 
 </Project>

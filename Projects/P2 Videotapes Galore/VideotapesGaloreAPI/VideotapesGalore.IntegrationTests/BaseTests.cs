@@ -12,7 +12,7 @@ using VideotapesGalore.WebApi;
 
 namespace VideotapesGalore.IntegrationTests
 {
-    public class BaseTests : IClassFixture<TestsContextFixture>
+    public class BaseTests : IClassFixture<WebApplicationFactory<Startup>>
     {
         private readonly WebApplicationFactory<Startup> _factory;
 

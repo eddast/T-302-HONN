@@ -8,8 +8,16 @@ using System.ComponentModel.DataAnnotations;
 
 namespace VideotapesGalore.WebApi.Utils
 {
+    /// <summary>
+    /// Functions to aid seeding of content in API from initialization file
+    /// </summary>
     public static class SeedingUtils
     {
+        /// <summary>
+        /// Transform user JSON model from file to user input model
+        /// </summary>
+        /// <param name="userJSON">user json format from initialization file</param>
+        /// <returns>user input model from user json object</returns>
         public static UserInputModel ConvertJsonToUserInputModel(dynamic userJSON)
         {
             return new UserInputModel {
@@ -20,14 +28,24 @@ namespace VideotapesGalore.WebApi.Utils
             };
         }
 
-        public static BorrowRecordInputModel ConvertJSONToBorrowRecordInputModel(dynamic borrowRecord)
+        /// <summary>
+        /// Transform borrow record JSON model from file to user input model
+        /// </summary>
+        /// <param name="borrowRecordJSON">borrow record json format from initialization file</param>
+        /// <returns>borrow record input model from borrow record json object</returns>
+        public static BorrowRecordInputModel ConvertJSONToBorrowRecordInputModel(dynamic borrowRecordJSON)
         {
             return new BorrowRecordInputModel {
-                BorrowDate = Convert.ChangeType(borrowRecord.borrow_date, typeof(DateTime)),
-                ReturnDate = borrowRecord.return_date != null ? Convert.ChangeType(borrowRecord.return_date, typeof(DateTime)) : null
+                BorrowDate = Convert.ChangeType(borrowRecordJSON.borrow_date, typeof(DateTime)),
+                ReturnDate = borrowRecordJSON.return_date != null ? Convert.ChangeType(borrowRecordJSON.return_date, typeof(DateTime)) : null
             };
         }
 
+        /// <summary>
+        /// Transform tape JSON model from file to tape input model
+        /// </summary>
+        /// <param name="tapeJSON">tape json format from initialization file</param>
+        /// <returns>tape input model from tape json object</returns>
         public static TapeInputModel ConvertJSONToTapeInputModel(dynamic tapeJSON)
         {
             return new TapeInputModel {
@@ -39,6 +57,11 @@ namespace VideotapesGalore.WebApi.Utils
             };
         }
 
+        /// <summary>
+        /// Creates borrow record from tapes for user
+        /// </summary>
+        /// <param name="userJSON">json object for user</param>
+        /// <param name="tapeService">tape service with tape functionalities</param>
         public static void CreateTapesForUser(dynamic userJSON, ITapeService tapeService)
         {
             // Create all borrows associated with user after user was added

@@ -78,7 +78,6 @@ namespace VideotapesGalore.IntegrationTests.Context
         /// Seeds data source with three mock tapes and three mock users
         /// For integration testing purposes
         /// </summary>
-        /// <returns></returns>
         public async Task InitializeDbForTests()
         {
             foreach (var user in GetSeedingUsers())

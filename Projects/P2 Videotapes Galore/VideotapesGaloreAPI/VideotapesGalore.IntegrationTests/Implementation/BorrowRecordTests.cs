@@ -16,7 +16,7 @@ using VideotapesGalore.Models.InputModels;
 using VideotapesGalore.Models.DTOs;
 using Newtonsoft.Json;
 
-namespace VideotapesGalore.IntegrationTests
+namespace VideotapesGalore.IntegrationTests.Implementation
 {
     [Collection("Test Context Collection")]
     public class BorrowRecordTests

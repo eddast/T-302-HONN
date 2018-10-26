@@ -47,36 +47,36 @@ namespace VideotapesGalore.IntegrationTests.Implementation
         /// <summary>
         /// Sample of valid input model for tape
         /// </summary>
-        private static TapeInputModel ValidTapeInput = new TapeInputModel() {
-            Title = "Mojo Jojo: Greatest Townsville Attacks",
-            Director = "Definately Not Mojo Jojo",
-            ReleaseDate = DateTime.Now,
-            Type = "VHS",
-            EIDR = "10.5240/2B3B-1E0E-9314-2C6E-A453-3"
+        private static TapeInputModel ValidTapeInput = new TapeInputModel(){
+            Title = "The Powerpuffgirls Movie",
+            Director = "Craig McCracken",
+            ReleaseDate = new DateTime(2002, 6, 22),
+            Type = "Betamax",
+            EIDR = "10.5240/9C30-DAF8-8A33-570A-1E8E-4"
         };
 
         /// <summary>
         /// Sample of valid input model for tape, distinct from one above
         /// </summary>
         /// <returns></returns>
-        private static TapeInputModel UpdatedValidTapeInput = new TapeInputModel() {
-            Title = "Mojo Jojo Strikes Townsville... Again!",
-            Director = "Bubbles",
-            ReleaseDate = DateTime.Now,
-            Type = "Betamax",
-            EIDR = "10.5240/2B3B-1E0E-9314-2C6E-A453-4"
+        private static TapeInputModel UpdatedValidTapeInput = new TapeInputModel(){
+            Title = "Scooby-Doo and the Goblin King",
+            Director = "Joe Sichta",
+            ReleaseDate = new DateTime(2004, 11, 23),
+            Type = "VHS",
+            EIDR = "10.5240/FB53-A9C3-7E6F-009E-2B08-W"
         };
 
         /// <summary>
         /// Sample of invalid tape input model (type must be either VHS or Betamax)
         /// </summary>
         /// <returns></returns>
-        private static TapeInputModel InvalidTapeInput = new TapeInputModel() {
-            Title = "Mojo Jojo Attack on Townsville",
-            Director = "Not Mojo Jojo",
-            ReleaseDate = DateTime.Now,
+        private static TapeInputModel InvalidTapeInput = new TapeInputModel(){
+            Title = "The Powerpuffgirls Movie",
+            Director = "Craig McCracken",
+            ReleaseDate = new DateTime(2002, 6, 22),
             Type = "Blu-Ray",
-            EIDR = "10.5240/2B3B-1E0E-9314-2C6E-A453-3"
+            EIDR = "10.5240/9C30-DAF8-8A33-570A-1E8E-4"
         };
     }
 }

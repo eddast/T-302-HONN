@@ -1,103 +1,122 @@
-// using System.Collections.Generic;
-// using System.Net;
-// using System;
-// using System.Threading.Tasks;
-// using AngleSharp.Dom.Html;
-// using Microsoft.AspNetCore.Mvc.Testing;
-// using Microsoft.AspNetCore.TestHost;
-// using Microsoft.Extensions.DependencyInjection;
-// using Xunit;
-// using Xunit.Abstractions;
-// using VideotapesGalore.WebApi;
+using System.Collections.Generic;
+using System.Net;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using AngleSharp.Dom.Html;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.DependencyInjection;
+using Xunit;
+using Xunit.Abstractions;
+using VideotapesGalore.WebApi;
+using VideotapesGalore.Models.Entities;
+using AutoMapper;
+using VideotapesGalore.Models.InputModels;
+using VideotapesGalore.Repositories.DBContext;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Text;
 
-// namespace VideotapesGalore.IntegrationTests
-// {
-//     public class TestsContextFixture : IClassFixture<WebApplicationFactory<Startup>>, IDisposable
-//     {
-//         private readonly WebApplicationFactory<Startup> _factory;
-//         public List<int> tapeIds { get; set; }
-//         public List<int> userIds { get; set; }
-//         public TestsContextFixture(WebApplicationFactory<Startup> factory)
-//         {
-//             _factory = factory;
-//             this.tapeIds = new List<int>();
-//             this.userIds = new List<int>();
-//         }
-//         public void Dispose()
-//         {
-//             // ... clean up test data from the database ...
-//         }
-//         public void InitializeDbForTests(VideotapesGaloreDBContext db)
-//         {
-//             db.Users.AddRange(GetSeedingUsers());
-//             db.Tapes.AddRange(GetSeedingTapes());
-//             db.SaveChanges();
-//             userIds = db.Users.ToList().OrderByDescending(u => u.CreatedAt).Select(u => u.Id).Take(3).ToList();
-//             tapeIds = db.Tapes.ToList().OrderByDescending(t => t.CreatedAt).Select(t => t.Id).Take(3).ToList();
-//         }
+namespace VideotapesGalore.IntegrationTests
+{
+    public class TestsContextFixture : WebApplicationFactory<Startup>, IDisposable
+    {
+        public WebApplicationFactory<Startup> factory { get; }
+        public HttpClient client { get; }
+        public List<int> tapeIds { get; set; }
+        public List<int> userIds { get; set; }
+        public TestsContextFixture()
+        {
+            this.factory = new WebApplicationFactory<Startup>();
+            client = this.factory.CreateClient();
+            this.tapeIds = new List<int>();
+            this.userIds = new List<int>();
+            InitializeDbForTests();
+        }
+        public void Dispose()
+        {
+            RemoveFromDBAfterTests();
+        }
+        public async void InitializeDbForTests()
+        {
+            foreach (var user in GetSeedingUsers()) {
+                var userInputJson = JsonConvert.SerializeObject(user);
+                HttpContent content = new StringContent(userInputJson, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("/api/v1/users", content);
+                var path = response.Headers.Location.LocalPath;
+                userIds.Add(Convert.ToInt32(path.Substring(path.LastIndexOf("/") + 1)));
+            }
+            foreach (var tape in GetSeedingTapes()) {
+                var tapeInputJson = JsonConvert.SerializeObject(tape);
+                HttpContent content = new StringContent(tapeInputJson, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("/api/v1/tapes", content);
+                var path = response.Headers.Location.LocalPath;
+                tapeIds.Add(Convert.ToInt32(path.Substring(path.LastIndexOf("/") + 1)));
+            }
+        }
 
-//         public void RemoveFromDBAfterTests(VideotapesGaloreDBContext db) {
-//             foreach(var userId in userIds) {
-//                 db.Users.Remove(db.Users.FirstOrDefault(user => user.Id == userId));
-//             }
-//             foreach(var tapeId in tapeIds) {
-//                 db.Tapes.Remove(db.Tapes.FirstOrDefault(user => user.Id == tapeId));
-//             }
-//             db.SaveChanges();
-//         }
+        public void RemoveFromDBAfterTests() {
+            foreach(var userId in userIds) {
+                client.DeleteAsync("api/v1/users/" + userId);
+            }
+            foreach(var tapeId in tapeIds) {
+                client.DeleteAsync("api/v1/tapes/" + tapeId);
+            }
+        }
 
-//         public List<User> GetSeedingUsers()
-//         {
-//             return new List<User>()
-//             {
-//                 Mapper.Map<User>(new UserInputModel(){ 
-//                     Name = "Eddy",
-//                     Email = "eddy@genious.com",
-//                     Address = "Mom's house",
-//                     Phone = "8451234"
-//                 }),
-//                 Mapper.Map<User>(new UserInputModel(){
-//                     Name = "Mojo Jojo",
-//                     Email = "major@townsville.org",
-//                     Address = "Townstreet 3",
-//                     Phone = "8443511"
-//                  }),
-//                 Mapper.Map<User>(new UserInputModel() { 
-//                     Name = "Johnny Bravo",
-//                     Email = "hey-pretty-mama@hotmale.com",
-//                     Address = "Street 123",
-//                     Phone = "8227979"
+        public List<UserInputModel> GetSeedingUsers()
+        {
+            return new List<UserInputModel>()
+            {
+                new UserInputModel(){ 
+                    Name = "Eddy",
+                    Email = "eddy@genious.com",
+                    Address = "Mom's house",
+                    Phone = "8451234"
+                },
+                new UserInputModel(){
+                    Name = "Mojo Jojo",
+                    Email = "major@townsville.org",
+                    Address = "Townstreet 3",
+                    Phone = "8443511"
+                 },
+                new UserInputModel() { 
+                    Name = "Johnny Bravo",
+                    Email = "hey-pretty-mama@hotmale.com",
+                    Address = "Street 123",
+                    Phone = "8227979"
 
-//                 })
-//             };
-//         }
+                }
+            };
+        }
 
-//         public List<Tape> GetSeedingTapes()
-//         {
-//             return new List<Tape>()
-//             {
-//                 Mapper.Map<Tape>(new TapeInputModel(){ 
-//                     Title = "Mojo Jojo's Revenge",
-//                     Director = "Mojo Jojo",
-//                     ReleaseDate = DateTime.Now,
-//                     Type = "VHS",
-//                     EIDR = "10.5240/72B3-2D9E-35E1-6760-83FA-K"
-//                 }),
-//                 Mapper.Map<Tape>(new TapeInputModel(){
-//                     Title = "Mojo Jojo's Revenge",
-//                     Director = "Mojo Jojo",
-//                     ReleaseDate = DateTime.Now,
-//                     Type = "VHS",
-//                     EIDR = "10.5240/72B3-2D9E-35E1-6760-83FA-K"
-//                  }),
-//                 Mapper.Map<Tape>(new TapeInputModel() { 
-//                     Title = "Mojo Jojo's Revenge",
-//                     Director = "Mojo Jojo",
-//                     ReleaseDate = DateTime.Now,
-//                     Type = "VHS",
-//                     EIDR = "10.5240/72B3-2D9E-35E1-6760-83FA-K"
-//                 })
-//             };
-//         }
-//     }
-// }
+        public List<TapeInputModel> GetSeedingTapes()
+        {
+            return new List<TapeInputModel>()
+            {
+                new TapeInputModel(){ 
+                    Title = "Mojo Jojo's Revenge",
+                    Director = "Mojo Jojo",
+                    ReleaseDate = DateTime.Now,
+                    Type = "VHS",
+                    EIDR = "10.5240/72B3-2D9E-35E1-6760-83FA-K"
+                },
+                new TapeInputModel(){
+                    Title = "Mojo Jojo's Revenge",
+                    Director = "Mojo Jojo",
+                    ReleaseDate = DateTime.Now,
+                    Type = "VHS",
+                    EIDR = "10.5240/72B3-2D9E-35E1-6760-83FA-K"
+                 },
+                new TapeInputModel() { 
+                    Title = "Mojo Jojo's Revenge",
+                    Director = "Mojo Jojo",
+                    ReleaseDate = DateTime.Now,
+                    Type = "VHS",
+                    EIDR = "10.5240/72B3-2D9E-35E1-6760-83FA-K"
+                }
+            };
+        }
+    }
+}

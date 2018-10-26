@@ -11,6 +11,7 @@ using VideotapesGalore.Models.DTOs;
 using VideotapesGalore.Models.Exceptions;
 using VideotapesGalore.Models.InputModels;
 using VideotapesGalore.Services.Interfaces;
+using VideotapesGalore.WebApi.Utils;
 
 namespace VideotapesGalore.WebApi.Controllers
 {
@@ -308,7 +309,7 @@ namespace VideotapesGalore.WebApi.Controllers
                 });
             }
             // Otherwise add tapes from initialization file
-            using (StreamReader r = new StreamReader("./Resources/tapes.json")) {
+            using (StreamReader r = StreamReaderFactory.GetStreamReader("./Resources/tapes.json")) {
                 string json = r.ReadToEnd();
                 dynamic tapesJSON = JsonConvert.DeserializeObject(json);
                 foreach(var tapeJSON in tapesJSON)

@@ -19,16 +19,23 @@ using AutoMapper;
 
 namespace VideotapesGalore.IntegrationTests
 {
-    public class ReviewTest : IClassFixture<WebApplicationFactory<Startup>>
+    [Collection("Test Context Collection")]
+    public class ReviewTest 
     {
         private readonly WebApplicationFactory<Startup> _factory;
+        private TestsContextFixture _fixture;
+        private ITestOutputHelper output;
 
         /// <summary>
         /// Setup web application context as factory
         /// </summary>
         /// <param name="factory">the web application context</param>
-        public ReviewTest(WebApplicationFactory<Startup> factory) =>
-            _factory = factory;
+        public ReviewTest(TestsContextFixture fixture, ITestOutputHelper output) {
+
+            _factory = fixture.factory;
+            _fixture = fixture;
+            this.output = output;
+        }
 
 
         /// <summary>
@@ -63,9 +70,9 @@ namespace VideotapesGalore.IntegrationTests
                 EIDR = "10.5240/2B3B-1E0E-9314-2C6E-A453-3"
             };
             var tapeInputJSON = JsonConvert.SerializeObject(tapeInput);
-            HttpContent tapecontent = new StringContent(userInputJSON, Encoding.UTF8, "application/json");
-            var newTapeRespone = await client.PostAsync("api/v1/users", tapecontent);
-            var newTapeLocation = newUserRespone.Headers.Location;
+            HttpContent tapecontent = new StringContent(tapeInputJSON, Encoding.UTF8, "application/json");
+            var newTapeRespone = await client.PostAsync("api/v1/tapes", tapecontent);
+            var newTapeLocation = newTapeRespone.Headers.Location;
             /************************************************/
 
             /// [GET] get all reviews in system and store count
@@ -74,16 +81,15 @@ namespace VideotapesGalore.IntegrationTests
             /// [POST] attempt to create review using invalid review model (reveiw must range between 1-5)
             /// Expect response to be 412 (precondition failed) to indicate badly formatted input body from user
             var reviewInput = new ReviewInputModel(){ Rating = 0 };
-            // TODO OJJJJJJ
-            var createFailResponse = await PostReview(client, (newUserLocation + "/reviews/" + newTapeLocation.ToString()[newTapeLocation.ToString().Length - 1]), reviewInput);
+            var reviewPath = GetReviewPath( newUserLocation.LocalPath, newTapeLocation.LocalPath);
+            var createFailResponse = await PostReview(client, reviewPath, reviewInput);
             Assert.Equal(HttpStatusCode.PreconditionFailed, createFailResponse.StatusCode);
 
             /// [POST] create new user using a valid user model
             /// Expect response to POST request to be 201 (created) and expect to get location header pointing to new resource, then
             /// [GET] user by the pointer from location header for response to previous POST request and check if user values match
             reviewInput = new ReviewInputModel(){ Rating = 3 };
-            // TODO OJJJJJ
-            var createResponse = await PostReview(client, (newUserLocation + "/reviews/" + newTapeLocation.ToString()[newTapeLocation.ToString().Length - 1]), reviewInput);
+            var createResponse = await PostReview(client, reviewPath, reviewInput);
             Assert.Equal(HttpStatusCode.Created, createResponse.StatusCode);
             var newResourceLocation = createResponse.Headers.Location;
             await AssertGetReview(client, newResourceLocation, reviewInput, true);
@@ -179,6 +185,11 @@ namespace VideotapesGalore.IntegrationTests
             } else {
                 Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
             }
+        }
+
+        private string GetReviewPath(string userpath, string tapepath)
+        {
+            return (userpath + "/reviews" + tapepath.Substring(tapepath.LastIndexOf("/")));
         }
     }
 }

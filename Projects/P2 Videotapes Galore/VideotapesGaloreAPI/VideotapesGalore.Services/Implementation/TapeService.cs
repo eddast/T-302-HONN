@@ -180,7 +180,12 @@ namespace VideotapesGalore.Services.Implementation
             ValidateBorrowRecord(TapeId, UserId);
             var records = _borrowRecordRepository.GetAllBorrowRecords().Where(record => record.UserId == UserId && record.TapeId == TapeId).ToList();
             var prevRecord = GetCurrentBorrowRecord(records);
-            if (prevRecord == null) throw new ResourceNotFoundException($"User does not have the specified tape on loan");
+            if (prevRecord == null) {
+                prevRecord = records.OrderByDescending(r => r.ReturnDate).FirstOrDefault();
+                if (prevRecord == null) {
+                    throw new ResourceNotFoundException($"User does not have the specified tape on loan");
+                }
+            };
             _borrowRecordRepository.EditBorrowRecord(prevRecord.Id, BorrowRecord);
         }
         /// <summary>

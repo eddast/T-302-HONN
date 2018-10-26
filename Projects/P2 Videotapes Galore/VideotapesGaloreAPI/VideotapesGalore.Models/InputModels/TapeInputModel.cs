@@ -40,6 +40,7 @@ namespace VideotapesGalore.Models.InputModels {
     [Display(Name = "EIDR number")]
     [Required(ErrorMessage = "EIDR number is required")]
     [StringLength(34, ErrorMessage = "Invalid EIDR: must be 34 characters")]
+    [MinLength(34, ErrorMessage = "Invalid EIDR: must be 34 characters")]
     public string EIDR { get; set; }
   }
 }

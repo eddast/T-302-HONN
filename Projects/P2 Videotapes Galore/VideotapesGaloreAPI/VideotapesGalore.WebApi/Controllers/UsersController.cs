@@ -11,6 +11,7 @@ using VideotapesGalore.Models.DTOs;
 using VideotapesGalore.Models.Exceptions;
 using VideotapesGalore.Models.InputModels;
 using VideotapesGalore.Services.Interfaces;
+using VideotapesGalore.WebApi.Utils;
 
 namespace VideotapesGalore.WebApi.Controllers
 {
@@ -326,7 +327,8 @@ namespace VideotapesGalore.WebApi.Controllers
         /// <response code="404">User not found</response>
         /// <response code="404">No review for user for tape found</response>
         /// <response code="500">Internal server error</response>
-        [HttpGet ("{userId:int}/reviews/{tapeId:int}")]
+        [HttpGet]
+        [Route ("{userId:int}/reviews/{tapeId:int}", Name = "GetUserReviewForTape")]
         [ProducesResponseType (200, Type = typeof(ReviewDTO))]
         [ProducesResponseType (404, Type = typeof(ExceptionModel))]
         [ProducesResponseType (500, Type = typeof(ExceptionModel))]
@@ -361,7 +363,7 @@ namespace VideotapesGalore.WebApi.Controllers
                 throw new InputFormatException("Review input model improperly formatted.", errorList);
             }
             _reviewService.CreateUserReview(userId, tapeId, Review);
-            return Created($"{userId}/tapes/{tapeId}", null);
+            return CreatedAtRoute("GetUserReviewForTape", new { userId, tapeId }, null);
         }
 
         /// <summary>
@@ -480,7 +482,7 @@ namespace VideotapesGalore.WebApi.Controllers
                 });
             }
             // Otherwise add users from initialization file
-            using (StreamReader r = new StreamReader("./Resources/usersAndBorrows.json")) {
+            using (StreamReader r = StreamReaderFactory.GetStreamReader("../Resources/usersAndBorrows.json")) {
                 string json = r.ReadToEnd();
                 dynamic usersJSON = JsonConvert.DeserializeObject(json);
                 foreach(var userJSON in usersJSON) {
@@ -500,26 +502,31 @@ namespace VideotapesGalore.WebApi.Controllers
                     Console.WriteLine($"adding user and user records for user {userJSON.id} of {usersJSON.Count}");
                     int userId = _userService.CreateUser(user);
 
-                    // Create all borrows associated with user after user was added
-                    if(userJSON.tapes != null) {
-                        foreach(var borrowRecord in userJSON.tapes) {
-                            // Generate input model from json for borrow record
-                            BorrowRecordInputModel record = new BorrowRecordInputModel {
-                                BorrowDate = Convert.ChangeType(borrowRecord.borrow_date, typeof(DateTime)),
-                                ReturnDate = borrowRecord.return_date != null ? Convert.ChangeType(borrowRecord.return_date, typeof(DateTime)) : null
-                            };
-                            // Check if borrow record input model is valid
-                            if (!ModelState.IsValid) {
-                                IEnumerable<string> errorList = ModelState.Values.SelectMany(v => v.Errors).Select(x => x.ErrorMessage);
-                                throw new InputFormatException("Tapes borrow for user in initialization file improperly formatted.", errorList);
-                            }
-                            // Otherwise add to database
-                            _tapeService.CreateBorrowRecord((int) borrowRecord.id, (int) userJSON.id, record);
-                        }
-                    }
+                    CreateTapesForUser(userJSON);
                 }
             }
             return NoContent();
+        }
+
+        private void CreateTapesForUser(dynamic userJSON)
+        {
+            // Create all borrows associated with user after user was added
+            if(userJSON.tapes != null) {
+                foreach(var borrowRecord in userJSON.tapes) {
+                    // Generate input model from json for borrow record
+                    BorrowRecordInputModel record = new BorrowRecordInputModel {
+                        BorrowDate = Convert.ChangeType(borrowRecord.borrow_date, typeof(DateTime)),
+                        ReturnDate = borrowRecord.return_date != null ? Convert.ChangeType(borrowRecord.return_date, typeof(DateTime)) : null
+                    };
+                    // Check if borrow record input model is valid
+                    if (!ModelState.IsValid) {
+                        IEnumerable<string> errorList = ModelState.Values.SelectMany(v => v.Errors).Select(x => x.ErrorMessage);
+                        throw new InputFormatException("Tapes borrow for user in initialization file improperly formatted.", errorList);
+                    }
+                    // Otherwise add to database
+                    _tapeService.CreateBorrowRecord((int) borrowRecord.id, (int) userJSON.id, record);
+                }
+            }
         }
     }
 }

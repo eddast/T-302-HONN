@@ -9,15 +9,19 @@ using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using Xunit.Abstractions;
 using VideotapesGalore.WebApi;
+using System.Net.Http;
 
 namespace VideotapesGalore.IntegrationTests.Implementation
 {
     public class GetRoutesTests : IClassFixture<WebApplicationFactory<Startup>>
     {
-        private readonly WebApplicationFactory<Startup> _factory;
+        /// <summary>
+        /// HTTP client to use
+        /// </summary>
+        private HttpClient client;
 
         public GetRoutesTests(WebApplicationFactory<Startup> factory) =>
-            _factory = factory;
+            client = factory.CreateClient();
 
 
         /// <summary>
@@ -30,7 +34,6 @@ namespace VideotapesGalore.IntegrationTests.Implementation
         [InlineData("/api/v1/tapes/reviews")]
         public async Task Get_EndpointsReturnSuccess(string url)
         {
-            var client = _factory.CreateClient();
             var response = await client.GetAsync(url);
             response.EnsureSuccessStatusCode();
             Assert.Equal("application/json; charset=utf-8", response.Content.Headers.ContentType.ToString());

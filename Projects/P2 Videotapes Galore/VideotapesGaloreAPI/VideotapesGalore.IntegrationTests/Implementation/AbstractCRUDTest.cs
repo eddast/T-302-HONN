@@ -18,16 +18,6 @@ namespace VideotapesGalore.IntegrationTests.Implementation
     public abstract class AbstractCRUDTest<I, D> : ICRUDTest<I, D>
     {
         /// <summary>
-        /// Startup factory for test context
-        /// </summary>
-        protected readonly WebApplicationFactory<Startup> _factory;
-
-        /// <summary>
-        /// Setup test environment (along with seeded content)
-        /// </summary>
-        protected TestsContextFixture _fixture;
-
-        /// <summary>
         /// HTTP client to use
         /// </summary>
         protected HttpClient client;
@@ -68,8 +58,6 @@ namespace VideotapesGalore.IntegrationTests.Implementation
         /// <param name="ResourcePostPutRoute">Route to post specified resource</param>
         public AbstractCRUDTest(TestsContextFixture fixture, I invalidInputModel, I validInputModel, I updatedValidInputModel, string ResourceListRoute, string ResourcePostRoute = "")
         {
-            _factory = fixture.factory;
-            _fixture = fixture;
             this.client = fixture.factory.CreateClient();
             this._invalidInputModel = invalidInputModel;
             this._validInputModel = validInputModel;
@@ -103,7 +91,7 @@ namespace VideotapesGalore.IntegrationTests.Implementation
             await AssertGetById(newResourceLocation, _validInputModel);
 
             /// [GET] get all resources of given type in in system and check that count has increased by one
-            // Assert.Equal(allResourceCount+1, await GetCurrentResourceCount());
+            Assert.Equal(allResourceCount+1, await GetCurrentResourceCount());
 
             // [PUT] attempt to update resource using invalid input model
             // Expect response to PUT request to be 412 (for precondition failed)

@@ -17,6 +17,7 @@ using Newtonsoft.Json;
 
 namespace VideotapesGalore.IntegrationTests.Implementation
 {
+    [Collection("Test Context Collection")]
     public class TapeTests: AbstractCRUDTest<TapeInputModel, TapeDTO>
     {
         /// <summary>

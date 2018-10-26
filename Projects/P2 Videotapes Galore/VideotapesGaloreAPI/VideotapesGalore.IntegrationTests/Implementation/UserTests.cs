@@ -19,6 +19,7 @@ using AutoMapper;
 
 namespace VideotapesGalore.IntegrationTests.Implementation
 {
+    [Collection("Test Context Collection")]
     public class UserTests: AbstractCRUDTest<UserInputModel, UserDTO>
     {
         /// <summary>

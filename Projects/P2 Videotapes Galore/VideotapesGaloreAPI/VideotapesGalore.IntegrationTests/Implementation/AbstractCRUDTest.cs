@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using VideotapesGalore.IntegrationTests;
+using VideotapesGalore.IntegrationTests.Context;
 using VideotapesGalore.IntegrationTests.Interfaces;
 using VideotapesGalore.WebApi;
 using Xunit;

@@ -18,7 +18,7 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using System.Text;
 
-namespace VideotapesGalore.IntegrationTests.Implementation
+namespace VideotapesGalore.IntegrationTests.Context
 {
     public class TestsContextFixture : IAsyncLifetime
     {

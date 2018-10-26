@@ -16,6 +16,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using VideotapesGalore.Models.DTOs;
 using AutoMapper;
+using VideotapesGalore.IntegrationTests.Context;
 
 namespace VideotapesGalore.IntegrationTests.Implementation
 {

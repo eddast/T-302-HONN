@@ -14,6 +14,7 @@ using VideotapesGalore.WebApi;
 using VideotapesGalore.Models.InputModels;
 using VideotapesGalore.Models.DTOs;
 using Newtonsoft.Json;
+using VideotapesGalore.IntegrationTests.Context;
 
 namespace VideotapesGalore.IntegrationTests.Implementation
 {

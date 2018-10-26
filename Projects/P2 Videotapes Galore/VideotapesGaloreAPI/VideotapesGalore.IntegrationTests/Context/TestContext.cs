@@ -1,6 +1,6 @@
 using Xunit;
 
-namespace VideotapesGalore.IntegrationTests.Implementation
+namespace VideotapesGalore.IntegrationTests.Context
 {
     [CollectionDefinition("Test Context Collection")]
     public class TestContext : IClassFixture<TestsContextFixture>

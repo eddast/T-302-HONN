@@ -17,7 +17,6 @@ namespace VideotapesGalore.IntegrationTests.Implementation
 {
     public abstract class AbstractCRUDTest<I, D> : ICRUDTest<I, D>
     {
-
         /// <summary>
         /// Startup factory for test context
         /// </summary>

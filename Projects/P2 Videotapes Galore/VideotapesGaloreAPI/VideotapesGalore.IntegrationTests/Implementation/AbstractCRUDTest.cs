@@ -38,9 +38,9 @@ namespace VideotapesGalore.IntegrationTests.Implementation
         protected string _resourceListRoute;
 
         /// <summary>
-        /// base URL to POST or PUT a given resouce
+        /// base URL to POST a given resouce
         /// </summary>
-        protected string _resourcePostPutRoute;
+        protected string _resourcePostRoute;
 
         /// <summary>
         /// Sample invalid input model for resource to use for testing
@@ -66,7 +66,7 @@ namespace VideotapesGalore.IntegrationTests.Implementation
         /// <param name="updatedValidInputModel">sample valid input model for testing, distinct from the other valid input model</param>
         /// <param name="ResourceListRoute">Route to list of specified resource</param>
         /// <param name="ResourcePostPutRoute">Route to post specified resource</param>
-        public AbstractCRUDTest(TestsContextFixture fixture, I invalidInputModel, I validInputModel, I updatedValidInputModel, string ResourceListRoute, string ResourcePostPutRoute = "")
+        public AbstractCRUDTest(TestsContextFixture fixture, I invalidInputModel, I validInputModel, I updatedValidInputModel, string ResourceListRoute, string ResourcePostRoute = "")
         {
             _factory = fixture.factory;
             _fixture = fixture;
@@ -75,7 +75,7 @@ namespace VideotapesGalore.IntegrationTests.Implementation
             this._validInputModel = validInputModel;
             this._updatedValidInputModel = updatedValidInputModel;
             this._resourceListRoute = ResourceListRoute;
-            this._resourcePostPutRoute = ResourcePostPutRoute == "" ? ResourceListRoute : ResourcePostPutRoute;
+            this._resourcePostRoute = ResourcePostRoute == "" ? ResourceListRoute : ResourcePostRoute;
         }
 
         /// <summary>
@@ -108,13 +108,13 @@ namespace VideotapesGalore.IntegrationTests.Implementation
             // [PUT] attempt to update resource using invalid input model
             // Expect response to PUT request to be 412 (for precondition failed)
             // to indicate badly formatted input body from user
-            var editFailResponse = await PutResource(_invalidInputModel);
+            var editFailResponse = await PutResource(newResourceLocation, _invalidInputModel);
             Assert.Equal(HttpStatusCode.PreconditionFailed, editFailResponse.StatusCode);
 
             /// [PUT] update the new resource using a valid resource model
             /// Expect response to be 204 (no content) and then
             /// [GET] resource by id again and check if all values were updated in the put request
-            var editResponse = await PutResource(_updatedValidInputModel);
+            var editResponse = await PutResource(newResourceLocation, _updatedValidInputModel);
             Assert.Equal(HttpStatusCode.NoContent, editResponse.StatusCode);
             await AssertGetById(newResourceLocation, _updatedValidInputModel);
 
@@ -141,41 +141,38 @@ namespace VideotapesGalore.IntegrationTests.Implementation
         }
 
         /// <summary>
-        /// Creates new tape into the system e.g. conducts POST request
+        /// Creates new resource into the system e.g. conducts POST request
         /// Returns response for post request
         /// </summary>
-        /// <param name="client">http client to use to issue request to API</param>
-        /// <param name="url">url to issue request to</param>
-        /// <param name="tapeInput">input model to use to create new tape</param>
-        /// <returns></returns>
+        /// <param name="inputModel">Input model to use to create new tape</param>
+        /// <returns>Response for post request</returns>
         public async Task<HttpResponseMessage> PostResource(I inputModel)
         {
             var inputJSON = JsonConvert.SerializeObject(inputModel);
             HttpContent content = new StringContent(inputJSON, Encoding.UTF8, "application/json");
-            return await client.PostAsync(this._resourcePostPutRoute, content);
+            return await client.PostAsync(this._resourcePostRoute, content);
         }
 
         /// <summary>
-        /// Updates existing tape into the system e.g. conducts PUT request
+        /// Updates existing resource from the system e.g. conducts PUT request
         /// Returns response for put request
         /// </summary>
-        /// <param name="client">http client to use to issue request to API</param>
-        /// <param name="url">url to issue request to</param>
-        /// <param name="tapeInput">input model to use to create new tape</param>
+        /// <param name="Location">URI to resource</param>
+        /// <param name="inputModel">Input model to use to create new resource</param>
         /// <returns>Response for HTTP request made</returns>
-        public async Task<HttpResponseMessage> PutResource(I inputModel)
+        public async Task<HttpResponseMessage> PutResource(Uri Location, I inputModel)
         {
             var tapeInputJSON = JsonConvert.SerializeObject(inputModel);
             HttpContent content = new StringContent(tapeInputJSON, Encoding.UTF8, "application/json");
-            return await client.PutAsync(_resourcePostPutRoute, content);
+            return await client.PutAsync(Location, content);
         }
 
         /// <summary>
         /// Fetches resource by an id using Location URI (which we get when new resource is created)
         /// Expect to get resource back and verify that a given input resource matches resource that is returned
         /// </summary>
-        /// <param name="Location">uri to resource</param>
-        /// <param name="inputModel">input model to compare to resource we get back</param>
+        /// <param name="Location">URI to resource</param>
+        /// <param name="inputModel">Input model to compare to resource we get back</param>
         public async Task AssertGetById(Uri Location, I inputModel)
         {
             var response = await client.GetAsync(Location);
@@ -183,14 +180,6 @@ namespace VideotapesGalore.IntegrationTests.Implementation
             D systemResource = JsonConvert.DeserializeObject<D>(await response.Content.ReadAsStringAsync());
             AssertInputModel(systemResource, inputModel);
         }
-
-        /// <summary>
-        /// Fetches resource by an id using Location URI (which we get when new resource is created)
-        /// Expect to get resource back and verify that a given input resource matches resource that is returned
-        /// </summary>
-        /// <param name="Location">uri to resource</param>
-        /// <param name="inputModel">input model to compare to resource we get back</param>
-        protected abstract void AssertInputModel(D dtoModel, I inputModel);
 
         /// <summary>
         /// Fetches resource by an id using Location URI and expect a 404 (Not Found error)
@@ -201,5 +190,13 @@ namespace VideotapesGalore.IntegrationTests.Implementation
             var response = await client.GetAsync(Location);
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
+
+        /// <summary>
+        /// Matches DTO model from data source with input model and asserts if values match
+        /// Needs to be implemented in dervied classes as properties are different for models
+        /// </summary>
+        /// <param name="dtoModel">input model to compare to resource we get back</param>
+        /// <param name="inputModel">input model to compare to resource we get back</param>
+        protected abstract void AssertInputModel(D dtoModel, I inputModel);
     }
 }

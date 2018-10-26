@@ -28,31 +28,28 @@ namespace VideotapesGalore.IntegrationTests.Interfaces
         Task<int> GetCurrentResourceCount();
 
         /// <summary>
-        /// Creates new tape into the system e.g. conducts POST request
+        /// Creates new resource into the system e.g. conducts POST request
         /// Returns response for post request
         /// </summary>
-        /// <param name="client">http client to use to issue request to API</param>
-        /// <param name="url">url to issue request to</param>
-        /// <param name="tapeInput">input model to use to create new tape</param>
-        /// <returns></returns>
+        /// <param name="inputModel">Input model to use to create new tape</param>
+        /// <returns>Response for post request</returns>
         Task<HttpResponseMessage> PostResource(I inputModel);
 
         /// <summary>
-        /// Updates existing tape into the system e.g. conducts PUT request
+        /// Updates existing resource from the system e.g. conducts PUT request
         /// Returns response for put request
         /// </summary>
-        /// <param name="client">http client to use to issue request to API</param>
-        /// <param name="url">url to issue request to</param>
-        /// <param name="tapeInput">input model to use to create new tape</param>
+        /// <param name="Location">URI to resource</param>
+        /// <param name="inputModel">Input model to use to create new resource</param>
         /// <returns>Response for HTTP request made</returns>
-        Task<HttpResponseMessage> PutResource(I inputModel);
+        Task<HttpResponseMessage> PutResource(Uri Location, I inputModel);
 
         /// <summary>
         /// Fetches resource by an id using Location URI (which we get when new resource is created)
         /// Expect to get resource back and verify that a given input resource matches resource that is returned
         /// </summary>
-        /// <param name="Location">uri to resource</param>
-        /// <param name="inputModel">input model to compare to resource we get back</param>
+        /// <param name="Location">URI to resource</param>
+        /// <param name="inputModel">Input model to compare to resource we get back</param>
         Task AssertGetById(Uri Location, I inputModel);
 
         /// <summary>

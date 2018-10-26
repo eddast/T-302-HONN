@@ -112,7 +112,34 @@ The following image demonstrates what the unit test coverage report should look 
 
 <a name="integration-testing"></a>
 ### Integration Testing
-TODO
+The integration tests for system were implemented via the **xunit** testing framework for .NET core and can be run with the dotnet test command when within the integration test project. See example command below:
+
+```bash
+username$ pwd
+~/.../alexanderb13_eddasr15-P2/VideotapesGaloreAPI/VideotapesGaloreAPI.IntegrationTests
+username$ dotnet test
+```
+
+The integration test project initialises a test context. The initialisation of the test context resides under the subdirectory /Context within the integration project (VideotapesGaloreAPI.IntegrationTests/Context/). The initialisation process seeds the data source with initial known values that can be used to conduct tests, i.e. the context initialises three known users and three known tapes along with borrow records for these users and tapes into system. This is so that users and/or tapes do not have to renewed and added for every test that requires using some user or tape resources to perform some functionality which would result in repeated code. The known resources that are created in the test context initialisation process are then deleted and disposed of when all integration tests have run.
+
+The integration test environment test against the live MySQL database that used for the real web service. This design decision was made so that the integration test results would be more accurate in terms of interaction in respect to the actual data source, potentially exposing more explicit and relevant errors in system. This is also the reason for carefully disposing the seeded content for the test context after tests are run, so that data source of system is in the same state after tests run as it was before test were run.
+
+The integration tests for system are implemented as follows:
+
+1. **Safe route tests**: integration test set located within the class GetRoutesTests. The test set is a very lightweight integration test that simply verifies that all safe routes (GET routes) in system return a status code of 200 (OK) and data in JSON format
+
+2. **CRUD tests**: integration sets that test CRUD-functionalities (create, read, update, delete) of resources that support CRUD-functionalities. The implementation of the CRUD test sets are made generic by the template method strategy pattern  — an abstract class implementing the ICRUDTest interface implements basic functionality of CRUD testing, e.g. reading, adding, updating and deleting   which derived classes augment by implementing virtual functionalities. The derived classes and their corresponding tested resources are:
+
+* UserCRUDTests which test CRUD functionalities of user resources
+
+* TapeCRUDTests which test CRUD functionalities of tape resources
+
+* ReviewCRUDTests which test CRUD functionalities of review resources.
+
+These CRUD tests are quite extensive as integration tests and are similar to end-to-end tests, but this decision was deliberate as despite the tests being quite extensive, the errors potentially detected by these tests are still quite isolated to a small subset of classes and are usually only restricted to the service class for the corresponding resource.
+
+3. **Borrow record tests**: integration test set located within the class BorrowRecordTests that relies on seeded data and tests the functionalities of tape and user relations i.e. borrows. This includes registering tapes on loan, returning tapes and viewing borrow history for users.
+4. **Loan date and loan duration tests**: integration test set located within the class ReportTests that tests if the filter for the GET routes for list of all tapes and list of all users functions as expected using seeded content.
 
 <a name="design"></a>
 ## Deviations from Provided System Design

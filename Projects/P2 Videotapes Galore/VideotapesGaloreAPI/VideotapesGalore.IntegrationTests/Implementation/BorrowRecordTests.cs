@@ -44,7 +44,7 @@ namespace VideotapesGalore.IntegrationTests.Implementation
         /// Also verify that proper errors are returned when user provides any bad or invalid input
         /// </summary>
         [Fact]
-        public async Task SimulateTapeCRUD()
+        public async Task SimulateBorrowRecordCRUD()
         {
             var tapeId = _fixture.tapeIds[0];
             var userLocation = _fixture.userUrls[0];
@@ -53,8 +53,8 @@ namespace VideotapesGalore.IntegrationTests.Implementation
 
             var createRecordResponse = await CreateBorrowRecord(client, borrowRecordUrl);
             Assert.Equal(HttpStatusCode.Created, createRecordResponse.StatusCode);
-            var userReviewCount = (await GetUserBorrowRecords(client, userLocation)).History.Count();
-            Assert.Equal(1, userReviewCount);
+            var userReviews = (await GetUserBorrowRecords(client, userLocation)).History;
+            Assert.Single(userReviews);
 
             // Return the newly created tape
             var returnTapeResponse = await ReturnTape(client, borrowRecordUrl);
@@ -62,7 +62,7 @@ namespace VideotapesGalore.IntegrationTests.Implementation
 
             // Get all borrow records again and verify that the return date has been updated
             var allReviews = (await GetUserBorrowRecords(client, userLocation)).History.ToList();
-            Assert.Equal(1, allReviews.Count);
+            Assert.Single(allReviews);
             Assert.NotNull(allReviews[0].ReturnDate);
 
             // Try to return tape again to verify that an error occurs
@@ -78,7 +78,7 @@ namespace VideotapesGalore.IntegrationTests.Implementation
             Assert.Equal(HttpStatusCode.NoContent, updateReviewResponse.StatusCode);
 
             var updatedReviews = (await GetUserBorrowRecords(client, userLocation)).History.ToList();
-            Assert.Equal(1, updatedReviews.Count);
+            Assert.Single(updatedReviews);
             Assert.NotEqual(allReviews[0].ReturnDate, updatedReviews[0].ReturnDate);
         }
 

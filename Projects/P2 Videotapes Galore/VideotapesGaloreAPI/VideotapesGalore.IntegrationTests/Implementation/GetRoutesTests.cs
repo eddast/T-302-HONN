@@ -12,11 +12,11 @@ using VideotapesGalore.WebApi;
 
 namespace VideotapesGalore.IntegrationTests.Implementation
 {
-    public class BaseTests : IClassFixture<WebApplicationFactory<Startup>>
+    public class GetRoutesTests : IClassFixture<WebApplicationFactory<Startup>>
     {
         private readonly WebApplicationFactory<Startup> _factory;
 
-        public BaseTests(WebApplicationFactory<Startup> factory) =>
+        public GetRoutesTests(WebApplicationFactory<Startup> factory) =>
             _factory = factory;
 
 

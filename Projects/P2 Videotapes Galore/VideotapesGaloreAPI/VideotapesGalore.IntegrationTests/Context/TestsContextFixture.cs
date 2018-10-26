@@ -68,6 +68,7 @@ namespace VideotapesGalore.IntegrationTests.Context
               tapeUrls.Add(path);
               tapeIds.Add(Convert.ToInt32(path.Substring(path.LastIndexOf("/") + 1)));
             }
+            await SeedBorrowRecords();
         }
 
         public async Task RemoveFromDBAfterTests()
@@ -122,21 +123,52 @@ namespace VideotapesGalore.IntegrationTests.Context
                         EIDR = "10.5240/72B3-2D9E-35E1-6760-83FA-K"
                     },
                     new TapeInputModel(){
-                        Title = "Mojo Jojo's Revenge",
-                        Director = "Mojo Jojo",
+                        Title = "Johnny Bravo's pickup lines",
+                        Director = "Johnny Bravo",
                         ReleaseDate = DateTime.Now,
-                        Type = "VHS",
-                        EIDR = "10.5240/72B3-2D9E-35E1-6760-83FA-K"
+                        Type = "Betamax",
+                        EIDR = "10.5240/72B3-2D9E-35E1-6760-83FA-A"
                     },
                     new TapeInputModel() {
-                        Title = "Mojo Jojo's Revenge",
-                        Director = "Mojo Jojo",
+                        Title = "Eddy's billion dollar tricks",
+                        Director = "Eddy",
                         ReleaseDate = DateTime.Now,
                         Type = "VHS",
-                        EIDR = "10.5240/72B3-2D9E-35E1-6760-83FA-K"
+                        EIDR = "10.5240/72B3-2D9E-35E1-6760-83F1-K"
                     }
                 };
         }
 
+        public async Task SeedBorrowRecords()
+        {
+            var borrowRecordInputs = GetBorrowRecordInputs();
+            await SeedSingleBorrowRecord(userUrls[0] + "/tapes/" + tapeIds[0], borrowRecordInputs[0]);
+            await SeedSingleBorrowRecord(userUrls[0] + "/tapes/" + tapeIds[1], borrowRecordInputs[1]);
+            await SeedSingleBorrowRecord(userUrls[1] + "/tapes/" + tapeIds[1], borrowRecordInputs[0]);
+            await SeedSingleBorrowRecord(userUrls[1] + "/tapes/" + tapeIds[0], borrowRecordInputs[1]);
+            await SeedSingleBorrowRecord(userUrls[1] + "/tapes/" + tapeIds[2], borrowRecordInputs[2]);
+            await SeedSingleBorrowRecord(userUrls[2] + "/tapes/" + tapeIds[0], borrowRecordInputs[2]);
+        }
+
+        private async Task SeedSingleBorrowRecord(string url, BorrowRecordInputModel input)
+        {
+            var createResponse = await client.PostAsync(url, null);
+            await client.PutAsync(url, GetBorrowRecordAsJson(input));
+        }
+
+        private HttpContent GetBorrowRecordAsJson(BorrowRecordInputModel input)
+        {
+            return new StringContent(JsonConvert.SerializeObject(input), Encoding.UTF8, "application/json");
+        }
+
+        private List<BorrowRecordInputModel> GetBorrowRecordInputs()
+        {
+            return new List<BorrowRecordInputModel>()
+            {
+                new BorrowRecordInputModel() { BorrowDate = new DateTime(2018,8,10), ReturnDate = new DateTime(2018, 9, 12)},
+                new BorrowRecordInputModel() { BorrowDate = new DateTime(2018,9,13), ReturnDate = new DateTime(2018, 10, 10)},
+                new BorrowRecordInputModel() { BorrowDate = new DateTime(2018,10,11), ReturnDate = null}
+            };
+        }
     }
 }

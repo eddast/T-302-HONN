@@ -184,6 +184,9 @@ namespace VideotapesGalore.IntegrationTests.Context
                 };
         }
 
+        /// <summary>
+        /// Seeds borrow records for the context
+        /// </summary>
         public async Task SeedBorrowRecords()
         {
             var borrowRecordInputs = GetBorrowRecordInputs();
@@ -194,17 +197,29 @@ namespace VideotapesGalore.IntegrationTests.Context
             await SeedSingleBorrowRecord(userUrls[1] + "/tapes/" + tapeIds[2], borrowRecordInputs[2]);
         }
 
+        /// <summary>
+        /// Creates a single borrow record in the database
+        /// </summary>
+        /// <param name="url">url to post the data to</param>
+        /// <param name="input">The input model to initialize the borrow record with</param>
         private async Task SeedSingleBorrowRecord(string url, BorrowRecordInputModel input)
         {
             var createResponse = await client.PostAsync(url, null);
-            await client.PutAsync(url, GetBorrowRecordAsJson(input));
+            await client.PutAsync(url, GetBorrowRecordAsContent(input));
         }
 
-        private HttpContent GetBorrowRecordAsJson(BorrowRecordInputModel input)
+        /// <summary>
+        /// Converts a borrow record to a HttpContent variable to update a borrow record
+        /// </summary>
+        /// <param name="input">the input to convert</param>
+        private HttpContent GetBorrowRecordAsContent(BorrowRecordInputModel input)
         {
             return new StringContent(JsonConvert.SerializeObject(input), Encoding.UTF8, "application/json");
         }
 
+        /// <summary>
+        /// Returns all borrow record inputs that the seeding uses
+        /// </summary>
         private List<BorrowRecordInputModel> GetBorrowRecordInputs()
         {
             return new List<BorrowRecordInputModel>()

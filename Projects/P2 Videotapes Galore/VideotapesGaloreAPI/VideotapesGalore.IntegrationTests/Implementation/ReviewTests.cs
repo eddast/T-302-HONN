@@ -20,17 +20,19 @@ using AutoMapper;
 namespace VideotapesGalore.IntegrationTests.Implementation
 {
     [Collection("Test Context Collection")]
-    public class ReviewTest 
+    public class ReviewTest
     {
         private readonly WebApplicationFactory<Startup> _factory;
         private TestsContextFixture _fixture;
+        private HttpClient _client;
         private ITestOutputHelper output;
 
         /// <summary>
         /// Setup web application context as factory
         /// </summary>
         /// <param name="factory">the web application context</param>
-        public ReviewTest(TestsContextFixture fixture, ITestOutputHelper output) {
+        public ReviewTest(TestsContextFixture fixture, ITestOutputHelper output)
+        {
 
             _factory = fixture.factory;
             _fixture = fixture;
@@ -48,66 +50,43 @@ namespace VideotapesGalore.IntegrationTests.Implementation
         {
             // Base URL to review resources
             string allReviewsRoute = "api/v1/tapes/reviews";
+            var tapeId = _fixture.tapeIds[0];
+            var userLocation = _fixture.userUrls[0];
             var client = _factory.CreateClient();
-
-            /***************** TODO EYÐA ÚT *****************/
-            var userInput = new UserInputModel(){
-                Name = "Venom",
-                Email = "mrv@symbiotefreaks.com",
-                Phone = "987 456 345",
-                Address = "New York"
-            };
-            var userInputJSON = JsonConvert.SerializeObject(userInput);
-            HttpContent usercontent = new StringContent(userInputJSON, Encoding.UTF8, "application/json");
-            var newUserRespone = await client.PostAsync("api/v1/users", usercontent);
-            var newUserLocation = newUserRespone.Headers.Location;
-
-            var tapeInput = new TapeInputModel() {
-                Title = "Mojo Jojo: Greatest Townsville Attacks",
-                Director = "Definately Not Mojo Jojo",
-                ReleaseDate = DateTime.Now,
-                Type = "VHS",
-                EIDR = "10.5240/2B3B-1E0E-9314-2C6E-A453-3"
-            };
-            var tapeInputJSON = JsonConvert.SerializeObject(tapeInput);
-            HttpContent tapecontent = new StringContent(tapeInputJSON, Encoding.UTF8, "application/json");
-            var newTapeRespone = await client.PostAsync("api/v1/tapes", tapecontent);
-            var newTapeLocation = newTapeRespone.Headers.Location;
-            /************************************************/
 
             /// [GET] get all reviews in system and store count
             int allReviewsCount = await GetCurrentReviewsCount(client, allReviewsRoute);
 
             /// [POST] attempt to create review using invalid review model (reveiw must range between 1-5)
             /// Expect response to be 412 (precondition failed) to indicate badly formatted input body from user
-            var reviewInput = new ReviewInputModel(){ Rating = 0 };
-            var reviewPath = GetReviewPath( newUserLocation.LocalPath, newTapeLocation.LocalPath);
+            var reviewInput = new ReviewInputModel() { Rating = 0 };
+            var reviewPath = GetReviewPath(userLocation, tapeId);
             var createFailResponse = await PostReview(client, reviewPath, reviewInput);
             Assert.Equal(HttpStatusCode.PreconditionFailed, createFailResponse.StatusCode);
 
             /// [POST] create new user using a valid user model
             /// Expect response to POST request to be 201 (created) and expect to get location header pointing to new resource, then
             /// [GET] user by the pointer from location header for response to previous POST request and check if user values match
-            reviewInput = new ReviewInputModel(){ Rating = 3 };
+            reviewInput = new ReviewInputModel() { Rating = 3 };
             var createResponse = await PostReview(client, reviewPath, reviewInput);
             Assert.Equal(HttpStatusCode.Created, createResponse.StatusCode);
             var newResourceLocation = createResponse.Headers.Location;
             await AssertGetReview(client, newResourceLocation, reviewInput, true);
 
             /// [GET] get all reviews in system and check that count has increased by one
-            Assert.Equal(allReviewsCount+1, await GetCurrentReviewsCount(client, allReviewsRoute));
+            Assert.Equal(allReviewsCount + 1, await GetCurrentReviewsCount(client, allReviewsRoute));
 
             // [PUT] attempt to update review using invalid input model (rating ranges from 1-5)
             // Expect response to POST request to be 412 (for precondition failed)
             // to indicate badly formatted input body from user
-            reviewInput = new ReviewInputModel(){ Rating = 6 };
+            reviewInput = new ReviewInputModel() { Rating = 6 };
             var editFailResponse = await PutReview(client, newResourceLocation, reviewInput);
             Assert.Equal(HttpStatusCode.PreconditionFailed, editFailResponse.StatusCode);
 
             /// [PUT] update review using a valid user model
             /// Expect response to be 204 (no content) and then
             /// [GET] review by id again and check if all values were updated in the put request
-            reviewInput = new ReviewInputModel(){ Rating = 5 };
+            reviewInput = new ReviewInputModel() { Rating = 5 };
             var editResponse = await PutReview(client, newResourceLocation, reviewInput);
             Assert.Equal(HttpStatusCode.NoContent, editResponse.StatusCode);
             await AssertGetReview(client, newResourceLocation, reviewInput, true);
@@ -128,7 +107,8 @@ namespace VideotapesGalore.IntegrationTests.Implementation
         /// <param name="client">http client to use to issue request to API</param>
         /// <param name="url">url to issue request to</param>
         /// <returns>count of all users in system</returns>
-        private async Task<int> GetCurrentReviewsCount(HttpClient client, string url) {
+        private async Task<int> GetCurrentReviewsCount(HttpClient client, string url)
+        {
             var response = await client.GetAsync(url);
             response.EnsureSuccessStatusCode();
             var reviews = JsonConvert.DeserializeObject<List<ReviewDTO>>(await response.Content.ReadAsStringAsync());
@@ -178,18 +158,21 @@ namespace VideotapesGalore.IntegrationTests.Implementation
         private async Task AssertGetReview(HttpClient client, Uri Location, ReviewInputModel reviewInput, bool shouldBeInSystem)
         {
             var response = await client.GetAsync(Location);
-            if(shouldBeInSystem) {
-                response.EnsureSuccessStatusCode();
-                ReviewDTO newReview = JsonConvert.DeserializeObject<ReviewDTO>(await response.Content.ReadAsStringAsync());
-                Assert.Equal(newReview.Rating, reviewInput.Rating);
-            } else {
-                Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+            if (shouldBeInSystem)
+            {
+              response.EnsureSuccessStatusCode();
+              ReviewDTO newReview = JsonConvert.DeserializeObject<ReviewDTO>(await response.Content.ReadAsStringAsync());
+              Assert.Equal(newReview.Rating, reviewInput.Rating);
+            }
+            else
+            {
+              Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
             }
         }
 
-        private string GetReviewPath(string userpath, string tapepath)
+        private string GetReviewPath(string userpath, int tapeId)
         {
-            return (userpath + "/reviews" + tapepath.Substring(tapepath.LastIndexOf("/")));
+            return userpath + "/reviews/" + tapeId;
         }
     }
 }

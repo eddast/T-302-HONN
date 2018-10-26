@@ -29,7 +29,8 @@ namespace VideotapesGalore.IntegrationTests.Implementation
         /// Setup web application context as factory
         /// </summary>
         /// <param name="factory">the web application context</param>
-        public BorrowRecordTests(TestsContextFixture fixture, ITestOutputHelper output) {
+        public BorrowRecordTests(TestsContextFixture fixture, ITestOutputHelper output)
+        {
 
             _factory = fixture.factory;
             _fixture = fixture;
@@ -44,41 +45,14 @@ namespace VideotapesGalore.IntegrationTests.Implementation
         [Fact]
         public async Task SimulateTapeCRUD()
         {
-            // Base URL to tape resources
-            string tapesBaseRoute = "api/v1/tapes";
-            string userBaseRoute = "api/v1/users";
+            var tapeId = _fixture.tapeIds[0];
+            var userLocation = _fixture.userUrls[0];
             var client = _factory.CreateClient();
-
-            /// [POST] create new tape using a valid tape model
-            /// Expect response to POST request to be 201 (created) and expect to get location header pointing to new resource, then
-            /// [GET] user by the pointer from location header for response to previous POST request and check if user values match
-            var tapeInput = new TapeInputModel() {
-                Title = "Mojo Jojo: Greatest Townsville Attacks",
-                Director = "Definately Not Mojo Jojo",
-                ReleaseDate = DateTime.Now,
-                Type = "VHS",
-                EIDR = "10.5240/2B3B-1E0E-9314-2C6E-A453-3"
-            };
-            var createTapeResponse = await PostTape(client, tapesBaseRoute, tapeInput);
-            Assert.Equal(HttpStatusCode.Created, createTapeResponse.StatusCode);
-            var newTapeResourceLocation = createTapeResponse.Headers.Location;
-
-            var userInput = new UserInputModel(){
-                Name = "Mojo Jojo",
-                Email = "m_jo@eviloverlords.com",
-                Phone = "123 456 789",
-                Address = "Townsville"
-            };
-            var createUserResponse = await PostUser(client, userBaseRoute, userInput);
-            Assert.Equal(HttpStatusCode.Created, createUserResponse.StatusCode);
-            var newUserResourceLocation = createUserResponse.Headers.Location;
-            var borrowRecordUrl = GetRecordPath(newUserResourceLocation.LocalPath, newTapeResourceLocation.LocalPath);
-            /* ***************** TEMP ABOVE ******************* */
+            var borrowRecordUrl = GetRecordPath(userLocation, tapeId);
 
             var createRecordResponse = await CreateBorrowRecord(client, borrowRecordUrl);
             Assert.Equal(HttpStatusCode.Created, createRecordResponse.StatusCode);
-            string userTapeUrl = newUserResourceLocation.LocalPath;
-            var userReviewCount = (await GetUserBorrowRecords(client, userTapeUrl)).History.Count();
+            var userReviewCount = (await GetUserBorrowRecords(client, userLocation)).History.Count();
             Assert.Equal(1, userReviewCount);
 
             // Return the newly created tape
@@ -86,22 +60,23 @@ namespace VideotapesGalore.IntegrationTests.Implementation
             Assert.Equal(HttpStatusCode.NoContent, returnTapeResponse.StatusCode);
 
             // Get all borrow records again and verify that the return date has been updated
-            var allReviews = (await GetUserBorrowRecords(client, userTapeUrl)).History.ToList();
+            var allReviews = (await GetUserBorrowRecords(client, userLocation)).History.ToList();
             Assert.Equal(1, allReviews.Count);
             Assert.NotNull(allReviews[0].ReturnDate);
 
             // Try to return tape again to verify that an error occurs
             returnTapeResponse = await ReturnTape(client, borrowRecordUrl);
             Assert.Equal(HttpStatusCode.NotFound, returnTapeResponse.StatusCode);
-            
-            var updateModel = new BorrowRecordInputModel() {
-                BorrowDate = new DateTime(0),
-                ReturnDate = DateTime.Now
+
+            var updateModel = new BorrowRecordInputModel()
+            {
+              BorrowDate = new DateTime(0),
+              ReturnDate = DateTime.Now
             };
             var updateReviewResponse = await UpdateBorrowRecord(client, borrowRecordUrl, updateModel);
             Assert.Equal(HttpStatusCode.NoContent, updateReviewResponse.StatusCode);
 
-            var updatedReviews = (await GetUserBorrowRecords(client, userTapeUrl)).History.ToList();
+            var updatedReviews = (await GetUserBorrowRecords(client, userLocation)).History.ToList();
             Assert.Equal(1, updatedReviews.Count);
             Assert.NotEqual(allReviews[0].ReturnDate, updatedReviews[0].ReturnDate);
         }
@@ -166,10 +141,9 @@ namespace VideotapesGalore.IntegrationTests.Implementation
             return borrowRecords;
         }
 
-
-        private string GetRecordPath(string userpath, string tapepath)
+        private string GetRecordPath(string userpath, int tapeId)
         {
-            return (userpath + "/tapes" + tapepath.Substring(tapepath.LastIndexOf("/")));
+            return userpath + "/tapes/" + tapeId;
         }
     }
 }

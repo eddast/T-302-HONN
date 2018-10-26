@@ -43,10 +43,9 @@ namespace VideotapesGalore.IntegrationTests
             await InitializeDbForTests();
         }
 
-        public Task DisposeAsync()
+        public async Task DisposeAsync()
         {
-            RemoveFromDBAfterTests();
-            return Task.CompletedTask;
+            await RemoveFromDBAfterTests();
         }
 
         public async Task InitializeDbForTests()
@@ -71,17 +70,17 @@ namespace VideotapesGalore.IntegrationTests
             }
         }
 
-        public void RemoveFromDBAfterTests()
+        public async Task RemoveFromDBAfterTests()
         {
-            deleteFromDb(userUrls);
-            deleteFromDb(tapeUrls);
+            await deleteFromDb(userUrls);
+            await deleteFromDb(tapeUrls);
         }
 
-        private void deleteFromDb(List<string> urls)
+        private async Task deleteFromDb(List<string> urls)
         {
             foreach (var url in urls)
             {
-              client.DeleteAsync(url);
+              await client.DeleteAsync(url);
             }
         }
 

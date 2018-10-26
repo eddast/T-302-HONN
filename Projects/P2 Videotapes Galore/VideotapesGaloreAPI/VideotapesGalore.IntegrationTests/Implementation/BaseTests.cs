@@ -10,7 +10,7 @@ using Xunit;
 using Xunit.Abstractions;
 using VideotapesGalore.WebApi;
 
-namespace VideotapesGalore.IntegrationTests
+namespace VideotapesGalore.IntegrationTests.Implementation
 {
     public class BaseTests : IClassFixture<WebApplicationFactory<Startup>>
     {

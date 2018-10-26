@@ -17,7 +17,7 @@ using Newtonsoft.Json.Linq;
 using VideotapesGalore.Models.DTOs;
 using AutoMapper;
 
-namespace VideotapesGalore.IntegrationTests
+namespace VideotapesGalore.IntegrationTests.Implementation
 {
     [Collection("Test Context Collection")]
     public class ReviewTest 

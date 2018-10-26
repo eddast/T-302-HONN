@@ -20,14 +20,38 @@ using System.Text;
 
 namespace VideotapesGalore.IntegrationTests.Context
 {
+    /// <summary>
+    /// Initializes context for all integration tests that need it
+    /// e.g. seeds three known users and three known tapes to use for testing purposes
+    /// Then destroyes the resources after integration tests have run
+    /// </summary>
     public class TestsContextFixture : IAsyncLifetime
     {
+        /// <summary>
+        /// Startup factory for test context
+        /// </summary>
         public WebApplicationFactory<Startup> factory { get; }
+        /// <summary>
+        /// HTTP client to use
+        /// </summary>
         public HttpClient client { get; }
+        /// <summary>
+        /// List of ids for seeded (mock) tapes set up before integration tests run
+        /// </summary>
         public List<int> tapeIds { get; set; }
+        /// <summary>
+        /// List of URLs for seeded (mock) tapes location in API set up before integration tests run
+        /// </summary>
         public List<string> tapeUrls { get; set; }
+        /// <summary>
+        /// List of ids for seeded (mock) users set up before integration tests run
+        /// </summary>
         public List<int> userIds { get; set; }
+        /// <summary>
+        /// List of URLs for seeded (mock) users location in API set up before integration tests run
+        /// </summary>
         public List<string> userUrls { get; set; }
+
         public TestsContextFixture()
         {
             this.factory = new WebApplicationFactory<Startup>();
@@ -38,16 +62,23 @@ namespace VideotapesGalore.IntegrationTests.Context
             this.userUrls = new List<string>();
         }
 
-        public async Task InitializeAsync()
-        {
+        /// <summary>
+        /// Setup seed content to datasource before test run
+        /// </summary>
+        public async Task InitializeAsync() =>
             await InitializeDbForTests();
-        }
 
-        public async Task DisposeAsync()
-        {
+        /// <summary>
+        /// Remove seeded content from datasource when test finish running
+        /// </summary>
+        public async Task DisposeAsync() =>
             await RemoveFromDBAfterTests();
-        }
 
+        /// <summary>
+        /// Seeds data source with three mock tapes and three mock users
+        /// For integration testing purposes
+        /// </summary>
+        /// <returns></returns>
         public async Task InitializeDbForTests()
         {
             foreach (var user in GetSeedingUsers())
@@ -70,12 +101,19 @@ namespace VideotapesGalore.IntegrationTests.Context
             }
         }
 
+        /// <summary>
+        /// Removes seeded content from data source
+        /// </summary>
         public async Task RemoveFromDBAfterTests()
         {
             await deleteFromDb(userUrls);
             await deleteFromDb(tapeUrls);
         }
 
+        /// <summary>
+        /// Deletes resources from database given list of URL to resources
+        /// </summary>
+        /// <param name="urls">list of urls to send DELETE requests to</param>
         private async Task deleteFromDb(List<string> urls)
         {
             foreach (var url in urls)
@@ -84,57 +122,64 @@ namespace VideotapesGalore.IntegrationTests.Context
             }
         }
 
+        /// <summary>
+        /// Three random mock users to seed database with for testing purposes
+        /// </summary>
+        /// <returns>List of user input model to place in data source</returns>
         public List<UserInputModel> GetSeedingUsers()
         {
           return new List<UserInputModel>()
                 {
                     new UserInputModel(){
-                        Name = "Eddy",
-                        Email = "eddy@genious.com",
-                        Address = "Mom's house",
-                        Phone = "8451234"
+                        Name = "Mojo Jojo",
+                        Email = "m_jo@eviloverlords.com",
+                        Address = "Townsville",
+                        Phone = "5-888-8443"
                     },
                     new UserInputModel(){
-                        Name = "Mojo Jojo",
-                        Email = "major@townsville.org",
-                        Address = "Townstreet 3",
-                        Phone = "8443511"
-                    },
-                    new UserInputModel() {
                         Name = "Johnny Bravo",
                         Email = "hey-pretty-mama@hotmale.com",
-                        Address = "Street 123",
-                        Phone = "8227979"
-
-                    }
+                        Address = "CN Street 113",
+                        Phone = "8-000-8888"
+                    },
+                    new UserInputModel(){
+                        Name = "Spider-Man",
+                        Email = "p_parker@nyc.com",
+                        Address = "New York City",
+                        Phone = "1-234-5678"
+                    },
                 };
         }
 
+        /// <summary>
+        /// Three random mock tapes to seed database with for testing purposes
+        /// </summary>
+        /// <returns>List of tape input model to place in data source</returns>
         public List<TapeInputModel> GetSeedingTapes()
         {
           return new List<TapeInputModel>()
                 {
                     new TapeInputModel(){
-                        Title = "Mojo Jojo's Revenge",
-                        Director = "Mojo Jojo",
-                        ReleaseDate = DateTime.Now,
-                        Type = "VHS",
-                        EIDR = "10.5240/72B3-2D9E-35E1-6760-83FA-K"
+                        Title = "The Powerpuffgirls Movie",
+                        Director = "Craig McCracken",
+                        ReleaseDate = new DateTime(2002, 6, 22),
+                        Type = "Betamax",
+                        EIDR = "10.5240/9C30-DAF8-8A33-570A-1E8E-4"
                     },
                     new TapeInputModel(){
-                        Title = "Mojo Jojo's Revenge",
-                        Director = "Mojo Jojo",
-                        ReleaseDate = DateTime.Now,
+                        Title = "Scooby-Doo and the Goblin King",
+                        Director = "Joe Sichta",
+                        ReleaseDate = new DateTime(2004, 11, 23),
                         Type = "VHS",
-                        EIDR = "10.5240/72B3-2D9E-35E1-6760-83FA-K"
+                        EIDR = "10.5240/FB53-A9C3-7E6F-009E-2B08-W"
                     },
-                    new TapeInputModel() {
-                        Title = "Mojo Jojo's Revenge",
-                        Director = "Mojo Jojo",
-                        ReleaseDate = DateTime.Now,
+                    new TapeInputModel(){
+                        Title = "Dexter's Laboratory Ego Trip",
+                        Director = "Genndy Tartakovsky",
+                        ReleaseDate = new DateTime(1999, 12, 31),
                         Type = "VHS",
-                        EIDR = "10.5240/72B3-2D9E-35E1-6760-83FA-K"
-                    }
+                        EIDR = "10.5240/23F7-EDC8-5187-47FD-73D6-N"
+                    },
                 };
         }
 

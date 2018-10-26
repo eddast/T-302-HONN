@@ -49,11 +49,11 @@ namespace VideotapesGalore.IntegrationTests.Implementation
         /// <summary>
         /// Sample of valid input model for user
         /// </summary>
-        private static UserInputModel ValidUserInput = new UserInputModel() {
+        private static UserInputModel ValidUserInput = new UserInputModel(){
             Name = "Mojo Jojo",
             Email = "m_jo@eviloverlords.com",
-            Phone = "123 456 789",
-            Address = "Townsville"
+            Address = "Townsville",
+            Phone = "5-888-8443"
         };
 
         /// <summary>
@@ -61,20 +61,20 @@ namespace VideotapesGalore.IntegrationTests.Implementation
         /// </summary>
         /// <returns></returns>
         private static UserInputModel UpdatedValidUserInput = new UserInputModel(){
-            Name = "Venom",
-            Email = "mrv@symbiotefreaks.com",
-            Phone = "987 456 345",
-            Address = "New York"
+            Name = "Johnny Bravo",
+            Email = "hey-pretty-mama@hotmale.com",
+            Address = "CN Street 113",
+            Phone = "8-000-8888"
         };
 
         /// <summary>
         /// Sample of invalid user input model (email must be valid and name is required)
         /// </summary>
         /// <returns></returns>
-        private static UserInputModel InvalidUserInput = new UserInputModel() {
-            Email = "Mojo Jojo",
-            Phone = "123 456 789",
-            Address = "Townsville"
+        private static UserInputModel InvalidUserInput = new UserInputModel(){
+            Email = "Bubbles",
+            Address = "Townsville",
+            Phone = "5-888-8443"
         };
     }
 }

@@ -16,19 +16,24 @@ namespace VideotapesGalore.IntegrationTests.Implementation
     [Collection("Test Context Collection")]
     public class ReportTests
     {
-        private readonly WebApplicationFactory<Startup> _factory;
+        /// <summary>
+        /// Setup test environment (along with seeded content)
+        /// </summary>
         private TestsContextFixture _fixture;
-        private ITestOutputHelper output;
+
+        /// <summary>
+        /// HTTP client to use
+        /// </summary>
+        protected HttpClient client;
+
         /// <summary>
         /// Setup web application context as factory
         /// </summary>
         /// <param name="factory">the web application context</param>
-        public ReportTests(TestsContextFixture fixture, ITestOutputHelper output)
+        public ReportTests(TestsContextFixture fixture)
         {
-
-            _factory = fixture.factory;
-            _fixture = fixture;
-            this.output = output;
+            this._fixture = fixture;
+            this.client = fixture.factory.CreateClient();
         }
 
         /// <summary>
@@ -39,7 +44,6 @@ namespace VideotapesGalore.IntegrationTests.Implementation
         public async Task TestUserLoanDateReport()
         {
             var path = "api/v1/users?LoanDate=2018-09-10";
-            var client = _factory.CreateClient();
             var reportResponse = await client.GetAsync(path);
             Assert.Equal(HttpStatusCode.OK, reportResponse.StatusCode);
             // Select the test users we created to ensure that we get only the test data we know
@@ -55,7 +59,6 @@ namespace VideotapesGalore.IntegrationTests.Implementation
         public async Task TestUserLoanDurationReport()
         {
             var path = "api/v1/users?LoanDuration=10";
-            var client = _factory.CreateClient();
             var reportResponse = await client.GetAsync(path);
             Assert.Equal(HttpStatusCode.OK, reportResponse.StatusCode);
             // Select the test users we created to ensure that we get only the test data we know
@@ -71,7 +74,6 @@ namespace VideotapesGalore.IntegrationTests.Implementation
         public async Task TestUserLoanDurationAndDateReport()
         {
             var path = "api/v1/users?LoanDate=2018-09-10&LoanDuration=10";
-            var client = _factory.CreateClient();
             var reportResponse = await client.GetAsync(path);
             Assert.Equal(HttpStatusCode.OK, reportResponse.StatusCode);
             // Select the test users we created to ensure that we get only the test data we know
@@ -87,7 +89,6 @@ namespace VideotapesGalore.IntegrationTests.Implementation
         public async Task TestTapeLoanDateReport()
         {
             var path = "api/v1/tapes?LoanDate=2018-09-10";
-            var client = _factory.CreateClient();
             var reportResponse = await client.GetAsync(path);
             Assert.Equal(HttpStatusCode.OK, reportResponse.StatusCode);
             // Select the test tapes we created to ensure that we get only the test data we know

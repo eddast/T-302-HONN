@@ -192,7 +192,6 @@ namespace VideotapesGalore.IntegrationTests.Context
             await SeedSingleBorrowRecord(userUrls[1] + "/tapes/" + tapeIds[1], borrowRecordInputs[0]);
             await SeedSingleBorrowRecord(userUrls[1] + "/tapes/" + tapeIds[0], borrowRecordInputs[1]);
             await SeedSingleBorrowRecord(userUrls[1] + "/tapes/" + tapeIds[2], borrowRecordInputs[2]);
-            await SeedSingleBorrowRecord(userUrls[2] + "/tapes/" + tapeIds[0], borrowRecordInputs[2]);
         }
 
         private async Task SeedSingleBorrowRecord(string url, BorrowRecordInputModel input)

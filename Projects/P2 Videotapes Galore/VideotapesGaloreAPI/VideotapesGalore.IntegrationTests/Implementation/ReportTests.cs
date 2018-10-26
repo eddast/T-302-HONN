@@ -60,7 +60,7 @@ namespace VideotapesGalore.IntegrationTests.Implementation
             Assert.Equal(HttpStatusCode.OK, reportResponse.StatusCode);
             // Select the test users we created to ensure that we get only the test data we know
             var users = await SelectUsers(reportResponse);
-            Assert.Equal(2, users.Count);
+            Assert.Single(users);
         }
 
         /// <summary>

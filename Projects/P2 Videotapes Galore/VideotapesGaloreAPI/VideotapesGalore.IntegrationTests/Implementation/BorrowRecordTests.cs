@@ -46,15 +46,16 @@ namespace VideotapesGalore.IntegrationTests.Implementation
         [Fact]
         public async Task SimulateBorrowRecordCRUD()
         {
-            var tapeId = _fixture.tapeIds[0];
-            var userLocation = _fixture.userUrls[0];
+            var tapeId = _fixture.tapeIds[1];
+            var userLocation = _fixture.userUrls[2];
             var client = _factory.CreateClient();
             var borrowRecordUrl = GetRecordPath(userLocation, tapeId);
 
             var createRecordResponse = await CreateBorrowRecord(client, borrowRecordUrl);
+            Assert.Equal("", await createRecordResponse.Content.ReadAsStringAsync());
             Assert.Equal(HttpStatusCode.Created, createRecordResponse.StatusCode);
-            var userReviews = (await GetUserBorrowRecords(client, userLocation)).History;
-            Assert.Single(userReviews);
+            var userRecords = (await GetUserBorrowRecords(client, userLocation)).History.ToList();
+            Assert.Single(userRecords);
 
             // Return the newly created tape
             var returnTapeResponse = await ReturnTape(client, borrowRecordUrl);

@@ -315,13 +315,7 @@ namespace VideotapesGalore.WebApi.Controllers
                 foreach(var tapeJSON in tapesJSON)
                 {
                     // Generate input model from json tape
-                    TapeInputModel tape = new TapeInputModel {
-                        Title = tapeJSON.title,
-                        Director = $"{tapeJSON.director_first_name} {tapeJSON.director_last_name}",
-                        Type = tapeJSON.type,
-                        ReleaseDate = tapeJSON.release_date,
-                        EIDR = tapeJSON.eidr
-                    };
+                    TapeInputModel tape = SeedingUtils.ConvertJSONToTapeInputModel(tapeJSON);
                     // Check if tape input model is valid
                     if (!ModelState.IsValid) {
                         IEnumerable<string> errorList = ModelState.Values.SelectMany(v => v.Errors).Select(x => x.ErrorMessage);

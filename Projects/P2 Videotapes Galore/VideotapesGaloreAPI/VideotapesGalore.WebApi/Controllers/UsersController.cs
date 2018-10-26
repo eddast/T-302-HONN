@@ -487,12 +487,7 @@ namespace VideotapesGalore.WebApi.Controllers
                 dynamic usersJSON = JsonConvert.DeserializeObject(json);
                 foreach(var userJSON in usersJSON) {
                     // Generate input model from json for user
-                    UserInputModel user = new UserInputModel {
-                        Name = $"{userJSON.first_name} {userJSON.last_name}",
-                        Email = userJSON.email,
-                        Phone = userJSON.phone,
-                        Address = userJSON.address,
-                    };
+                    UserInputModel user = SeedingUtils.ConvertJsonToUserInputModel(userJSON);
                     // Check if tape input model is valid
                     if (!ModelState.IsValid) {
                         IEnumerable<string> errorList = ModelState.Values.SelectMany(v => v.Errors).Select(x => x.ErrorMessage);
@@ -502,31 +497,10 @@ namespace VideotapesGalore.WebApi.Controllers
                     Console.WriteLine($"adding user and user records for user {userJSON.id} of {usersJSON.Count}");
                     int userId = _userService.CreateUser(user);
 
-                    CreateTapesForUser(userJSON);
+                    SeedingUtils.CreateTapesForUser(userJSON, _tapeService);
                 }
             }
             return NoContent();
-        }
-
-        private void CreateTapesForUser(dynamic userJSON)
-        {
-            // Create all borrows associated with user after user was added
-            if(userJSON.tapes != null) {
-                foreach(var borrowRecord in userJSON.tapes) {
-                    // Generate input model from json for borrow record
-                    BorrowRecordInputModel record = new BorrowRecordInputModel {
-                        BorrowDate = Convert.ChangeType(borrowRecord.borrow_date, typeof(DateTime)),
-                        ReturnDate = borrowRecord.return_date != null ? Convert.ChangeType(borrowRecord.return_date, typeof(DateTime)) : null
-                    };
-                    // Check if borrow record input model is valid
-                    if (!ModelState.IsValid) {
-                        IEnumerable<string> errorList = ModelState.Values.SelectMany(v => v.Errors).Select(x => x.ErrorMessage);
-                        throw new InputFormatException("Tapes borrow for user in initialization file improperly formatted.", errorList);
-                    }
-                    // Otherwise add to database
-                    _tapeService.CreateBorrowRecord((int) borrowRecord.id, (int) userJSON.id, record);
-                }
-            }
         }
     }
 }

@@ -161,22 +161,24 @@ namespace VideotapesGalore.IntegrationTests.Implementation
         /// </summary>
         /// <param name="Location">URI to resource</param>
         /// <param name="inputModel">Input model to compare to resource we get back</param>
-        public async Task AssertGetById(Uri Location, I inputModel)
+        public async Task<HttpResponseMessage> AssertGetById(Uri Location, I inputModel)
         {
             var response = await client.GetAsync(Location);
             response.EnsureSuccessStatusCode();
             D systemResource = JsonConvert.DeserializeObject<D>(await response.Content.ReadAsStringAsync());
             AssertInputModel(systemResource, inputModel);
+            return response;
         }
 
         /// <summary>
         /// Fetches resource by an id using Location URI and expect a 404 (Not Found error)
         /// </summary>
         /// <param name="Location">uri to resource</param>
-        public async Task AssertGetByIdNotFound(Uri Location)
+        public async Task<HttpResponseMessage> AssertGetByIdNotFound(Uri Location)
         {
             var response = await client.GetAsync(Location);
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+            return response;
         }
 
         /// <summary>

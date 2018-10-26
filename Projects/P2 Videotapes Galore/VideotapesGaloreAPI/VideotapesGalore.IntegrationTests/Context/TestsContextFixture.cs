@@ -148,7 +148,7 @@ namespace VideotapesGalore.IntegrationTests.Context
                         Email = "p_parker@nyc.com",
                         Address = "New York City",
                         Phone = "1-234-5678"
-                    },
+                    }
                 };
         }
 

@@ -50,12 +50,12 @@ namespace VideotapesGalore.IntegrationTests.Interfaces
         /// </summary>
         /// <param name="Location">URI to resource</param>
         /// <param name="inputModel">Input model to compare to resource we get back</param>
-        Task AssertGetById(Uri Location, I inputModel);
+        Task<HttpResponseMessage> AssertGetById(Uri Location, I inputModel);
 
         /// <summary>
         /// Fetches resource by an id using Location URI and expect a 404 (Not Found error)
         /// </summary>
         /// <param name="Location">uri to resource</param>
-        Task AssertGetByIdNotFound(Uri Location);
+        Task<HttpResponseMessage> AssertGetByIdNotFound(Uri Location);
     }
 }
